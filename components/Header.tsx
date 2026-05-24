@@ -1,0 +1,156 @@
+"use client";
+
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { ArrowUpRight, Menu, X } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+
+const NAV_LINKS = [
+  { label: "Work", href: "#work" },
+  { label: "Services", href: "#services" },
+  { label: "Process", href: "#process" },
+  { label: "About", href: "#about" },
+] as const;
+
+export default function Header() {
+  const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
+  const reduce = useReducedMotion();
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    const original = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = original;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  return (
+    <header
+      className={[
+        "fixed inset-x-0 top-0 z-50 transition-all duration-300",
+        scrolled
+          ? "border-b border-line/70 bg-paper/80 backdrop-blur-xl supports-[backdrop-filter]:bg-paper/60"
+          : "border-b border-transparent bg-transparent",
+      ].join(" ")}
+    >
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:h-20 sm:px-8">
+        <Link
+          href="/"
+          aria-label="ITAI — home"
+          className="flex items-center rounded-md focus-visible:outline-none"
+        >
+          <Image
+            src="/logo.png"
+            alt="ITAI"
+            width={605}
+            height={185}
+            priority
+            
+            className="h-6 w-auto object-contain"
+          />
+          <span className="sr-only">ITAI</span>
+        </Link>
+
+        <nav
+          aria-label="Primary"
+          className="hidden items-center gap-1 md:flex"
+        >
+          {NAV_LINKS.map((l) => (
+            <Link
+              key={l.href}
+              href={l.href}
+              className="relative rounded-full px-4 py-2 text-sm text-muted transition-colors hover:text-ink"
+            >
+              {l.label}
+            </Link>
+          ))}
+        </nav>
+
+        <div className="flex items-center gap-2">
+          <Link
+            href="#contact"
+            className="group hidden items-center gap-1.5 rounded-full bg-ink px-4 py-2 text-sm font-medium text-paper transition-colors hover:bg-ink-soft md:inline-flex"
+          >
+            Start a project
+            <ArrowUpRight
+              className="h-4 w-4 transition-transform group-hover:-translate-y-px group-hover:translate-x-px"
+              strokeWidth={2}
+            />
+          </Link>
+
+          <button
+            type="button"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            aria-controls="mobile-nav"
+            onClick={() => setOpen((v) => !v)}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-line bg-paper text-ink transition-colors hover:bg-mist md:hidden"
+          >
+            {open ? (
+              <X className="h-5 w-5" strokeWidth={1.75} />
+            ) : (
+              <Menu className="h-5 w-5" strokeWidth={1.75} />
+            )}
+          </button>
+        </div>
+      </div>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            id="mobile-nav"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Mobile navigation"
+            initial={reduce ? { opacity: 0 } : { opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={reduce ? { opacity: 0 } : { opacity: 0, y: -8 }}
+            transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="border-b border-line bg-paper/95 backdrop-blur-xl md:hidden"
+          >
+            <nav
+              aria-label="Mobile primary"
+              className="mx-auto flex max-w-7xl flex-col gap-1 px-5 pb-6 pt-2"
+            >
+              {NAV_LINKS.map((l) => (
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  onClick={() => setOpen(false)}
+                  className="flex items-center justify-between rounded-2xl px-4 py-4 text-lg font-medium text-ink transition-colors hover:bg-mist"
+                >
+                  {l.label}
+                  <ArrowUpRight
+                    className="h-4 w-4 text-muted"
+                    strokeWidth={1.75}
+                  />
+                </Link>
+              ))}
+              <Link
+                href="#contact"
+                onClick={() => setOpen(false)}
+                className="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-ink px-5 py-3.5 text-base font-medium text-paper"
+              >
+                Start a project
+                <ArrowUpRight className="h-4 w-4" strokeWidth={2} />
+              </Link>
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </header>
+  );
+}
