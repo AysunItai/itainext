@@ -3,19 +3,22 @@ import Link from "next/link";
 
 const FOOTER_LINKS = {
   Solutions: [
-    { label: "Custom websites", href: "#services" },
-    { label: "AI automation", href: "#services" },
-    { label: "Booking systems", href: "#services" },
-    { label: "Dashboards", href: "#services" },
+    { label: "Custom websites", href: "/#services" },
+    { label: "AI automation", href: "/#services" },
+    { label: "Booking systems", href: "/#services" },
+    { label: "Dashboards", href: "/#services" },
   ],
   Studio: [
-    { label: "Process", href: "#process" },
-    { label: "Work", href: "#work" },
-    { label: "About", href: "#about" },
-    { label: "Contact", href: "#contact" },
+    { label: "Work", href: "/#work" },
+    { label: "Process", href: "/#process" },
+    { label: "Pricing", href: "/#pricing" },
+    { label: "Notes", href: "/blog" },
+    { label: "About", href: "/about" },
+    { label: "Book a call", href: "/book" },
+    { label: "Contact", href: "/contact" },
   ],
   Connect: [
-    { label: "Email", href: "mailto:hello@itai.dev" },
+    { label: "Email", href: "mailto:info@itaiwebsolutions.com" },
     { label: "GitHub", href: "#" },
     { label: "LinkedIn", href: "#" },
     { label: "X (Twitter)", href: "#" },
@@ -27,7 +30,6 @@ export default function Footer() {
 
   return (
     <footer
-      id="about"
       className="relative mt-auto border-t border-line bg-paper px-5 pb-10 pt-20 sm:px-8 sm:pt-24"
     >
       <div className="mx-auto max-w-7xl">
@@ -51,10 +53,10 @@ export default function Footer() {
             </p>
 
             <Link
-              href="mailto:hello@itai.dev"
+              href="mailto:info@itaiwebsolutions.com"
               className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-ink underline decoration-line underline-offset-4 transition-colors hover:decoration-ink"
             >
-              hello@itai.dev
+              info@itaiwebsolutions.com
             </Link>
           </div>
 

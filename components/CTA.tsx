@@ -48,21 +48,21 @@ export default function CTA() {
 
           <div className="mt-9 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
             <Link
-              href="mailto:hello@itai.dev"
+              href="/contact"
               className="group inline-flex items-center justify-center gap-2 rounded-full bg-paper px-7 py-3.5 text-sm font-medium text-ink transition-all hover:-translate-y-0.5 hover:shadow-lifted"
             >
               <Mail className="h-4 w-4" strokeWidth={2} />
-              hello@itai.dev
+              Start a conversation
               <ArrowUpRight
                 className="h-4 w-4 transition-transform group-hover:-translate-y-px group-hover:translate-x-px"
                 strokeWidth={2}
               />
             </Link>
             <Link
-              href="#services"
+              href="mailto:info@itaiwebsolutions.com"
               className="inline-flex items-center justify-center gap-2 rounded-full border border-paper/20 px-7 py-3.5 text-sm font-medium text-paper transition-colors hover:bg-paper/5"
             >
-              Browse services
+              info@itaiwebsolutions.com
             </Link>
           </div>
         </div>

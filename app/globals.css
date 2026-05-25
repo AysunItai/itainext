@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @theme {
   --color-ink: #0a0a0a;
@@ -70,4 +71,159 @@ body {
 
 @utility text-pretty {
   text-wrap: pretty;
+}
+
+/* ───────── Editorial typography for blog posts ─────────
+   Inspired by Medium / Vercel-blog: generous reading column,
+   warm contrast, refined code blocks. */
+
+.prose-itai {
+  --tw-prose-body: #2a2a2c;
+  --tw-prose-headings: var(--color-ink);
+  --tw-prose-lead: #4a4a4c;
+  --tw-prose-links: var(--color-ink);
+  --tw-prose-bold: var(--color-ink);
+  --tw-prose-counters: #6b6b6e;
+  --tw-prose-bullets: #c8c8cc;
+  --tw-prose-hr: #e8e8ec;
+  --tw-prose-quotes: #1a1a1c;
+  --tw-prose-quote-borders: var(--color-accent);
+  --tw-prose-captions: #6b6b6e;
+  --tw-prose-code: var(--color-ink);
+  --tw-prose-pre-code: #e6e6ea;
+  --tw-prose-pre-bg: #16161a;
+  --tw-prose-th-borders: #d8d8dc;
+  --tw-prose-td-borders: #ececf0;
+
+  font-size: 1.125rem;
+  line-height: 1.78;
+  letter-spacing: -0.003em;
+}
+
+.prose-itai > :first-child {
+  margin-top: 0;
+}
+
+.prose-itai p {
+  font-family: var(--font-sans);
+  text-wrap: pretty;
+}
+
+.prose-itai h2 {
+  font-size: 1.75rem;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+  margin-top: 2.5em;
+  margin-bottom: 0.6em;
+}
+
+.prose-itai h3 {
+  font-size: 1.35rem;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  font-weight: 600;
+  margin-top: 2em;
+  margin-bottom: 0.5em;
+}
+
+.prose-itai a {
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  text-decoration-color: rgb(0 0 0 / 0.25);
+  transition: text-decoration-color 0.15s ease;
+}
+.prose-itai a:hover {
+  text-decoration-color: rgb(0 0 0 / 0.85);
+}
+
+.prose-itai blockquote {
+  font-style: normal;
+  font-size: 1.25rem;
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+  border-left-width: 3px;
+  padding-left: 1.25rem;
+  font-weight: 500;
+}
+.prose-itai blockquote p::before,
+.prose-itai blockquote p::after {
+  content: "";
+}
+
+.prose-itai img {
+  border-radius: 1rem;
+  border: 1px solid rgb(0 0 0 / 0.06);
+}
+
+.prose-itai hr {
+  text-align: center;
+  border: 0;
+  margin: 3em 0;
+}
+.prose-itai hr::after {
+  content: "· · ·";
+  letter-spacing: 0.5em;
+  color: rgb(0 0 0 / 0.35);
+  font-size: 1rem;
+}
+
+/* Inline code */
+.prose-itai :not(pre) > code {
+  background: rgb(0 0 0 / 0.05);
+  padding: 0.15em 0.4em;
+  border-radius: 0.35em;
+  font-size: 0.92em;
+  font-weight: 500;
+  border: 1px solid rgb(0 0 0 / 0.06);
+}
+.prose-itai :not(pre) > code::before,
+.prose-itai :not(pre) > code::after {
+  content: "";
+}
+
+/* Code blocks (rehype-pretty-code) */
+.prose-itai pre {
+  background: var(--tw-prose-pre-bg);
+  color: var(--tw-prose-pre-code);
+  padding: 1.25rem 1.4rem;
+  border-radius: 1rem;
+  font-size: 0.9rem;
+  line-height: 1.65;
+  overflow-x: auto;
+  border: 1px solid rgb(0 0 0 / 0.6);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 8px 24px rgb(0 0 0 / 0.08);
+}
+.prose-itai pre code {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  font-weight: 400;
+  display: grid;
+}
+.prose-itai pre code .line {
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+}
+.prose-itai code[data-line-numbers] {
+  counter-reset: line;
+}
+.prose-itai code[data-line-numbers] .line::before {
+  counter-increment: line;
+  content: counter(line);
+  display: inline-block;
+  width: 1.6rem;
+  margin-right: 1rem;
+  text-align: right;
+  color: rgb(255 255 255 / 0.25);
+}
+
+.prose-itai .heading-anchor {
+  color: inherit;
+  text-decoration: none;
+}
+.prose-itai .heading-anchor:hover {
+  text-decoration: none;
 }

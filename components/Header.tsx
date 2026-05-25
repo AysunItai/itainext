@@ -7,10 +7,12 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const NAV_LINKS = [
-  { label: "Work", href: "#work" },
-  { label: "Services", href: "#services" },
-  { label: "Process", href: "#process" },
-  { label: "About", href: "#about" },
+  { label: "Work", href: "/#work" },
+  { label: "Services", href: "/#services" },
+  { label: "Pricing", href: "/#pricing" },
+  { label: "Notes", href: "/blog" },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
 ] as const;
 
 export default function Header() {
@@ -81,7 +83,7 @@ export default function Header() {
 
         <div className="flex items-center gap-2">
           <Link
-            href="#contact"
+            href="/contact"
             className="group hidden items-center gap-1.5 rounded-full bg-ink px-4 py-2 text-sm font-medium text-paper transition-colors hover:bg-ink-soft md:inline-flex"
           >
             Start a project
@@ -140,7 +142,7 @@ export default function Header() {
                 </Link>
               ))}
               <Link
-                href="#contact"
+                href="/contact"
                 onClick={() => setOpen(false)}
                 className="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-ink px-5 py-3.5 text-base font-medium text-paper"
               >
