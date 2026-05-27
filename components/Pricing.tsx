@@ -201,7 +201,7 @@ function PricingCard({
                   : "bg-accent/10 text-accent ring-1 ring-accent/20",
               ].join(" ")}
             >
-              <Sparkles className="h-3 w-3" strokeWidth={2} />
+              <Sparkles aria-hidden className="h-3 w-3" strokeWidth={2} />
               {plan.badge}
             </span>
           )}
@@ -242,7 +242,7 @@ function PricingCard({
         <p
           className={[
             "mt-2 font-mono text-xs uppercase tracking-[0.18em]",
-            isFeatured ? "text-paper/50" : "text-muted/80",
+            isFeatured ? "text-paper/70" : "text-muted",
           ].join(" ")}
         >
           {plan.priceNote}
@@ -267,7 +267,7 @@ function PricingCard({
                   : "bg-ink/5 text-ink/70",
               ].join(" ")}
             >
-              <Check className="h-3 w-3" strokeWidth={2.75} />
+              <Check aria-hidden className="h-3 w-3" strokeWidth={2.75} />
             </span>
             <span
               className={[
@@ -285,6 +285,7 @@ function PricingCard({
 
       <Link
         href={plan.href}
+        aria-label={`${plan.cta} for ${plan.name}`}
         className={[
           "group relative mt-10 inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-medium transition-all",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
@@ -295,6 +296,7 @@ function PricingCard({
       >
         {plan.cta}
         <ArrowUpRight
+          aria-hidden
           className="h-4 w-4 transition-transform group-hover:-translate-y-px group-hover:translate-x-px"
           strokeWidth={2}
         />

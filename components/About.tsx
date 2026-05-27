@@ -102,6 +102,7 @@ export default function About() {
               >
                 Read my full story
                 <ArrowUpRight
+                  aria-hidden
                   className="h-4 w-4 transition-transform group-hover:-translate-y-px group-hover:translate-x-px"
                   strokeWidth={2}
                 />
@@ -126,7 +127,8 @@ export default function About() {
                     src="/about-portrait.jpg"
                     alt="Portrait of Aysun Itai"
                     fill
-                    sizes="(min-width: 1024px) 40vw, (min-width: 640px) 60vw, 100vw"
+                    sizes="(min-width: 1024px) 512px, (min-width: 640px) 448px, 100vw"
+                    quality={80}
                     onError={() => setImageOk(false)}
                     className="object-cover transition-transform duration-[700ms] ease-out group-hover:scale-[1.04]"
                   />

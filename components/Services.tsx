@@ -109,7 +109,7 @@ export default function Services() {
               className="group relative bg-paper p-7 transition-colors hover:bg-paper-soft sm:p-8"
             >
               <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-mist text-ink transition-colors group-hover:bg-ink group-hover:text-paper">
-                <s.icon className="h-5 w-5" strokeWidth={1.75} />
+                <s.icon aria-hidden className="h-5 w-5" strokeWidth={1.75} />
               </div>
               <h3 className="mt-6 text-lg font-semibold tracking-tight text-ink">
                 {s.title}

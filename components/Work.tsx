@@ -361,9 +361,10 @@ function ProjectCard({
             fill
             sizes={
               isWide
-                ? "(min-width: 1024px) 80vw, 100vw"
-                : "(min-width: 1024px) 40vw, 100vw"
+                ? "(min-width: 1280px) 1216px, (min-width: 1024px) 90vw, 100vw"
+                : "(min-width: 1280px) 596px, (min-width: 1024px) 45vw, 100vw"
             }
+            quality={80}
             onError={() => setImageOk(false)}
             className="object-cover transition-transform duration-[700ms] ease-out group-hover:scale-[1.04]"
           />
@@ -476,8 +477,8 @@ function ProjectCard({
           {project.role && (
             <p className="mt-5 flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.2em] text-muted">
               <span aria-hidden className="h-px w-6 bg-line" />
-              <span className="text-ink/70">Role</span>
-              <span className="text-muted/90 normal-case tracking-normal">
+              <span className="text-ink/80">Role</span>
+              <span className="text-muted normal-case tracking-normal">
                 · {project.role}
               </span>
             </p>
@@ -499,6 +500,7 @@ function ProjectCard({
             {project.externalUrl ? "Visit live site" : "View case study"}
             <span className="flex h-9 w-9 items-center justify-center rounded-full border border-line transition-all duration-300 group-hover:border-ink/40 group-hover:bg-ink group-hover:text-paper">
               <ArrowUpRight
+                aria-hidden
                 className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-px group-hover:translate-x-px"
                 strokeWidth={2}
               />

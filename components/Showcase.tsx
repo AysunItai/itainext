@@ -38,7 +38,7 @@ export default function Showcase() {
 
   return (
     <section
-      id="work"
+      id="principles"
       aria-labelledby="showcase-title"
       className="relative scroll-mt-24 px-5 py-24 sm:px-8 sm:py-32"
     >
@@ -102,7 +102,7 @@ export default function Showcase() {
             >
               <div className="flex items-center gap-4">
                 <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-paper text-ink shadow-soft">
-                  <p.icon className="h-5 w-5" strokeWidth={1.75} />
+                  <p.icon aria-hidden className="h-5 w-5" strokeWidth={1.75} />
                 </div>
                 <h3 className="text-lg font-semibold tracking-tight text-ink">
                   {p.title}

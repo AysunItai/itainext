@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import { OG_CONTENT_TYPE, OG_SIZE, OgCard } from "@/lib/og";
 
-export const alt = "ITAI — Modern Digital Systems";
+export const alt = "About · ITAI";
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
 
@@ -9,9 +9,9 @@ export default function OpengraphImage() {
   return new ImageResponse(
     (
       <OgCard
-        eyebrow="Studio"
-        title="Modern digital systems for growing businesses."
-        description="Custom websites, AI automation, booking systems, and dashboards — engineering depth, design restraint."
+        eyebrow="About"
+        title="An independent studio. Engineering depth, design restraint."
+        description="Founded by Aysun Itai. Building modern digital systems that ambitious teams actually use every day."
       />
     ),
     { ...size },

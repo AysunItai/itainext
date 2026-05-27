@@ -26,7 +26,7 @@ export default function Hero() {
       <div className="relative z-10 mx-auto w-full max-w-5xl text-center">
         <motion.p
           {...fade(0)}
-          className="mb-7 text-xs font-medium uppercase tracking-[0.36em] text-muted/70"
+          className="mb-7 text-xs font-medium uppercase tracking-[0.36em] text-muted"
         >
           ITAI WEB SOLUTIONS
         </motion.p>
@@ -72,7 +72,10 @@ export default function Hero() {
             className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-ink px-7 py-3.5 text-sm font-medium text-paper shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:bg-ink-soft hover:shadow-lifted sm:w-auto"
           >
             Start a project
-            <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-px group-hover:translate-x-px" />
+            <ArrowUpRight
+              aria-hidden
+              className="h-4 w-4 transition-transform group-hover:-translate-y-px group-hover:translate-x-px"
+            />
           </Link>
 
           <Link
@@ -85,7 +88,7 @@ export default function Hero() {
 
         <motion.div
           {...fade(0.42)}
-          className="mt-14 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-xs uppercase tracking-[0.2em] text-muted/70"
+          className="mt-14 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-xs uppercase tracking-[0.2em] text-muted"
         >
           <span>Next.js</span>
           <span className="h-1 w-1 rounded-full bg-line" />

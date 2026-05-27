@@ -56,14 +56,13 @@ export default function Header() {
         >
           <Image
             src="/logo.png"
-            alt="ITAI"
+            alt=""
             width={605}
             height={185}
+            sizes="96px"
             priority
-            
             className="h-6 w-auto object-contain"
           />
-          <span className="sr-only">ITAI</span>
         </Link>
 
         <nav
@@ -88,6 +87,7 @@ export default function Header() {
           >
             Start a project
             <ArrowUpRight
+              aria-hidden
               className="h-4 w-4 transition-transform group-hover:-translate-y-px group-hover:translate-x-px"
               strokeWidth={2}
             />
@@ -102,9 +102,9 @@ export default function Header() {
             className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-line bg-paper text-ink transition-colors hover:bg-mist md:hidden"
           >
             {open ? (
-              <X className="h-5 w-5" strokeWidth={1.75} />
+              <X aria-hidden className="h-5 w-5" strokeWidth={1.75} />
             ) : (
-              <Menu className="h-5 w-5" strokeWidth={1.75} />
+              <Menu aria-hidden className="h-5 w-5" strokeWidth={1.75} />
             )}
           </button>
         </div>
@@ -136,6 +136,7 @@ export default function Header() {
                 >
                   {l.label}
                   <ArrowUpRight
+                    aria-hidden
                     className="h-4 w-4 text-muted"
                     strokeWidth={1.75}
                   />
@@ -147,7 +148,7 @@ export default function Header() {
                 className="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-ink px-5 py-3.5 text-base font-medium text-paper"
               >
                 Start a project
-                <ArrowUpRight className="h-4 w-4" strokeWidth={2} />
+                <ArrowUpRight aria-hidden className="h-4 w-4" strokeWidth={2} />
               </Link>
             </nav>
           </motion.div>

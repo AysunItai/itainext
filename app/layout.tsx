@@ -50,12 +50,22 @@ export const metadata: Metadata = {
       "Custom websites, AI automation, booking systems, dashboards, and scalable web infrastructure for growing businesses.",
     siteName: "ITAI",
     locale: "en_US",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "ITAI — Modern Digital Systems",
+        type: "image/png",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "ITAI — Modern Digital Systems",
     description:
       "Custom websites, AI automation, booking systems, dashboards, and scalable web infrastructure.",
+    images: ["/opengraph-image"],
   },
   robots: {
     index: true,

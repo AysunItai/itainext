@@ -36,16 +36,14 @@ export default function Footer() {
         <div className="grid grid-cols-1 gap-12 md:grid-cols-12 md:gap-8">
           <div className="md:col-span-5">
             <Link href="/" aria-label="ITAI — home" className="inline-block">
-            <Image
-            src="/logo.png"
-            alt="ITAI"
-            width={605}
-            height={185}
-            priority
-            
-            className="h-6 w-auto object-contain"
-          />
-              <span className="sr-only">ITAI</span>
+              <Image
+                src="/logo.png"
+                alt=""
+                width={605}
+                height={185}
+                sizes="96px"
+                className="h-6 w-auto object-contain"
+              />
             </Link>
             <p className="mt-5 max-w-sm text-pretty text-[15px] leading-7 text-muted">
               ITAI is a small studio engineering modern digital systems —
