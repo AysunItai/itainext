@@ -6,8 +6,9 @@ import { prisma } from "@/lib/prisma";
 import { formatDate, parseTags } from "@/lib/blog";
 import MarkdownRenderer from "@/components/blog/MarkdownRenderer";
 import SubscribeForm from "@/components/blog/SubscribeForm";
+import { blogPostingLd, jsonLdScriptProps } from "@/lib/structured-data";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
 type Params = { slug: string };
 
@@ -22,15 +23,20 @@ export async function generateMetadata({
     return { title: "Not found", robots: { index: false, follow: false } };
   }
   const description = post.excerpt ?? undefined;
+  const path = `/blog/${post.slug}`;
   return {
     title: post.title,
     description,
+    alternates: { canonical: path },
     openGraph: {
       type: "article",
       title: post.title,
       description,
+      url: path,
       images: post.coverImage ? [{ url: post.coverImage }] : undefined,
       publishedTime: post.publishedAt?.toISOString(),
+      modifiedTime: post.updatedAt?.toISOString(),
+      authors: ["Aysun Itai"],
     },
     twitter: {
       card: post.coverImage ? "summary_large_image" : "summary",
@@ -65,6 +71,19 @@ export default async function BlogPostPage({
 
   return (
     <main id="main" className="relative">
+      <script
+        {...jsonLdScriptProps(
+          blogPostingLd({
+            title: post.title,
+            slug: post.slug,
+            excerpt: post.excerpt,
+            coverImage: post.coverImage,
+            publishedAt: post.publishedAt,
+            updatedAt: post.updatedAt,
+            tags,
+          }),
+        )}
+      />
       <article>
         <header className="mx-auto max-w-3xl px-6 pt-28 pb-10 sm:pt-36">
           <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink/45">

@@ -4,19 +4,23 @@ import { prisma } from "@/lib/prisma";
 import PostCard from "@/components/blog/PostCard";
 import SubscribeForm from "@/components/blog/SubscribeForm";
 import SubscribeStatusBanner from "@/components/blog/SubscribeStatusBanner";
+import { blogLd, jsonLdScriptProps } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
   title: "Notes",
   description:
     "Field notes from ITAI on engineering, design restraint, and the systems I build for ambitious teams.",
+  alternates: { canonical: "/blog" },
   openGraph: {
     title: "Notes · ITAI",
     description:
       "Field notes from ITAI on engineering, design restraint, and the systems I build for ambitious teams.",
+    url: "/blog",
+    type: "website",
   },
 };
 
-export const dynamic = "force-dynamic";
+export const revalidate = 600;
 
 export default async function BlogIndexPage() {
   const [posts, subscriberCount] = await Promise.all([
@@ -35,6 +39,7 @@ export default async function BlogIndexPage() {
 
   return (
     <main id="main" className="relative">
+      <script {...jsonLdScriptProps(blogLd())} />
       <Hero count={posts.length} />
 
       <Suspense fallback={null}>

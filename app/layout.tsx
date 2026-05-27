@@ -2,6 +2,11 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import {
+  jsonLdScriptProps,
+  organizationLd,
+  websiteLd,
+} from "@/lib/structured-data";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -88,6 +93,8 @@ export default function RootLayout({
         <Header />
         {children}
         <Footer />
+        <script {...jsonLdScriptProps(organizationLd())} />
+        <script {...jsonLdScriptProps(websiteLd())} />
       </body>
     </html>
   );

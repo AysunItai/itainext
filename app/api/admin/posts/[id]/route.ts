@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import { revalidatePath } from "next/cache";
 import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { SESSION_COOKIE, verifySessionToken } from "@/lib/auth";
@@ -81,6 +82,10 @@ export async function PATCH(
         publishedAt,
       },
     });
+    revalidatePath("/blog");
+    revalidatePath(`/blog/${post.slug}`);
+    if (existing.slug !== post.slug) revalidatePath(`/blog/${existing.slug}`);
+    revalidatePath("/sitemap.xml");
     return NextResponse.json({ ok: true, post });
   } catch (err) {
     if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === "P2002") {
@@ -102,7 +107,10 @@ export async function DELETE(
   }
   const { id } = await params;
   try {
-    await prisma.post.delete({ where: { id } });
+    const deleted = await prisma.post.delete({ where: { id } });
+    revalidatePath("/blog");
+    revalidatePath(`/blog/${deleted.slug}`);
+    revalidatePath("/sitemap.xml");
     return NextResponse.json({ ok: true });
   } catch (err) {
     if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === "P2025") {

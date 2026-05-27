@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import { revalidatePath } from "next/cache";
 import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { SESSION_COOKIE, verifySessionToken } from "@/lib/auth";
@@ -58,6 +59,11 @@ export async function POST(request: Request) {
         publishedAt: published ? new Date() : null,
       },
     });
+    if (published) {
+      revalidatePath("/blog");
+      revalidatePath(`/blog/${post.slug}`);
+      revalidatePath("/sitemap.xml");
+    }
     return NextResponse.json({ ok: true, post });
   } catch (err) {
     if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === "P2002") {
