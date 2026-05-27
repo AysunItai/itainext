@@ -29,6 +29,7 @@ type Project = {
   year: number;
   cover: string;
   featured?: boolean;
+  externalUrl?: string;
 };
 
 const PROJECTS: Project[] = [
@@ -42,8 +43,9 @@ const PROJECTS: Project[] = [
     status: "Completed",
     category: "ai",
     year: 2025,
-    cover: "/work/ai-automation.jpg",
+    cover: "/work/ai-automation.png",
     featured: true,
+    externalUrl: "https://www.isoon.io/",
   },
   {
     slug: "booking-client-acquisition-flow",
@@ -337,8 +339,14 @@ function ProjectCard({
       className="rounded-3xl"
     >
     <Link
-      href={`/work/${project.slug}`}
-      aria-label={`Open case study: ${project.title}`}
+      href={project.externalUrl ?? `/work/${project.slug}`}
+      target={project.externalUrl ? "_blank" : undefined}
+      rel={project.externalUrl ? "noreferrer" : undefined}
+      aria-label={
+        project.externalUrl
+          ? `Visit live site: ${project.title} (opens in new tab)`
+          : `Open case study: ${project.title}`
+      }
       className="group block overflow-hidden rounded-3xl border border-line bg-paper transition-all duration-500 hover:border-ink/30 hover:shadow-lifted"
     >
       <div
@@ -450,7 +458,7 @@ function ProjectCard({
         </div>
 
         <div className="flex shrink-0 items-center gap-2 text-sm font-medium text-ink">
-          View case study
+          {project.externalUrl ? "Visit live site" : "View case study"}
           <span className="flex h-9 w-9 items-center justify-center rounded-full border border-line transition-all duration-300 group-hover:border-ink/40 group-hover:bg-ink group-hover:text-paper">
             <ArrowUpRight
               className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-px group-hover:translate-x-px"
