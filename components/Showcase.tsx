@@ -54,7 +54,7 @@ export default function Showcase() {
             Premium feel, infrastructure underneath.
           </h2>
           <p className="mt-5 text-pretty text-base leading-7 text-muted sm:text-lg">
-            Every project we ship is judged against the same bar — the kind of
+            Every project I ship is judged against the same bar — the kind of
             polish you&apos;d expect from a flagship product team.
           </p>
         </header>

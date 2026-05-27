@@ -8,11 +8,11 @@ import SubscribeStatusBanner from "@/components/blog/SubscribeStatusBanner";
 export const metadata: Metadata = {
   title: "Notes",
   description:
-    "Field notes from ITAI on engineering, design restraint, and the systems we build for ambitious teams.",
+    "Field notes from ITAI on engineering, design restraint, and the systems I build for ambitious teams.",
   openGraph: {
     title: "Notes · ITAI",
     description:
-      "Field notes from ITAI on engineering, design restraint, and the systems we build for ambitious teams.",
+      "Field notes from ITAI on engineering, design restraint, and the systems I build for ambitious teams.",
   },
 };
 
@@ -105,7 +105,7 @@ function Hero({ count }: { count: number }) {
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-pretty text-lg leading-relaxed text-ink/60 sm:text-xl">
           Essays on engineering depth, design restraint, and the practical
-          systems we build for ambitious teams. No frameworks-of-the-week,
+          systems I build for ambitious teams. No frameworks-of-the-week,
           no hot takes — just durable ideas.
         </p>
         <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.18em] text-ink/40">

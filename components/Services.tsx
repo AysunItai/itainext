@@ -75,16 +75,16 @@ export default function Services() {
       <div className="mx-auto max-w-7xl">
         <header className="mx-auto max-w-2xl text-center">
           <p className="text-xs font-medium uppercase tracking-[0.25em] text-muted">
-            What we build
+            What I build
           </p>
           <h2
             id="services-title"
             className="mt-4 text-balance text-4xl font-semibold tracking-tight text-ink sm:text-5xl"
           >
-            One team, the full digital stack.
+            One engineer, end to end.
           </h2>
           <p className="mt-5 text-pretty text-base leading-7 text-muted sm:text-lg">
-            From the first pixel to the last deploy, we ship work that looks
+            From the first pixel to the last deploy, I ship work that looks
             premium and behaves like infrastructure.
           </p>
         </header>

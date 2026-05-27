@@ -170,7 +170,7 @@ export default function Work() {
               transition={{ duration: 0.6, ease: easeOut }}
               className="max-w-3xl text-balance text-4xl font-semibold tracking-[-0.035em] text-ink sm:text-5xl"
             >
-              Not portfolio pieces. Business systems with a clear job.
+              Real systems, doing real work.
             </motion.h2>
             <motion.p
               variants={revealItem(reduce)}

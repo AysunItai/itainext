@@ -6,7 +6,7 @@ const STEPS = [
   {
     n: "01",
     title: "Discovery",
-    body: "We map your goals, users, and constraints, then translate them into a focused build plan with clear milestones.",
+    body: "I map your goals, users, and constraints, then translate them into a focused build plan with clear milestones.",
   },
   {
     n: "02",
@@ -16,7 +16,7 @@ const STEPS = [
   {
     n: "03",
     title: "Launch & evolve",
-    body: "We ship to production behind a CDN, watch the metrics, and keep iterating once the site is live.",
+    body: "I ship to production behind a CDN, watch the metrics, and keep iterating once the site is live.",
   },
 ] as const;
 
@@ -39,7 +39,7 @@ export default function Process() {
       <div className="relative mx-auto max-w-7xl">
         <header className="mx-auto max-w-2xl text-center">
           <p className="text-xs font-medium uppercase tracking-[0.25em] text-paper/60">
-            How we work
+            How I work
           </p>
           <h2
             id="process-title"
@@ -49,7 +49,7 @@ export default function Process() {
           </h2>
           <p className="mt-5 text-pretty text-base leading-7 text-paper/70 sm:text-lg">
             Three phases. Weekly check-ins. No black boxes — you&apos;ll
-            always know what we&apos;re building and why.
+            always know what I&apos;m building and why.
           </p>
         </header>
 

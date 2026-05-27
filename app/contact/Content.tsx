@@ -484,7 +484,7 @@ export default function ContactContent() {
                     03
                   </span>
                   <span>
-                    If it&apos;s a fit, we set up a short call to dig in.
+                    If it&apos;s a fit, I&apos;ll set up a short call to dig in.
                   </span>
                 </li>
               </ol>

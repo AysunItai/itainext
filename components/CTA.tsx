@@ -41,8 +41,8 @@ export default function CTA() {
             <span className="text-paper/70">Let&apos;s talk.</span>
           </h2>
           <p className="mt-5 max-w-xl text-pretty text-base leading-7 text-paper/70 sm:text-lg">
-            Tell us about your business and what you&apos;d like to build.
-            We&apos;ll get back within one working day with thoughts and a
+            Tell me about your business and what you&apos;d like to build.
+            I&apos;ll get back within one working day with thoughts and a
             clear next step.
           </p>
 

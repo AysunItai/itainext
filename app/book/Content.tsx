@@ -253,7 +253,7 @@ function CalendlyFallback() {
       </h2>
       <p className="max-w-md text-pretty text-base leading-7 text-muted">
         While the booking widget is being configured, send a quick note and
-        we&apos;ll find a time that works.
+        I&apos;ll find a time that works.
       </p>
       <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
         <Link

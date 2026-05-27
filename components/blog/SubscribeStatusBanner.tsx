@@ -19,7 +19,7 @@ const COPY: Record<
   unsubscribed: {
     eyebrow: "Done",
     title: "You're unsubscribed.",
-    body: "We'll miss you. Resubscribe anytime — no hard feelings.",
+    body: "I'll miss you. Resubscribe anytime — no hard feelings.",
     tone: "neutral",
   },
   invalid: {
