@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 
 type Service = {
-  icon: LucideIcon;
+   icon: LucideIcon;
   title: string;
   description: string;
   bullets: string[];
