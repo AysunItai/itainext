@@ -20,10 +20,6 @@ function escapeHtml(input: string): string {
     .replace(/'/g, "&#039;");
 }
 
-function nl2br(input: string): string {
-  return escapeHtml(input).replace(/\n/g, "<br/>");
-}
-
 function urgencyColor(urgency: ContactReply["urgency"]): string {
   if (urgency === "High") return "#b91c1c";
   if (urgency === "Low") return "#15803d";
@@ -38,106 +34,126 @@ type EmailArgs = {
   ai: ContactReply | null;
 };
 
-function buildEmailHtml(a: EmailArgs) {
+// ───────── HTML email ─────────
+// Table-based layout, inline styles only — built for max compatibility with
+// Bluehost webmail (Roundcube), Gmail, Apple Mail, and mobile clients.
+// Single-column with width="600" + max-width:600px shrinks gracefully on phones.
+
+function row(label: string, valueHtml: string): string {
+  return `<tr><td style="padding:14px 24px 0;">
+<p style="margin:0;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#6b7280;">${escapeHtml(label)}</p>
+<p style="margin:4px 0 0;font-size:15px;line-height:1.55;color:#0a0a0a;">${valueHtml}</p>
+</td></tr>`;
+}
+
+function multilineRow(label: string, value: string): string {
+  const html = escapeHtml(value).replace(/\n/g, "<br/>");
+  return `<tr><td style="padding:18px 24px 0;">
+<p style="margin:0;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#6b7280;">${escapeHtml(label)}</p>
+<p style="margin:6px 0 0;font-size:15px;line-height:1.65;color:#0a0a0a;">${html}</p>
+</td></tr>`;
+}
+
+function dividerRow(): string {
+  return `<tr><td style="padding:22px 24px 0;">
+<div style="height:1px;line-height:1px;font-size:1px;background:#e5e5e5;">&nbsp;</div>
+</td></tr>`;
+}
+
+function buildEmailHtml(a: EmailArgs): string {
   const { name, email, topic, message, ai } = a;
-  const aiBlock = ai
-    ? `
-      <div style="padding:24px 32px;background:#f6f7f9;border-top:1px solid #e5e5e5;">
-        <p style="margin:0 0 14px;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:#6b7280;">AI assist</p>
-        <table role="presentation" style="width:100%;border-collapse:collapse;">
-          <tr>
-            <td style="padding:6px 0;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#6b7280;width:110px;vertical-align:top;">Summary</td>
-            <td style="padding:6px 0;font-size:14px;color:#0a0a0a;vertical-align:top;">${escapeHtml(ai.summary)}</td>
-          </tr>
-          <tr>
-            <td style="padding:6px 0;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#6b7280;vertical-align:top;">Lead type</td>
-            <td style="padding:6px 0;font-size:14px;color:#0a0a0a;vertical-align:top;">${escapeHtml(ai.leadType)}</td>
-          </tr>
-          <tr>
-            <td style="padding:6px 0;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#6b7280;vertical-align:top;">Urgency</td>
-            <td style="padding:6px 0;font-size:14px;color:${urgencyColor(ai.urgency)};font-weight:600;vertical-align:top;">${escapeHtml(ai.urgency)}</td>
-          </tr>
-        </table>
-      </div>
-      ${
-        ai.reply
-          ? `<div style="padding:24px 32px 28px;border-top:1px solid #e5e5e5;background:#ffffff;">
-              <p style="margin:0 0 12px;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:#6b7280;">Suggested reply · ready to send</p>
-              <div style="margin:0;padding:16px 18px;background:#fafafa;border:1px solid #e5e5e5;border-radius:10px;font-size:15px;line-height:1.7;color:#0a0a0a;white-space:pre-wrap;">${nl2br(ai.reply)}</div>
-              <p style="margin:12px 0 0;font-size:11px;color:#9ca3af;">Reply directly to this email — your reply will go to ${escapeHtml(name)}.</p>
-            </div>`
-          : ""
-      }`
+
+  const replyHtml = ai?.reply
+    ? escapeHtml(ai.reply).replace(/\n/g, "<br/>")
+    : "";
+
+  const aiSection = ai
+    ? `${dividerRow()}
+${row("AI summary", escapeHtml(ai.summary))}
+${row("Lead type", escapeHtml(ai.leadType))}
+${row(
+  "Urgency",
+  `<span style="color:${urgencyColor(ai.urgency)};font-weight:600;">${escapeHtml(ai.urgency)}</span>`,
+)}
+${
+  replyHtml
+    ? `<tr><td style="padding:18px 24px 0;">
+<p style="margin:0 0 8px;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#6b7280;">Suggested reply</p>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:separate;border:1px solid #e5e5e5;border-radius:8px;background:#fafafa;">
+<tr><td style="padding:14px 16px;font-size:15px;line-height:1.65;color:#0a0a0a;">${replyHtml}</td></tr>
+</table>
+</td></tr>`
+    : ""
+}`
     : "";
 
   return `<!DOCTYPE html>
 <html lang="en">
-  <body style="margin:0;padding:32px;background:#fafafa;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;color:#0a0a0a;">
-    <div style="max-width:640px;margin:0 auto;background:#ffffff;border:1px solid #e5e5e5;border-radius:16px;overflow:hidden;">
-      <div style="padding:28px 32px;border-bottom:1px solid #e5e5e5;">
-        <p style="margin:0;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:#6b7280;">New inquiry · itaiwebsolutions.com</p>
-        <h1 style="margin:8px 0 0;font-size:22px;font-weight:600;letter-spacing:-0.01em;color:#0a0a0a;">${escapeHtml(name)}</h1>
-      </div>
-      <table role="presentation" style="width:100%;border-collapse:collapse;">
-        <tr>
-          <td style="padding:18px 32px 8px;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#6b7280;width:120px;vertical-align:top;">Email</td>
-          <td style="padding:18px 32px 8px;font-size:15px;color:#0a0a0a;vertical-align:top;">
-            <a href="mailto:${escapeHtml(email)}" style="color:#1e3a8a;text-decoration:none;">${escapeHtml(email)}</a>
-          </td>
-        </tr>
-        ${
-          topic
-            ? `<tr>
-          <td style="padding:8px 32px;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#6b7280;vertical-align:top;">Topic</td>
-          <td style="padding:8px 32px;font-size:15px;color:#0a0a0a;vertical-align:top;">${escapeHtml(topic)}</td>
-        </tr>`
-            : ""
-        }
-      </table>
-      <div style="padding:24px 32px 32px;border-top:1px solid #e5e5e5;margin-top:16px;">
-        <p style="margin:0 0 12px;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#6b7280;">Message</p>
-        <p style="margin:0;font-size:16px;line-height:1.7;color:#0a0a0a;white-space:pre-wrap;">${escapeHtml(message)}</p>
-      </div>
-      ${aiBlock}
-    </div>
-    <p style="max-width:640px;margin:16px auto 0;font-size:11px;color:#9ca3af;text-align:center;">Reply directly to this email to respond to ${escapeHtml(name)}.</p>
-  </body>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="color-scheme" content="light only" />
+<meta name="supported-color-schemes" content="light" />
+<title>New website enquiry</title>
+</head>
+<body style="margin:0;padding:0;background:#f4f5f7;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;color:#0a0a0a;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f5f7;padding:24px 12px;">
+<tr><td align="center">
+<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#ffffff;border:1px solid #e5e5e5;border-radius:12px;">
+<tr><td style="padding:24px 24px 4px;">
+<p style="margin:0;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#6b7280;">itaiwebsolutions.com</p>
+<h1 style="margin:6px 0 0;font-size:20px;font-weight:600;color:#0a0a0a;">New website enquiry</h1>
+</td></tr>
+${row("From", escapeHtml(name))}
+${row(
+  "Customer email",
+  `<a href="mailto:${escapeHtml(email)}" style="color:#1e3a8a;text-decoration:none;">${escapeHtml(email)}</a>`,
+)}
+${topic ? row("Topic", escapeHtml(topic)) : ""}
+${multilineRow("Message", message)}
+${aiSection}
+<tr><td style="padding:22px 24px 24px;">
+<p style="margin:18px 0 0;font-size:12px;color:#9ca3af;">Reply to this email — your reply will go directly to ${escapeHtml(email)}.</p>
+</td></tr>
+</table>
+</td></tr>
+</table>
+</body>
 </html>`;
 }
 
+// ───────── Plain-text fallback ─────────
+// Clean and flat: single space after each label, blank line between sections,
+// no tabs, no fixed-width padding.
+
 function buildEmailText(a: EmailArgs): string {
   const { name, email, topic, message, ai } = a;
-  const lines: Array<string | null> = [
-    "NEW INQUIRY",
-    "",
-    `Name:    ${name}`,
-    `Email:   ${email}`,
-    topic ? `Topic:   ${topic}` : null,
-    "",
-    "Message:",
-    message,
-  ];
+  const sections: string[] = [];
+
+  sections.push(["New website enquiry", "itaiwebsolutions.com"].join("\n"));
+
+  const meta = [`From: ${name}`, `Customer email: ${email}`];
+  if (topic) meta.push(`Topic: ${topic}`);
+  sections.push(meta.join("\n"));
+
+  sections.push(`Message:\n${message}`);
 
   if (ai) {
-    lines.push(
-      "",
-      "— AI ASSIST —",
-      `Summary:   ${ai.summary}`,
+    const aiMeta = [
+      `AI summary: ${ai.summary}`,
       `Lead type: ${ai.leadType}`,
-      `Urgency:   ${ai.urgency}`,
-    );
+      `Urgency: ${ai.urgency}`,
+    ];
+    sections.push(aiMeta.join("\n"));
+
     if (ai.reply) {
-      lines.push("", "Suggested reply (ready to send):", "", ai.reply);
+      sections.push(`Suggested reply:\n${ai.reply}`);
     }
   }
 
-  lines.push(
-    "",
-    "—",
-    `Reply directly to this email to respond to ${name}.`,
-  );
+  sections.push(`Reply to this email — your reply will go directly to ${email}.`);
 
-  return lines.filter((l): l is string => l !== null).join("\n");
+  return sections.join("\n\n");
 }
 
 export async function POST(req: Request) {
