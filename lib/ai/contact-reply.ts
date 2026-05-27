@@ -129,15 +129,15 @@ const FALLBACK: ContactReply = {
 export async function generateContactReply(
   input: ContactReplyInput,
 ): Promise<ContactReply> {
-  if (!process.env.OPENAI_API_KEY) {
+  if (!process.env.OPEN_API_KEY) {
     return {
       ...FALLBACK,
-      summary: "OPENAI_API_KEY missing — AI reply skipped.",
+      summary: "OPEN_API_KEY missing — AI reply skipped.",
     };
   }
 
   const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
+    apiKey: process.env.OPEN_API_KEY,
     timeout: TIMEOUT_MS,
     maxRetries: 1,
   });
