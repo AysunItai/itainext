@@ -36,10 +36,10 @@ const PROJECTS: Project[] = [
   {
     slug: "ai-automation-infrastructure",
     number: "01",
-    title: "AI automation infrastructure",
+    title: "Isoon — AI inbox automation",
     summary:
-      "Email intake, lead qualification, response drafting, and operational handoff — designed as one connected workflow instead of disconnected tools.",
-    tags: ["AI workflows", "Email", "APIs", "Automation"],
+      "An AI assistant that reads your inbox, classifies every message, and prepares professional replies in your Drafts folder — built for small businesses that live in their inbox.",
+    tags: ["AI", "Email automation", "Inbox AI", "SaaS"],
     status: "Completed",
     category: "ai",
     year: 2025,
@@ -411,6 +411,23 @@ function ProjectCard({
         <div className="absolute right-4 top-4 rounded-full bg-paper/90 px-2.5 py-1 font-mono text-[11px] tabular-nums text-ink backdrop-blur">
           {project.year}
         </div>
+
+        {imageOk && (
+          <>
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-ink/55 via-ink/15 to-transparent"
+            />
+            <div className="pointer-events-none absolute bottom-5 left-5 flex items-baseline gap-3 font-mono text-paper [text-shadow:0_1px_2px_rgba(0,0,0,0.35)] sm:bottom-6 sm:left-6">
+              <span className="text-5xl font-semibold tabular-nums sm:text-6xl">
+                {project.number}
+              </span>
+              <span className="text-[11px] uppercase tracking-[0.25em] text-paper/85">
+                {project.tags[0]}
+              </span>
+            </div>
+          </>
+        )}
       </div>
 
       <div
