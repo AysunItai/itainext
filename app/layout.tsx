@@ -52,9 +52,6 @@ export const metadata: Metadata = {
     description:
       "Custom websites, AI automation, booking systems, dashboards, and scalable web infrastructure.",
   },
-  icons: {
-    icon: "/favicon.ico",
-  },
   robots: {
     index: true,
     follow: true,

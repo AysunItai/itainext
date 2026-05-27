@@ -11,7 +11,7 @@ import {
 import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
 
@@ -27,9 +27,11 @@ type Project = {
   status: Status;
   category: Category;
   year: number;
-  cover: string;
+  cover?: string;
   featured?: boolean;
   externalUrl?: string;
+  comingSoon?: boolean;
+  role?: string;
 };
 
 const PROJECTS: Project[] = [
@@ -61,53 +63,57 @@ const PROJECTS: Project[] = [
     externalUrl: "https://gynecologuelyon.fr/",
   },
   {
-    slug: "custom-business-systems",
+    slug: "gotoorbit",
     number: "03",
-    title: "Custom business systems",
+    title: "gotoOrbit — AI workflow automation",
     summary:
-      "Internal dashboards, portals, admin tools, and full-stack systems for businesses that need more than a template website.",
-    tags: ["React", "TypeScript", "Backend", "Databases"],
+      "An AI workflow automation platform that turns conversations into approved, executable actions inside business systems — connecting chat-driven AI to controlled macros and human approval flows.",
+    tags: ["AI", "Workflow", "Approval flows", "Platform"],
     status: "Ongoing",
     category: "ongoing",
     year: 2026,
-    cover: "/work/custom-systems.jpg",
+    comingSoon: true,
   },
   {
-    slug: "operational-analytics-dashboard",
+    slug: "grade-creator-payouts",
     number: "04",
-    title: "Operational analytics dashboard",
+    title: "Grade — global creator payouts",
     summary:
-      "A unified view of pipeline, conversions, and team velocity — replacing five disconnected spreadsheets with a single interface leadership checks every morning.",
-    tags: ["Dashboard", "Realtime", "Postgres", "Charts"],
-    status: "Completed",
-    category: "completed",
-    year: 2025,
-    cover: "/work/dashboard.jpg",
-  },
-  {
-    slug: "marketing-launch-system",
-    number: "05",
-    title: "Marketing site and launch system",
-    summary:
-      "A high-conversion brand site with edge-rendered pages, structured CMS authoring, and a launch sequence wired to email, ads, and analytics.",
-    tags: ["Website", "Edge", "CMS", "SEO"],
+      "A YC-backed platform that pays creators across 190+ countries while handling KYC, tax forms, and DAC7 reporting — turning hundreds of creator invoices into one compliant batch finance teams approve in minutes.",
+    tags: ["Fintech", "Compliance", "Payouts", "SaaS"],
     status: "Completed",
     category: "completed",
     year: 2026,
-    cover: "/work/marketing-site.jpg",
+    cover: "/work/grade.png",
+    externalUrl: "https://usegrade.com/",
+    role: "Contract full-stack engineer",
   },
   {
-    slug: "multi-tenant-saas-platform",
-    number: "06",
-    title: "Multi-tenant SaaS platform",
+    slug: "cirwep-hpl-consortium",
+    number: "05",
+    title: "CIRWEP — integrated platform for HPL Consortium",
     summary:
-      "Auth, billing, role-based access, and a workflow engine — the foundation a young product team can build on for years without rewrites.",
-    tags: ["SaaS", "Auth", "Stripe", "Edge runtime"],
+      "A long-running platform unifying contact, invitation, resource, web, event, and payment management into one system used by consultants, nonprofits, and member organizations to run programs, classes, and groups end-to-end.",
+    tags: ["Platform", "Events", "Membership", "Full-stack"],
     status: "Ongoing",
     category: "ongoing",
     year: 2026,
-    cover: "/work/saas-platform.jpg",
-    featured: true,
+    cover: "/work/cirweb.png",
+    externalUrl: "https://www.hplconsortium.com/cg",
+    role: "Full-stack engineer · 2+ years",
+  },
+  {
+    slug: "corerevfit-smart-gym-guide",
+    number: "06",
+    title: "CoreRevFit — AI smart gym guide",
+    summary:
+      "An AI training companion for a boutique fitness brand — a smart gym guide that builds personalized programs, tracks progress, and adapts every session to the member in front of it.",
+    tags: ["AI", "Fitness", "Personalization", "Mobile"],
+    status: "Ongoing",
+    category: "ongoing",
+    year: 2026,
+    cover: "/work/corerevfit.png",
+    comingSoon: true,
   },
 ];
 
@@ -339,15 +345,8 @@ function ProjectCard({
       }}
       className="rounded-3xl"
     >
-    <Link
-      href={project.externalUrl ?? `/work/${project.slug}`}
-      target={project.externalUrl ? "_blank" : undefined}
-      rel={project.externalUrl ? "noreferrer" : undefined}
-      aria-label={
-        project.externalUrl
-          ? `Visit live site: ${project.title} (opens in new tab)`
-          : `Open case study: ${project.title}`
-      }
+    <CardShell
+      project={project}
       className="group block overflow-hidden rounded-3xl border border-line bg-paper transition-all duration-500 hover:border-ink/30 hover:shadow-lifted"
     >
       <div
@@ -355,7 +354,7 @@ function ProjectCard({
           isWide ? "aspect-[16/7]" : "aspect-[16/10]"
         }`}
       >
-        {imageOk ? (
+        {project.cover && imageOk ? (
           <Image
             src={project.cover}
             alt=""
@@ -405,7 +404,7 @@ function ProjectCard({
                 }`}
               />
             </span>
-            {project.status}
+            {project.comingSoon ? "Launching soon" : project.status}
           </span>
         </div>
 
@@ -413,7 +412,7 @@ function ProjectCard({
           {project.year}
         </div>
 
-        {imageOk && (
+        {project.cover && imageOk && (
           <>
             <div
               aria-hidden
@@ -473,20 +472,79 @@ function ProjectCard({
               </li>
             ))}
           </ul>
+
+          {project.role && (
+            <p className="mt-5 flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.2em] text-muted">
+              <span aria-hidden className="h-px w-6 bg-line" />
+              <span className="text-ink/70">Role</span>
+              <span className="text-muted/90 normal-case tracking-normal">
+                · {project.role}
+              </span>
+            </p>
+          )}
         </div>
 
-        <div className="flex shrink-0 items-center gap-2 text-sm font-medium text-ink">
-          {project.externalUrl ? "Visit live site" : "View case study"}
-          <span className="flex h-9 w-9 items-center justify-center rounded-full border border-line transition-all duration-300 group-hover:border-ink/40 group-hover:bg-ink group-hover:text-paper">
-            <ArrowUpRight
-              className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-px group-hover:translate-x-px"
-              strokeWidth={2}
-            />
-          </span>
-        </div>
+        {project.comingSoon ? (
+          <div className="flex shrink-0 items-center gap-2.5 text-sm font-medium text-muted">
+            <span className="flex h-9 w-9 items-center justify-center rounded-full border border-dashed border-line">
+              <span
+                aria-hidden
+                className="h-1.5 w-1.5 rounded-full bg-amber-500"
+              />
+            </span>
+            Launching soon
+          </div>
+        ) : (
+          <div className="flex shrink-0 items-center gap-2 text-sm font-medium text-ink">
+            {project.externalUrl ? "Visit live site" : "View case study"}
+            <span className="flex h-9 w-9 items-center justify-center rounded-full border border-line transition-all duration-300 group-hover:border-ink/40 group-hover:bg-ink group-hover:text-paper">
+              <ArrowUpRight
+                className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-px group-hover:translate-x-px"
+                strokeWidth={2}
+              />
+            </span>
+          </div>
+        )}
       </div>
-    </Link>
+    </CardShell>
     </motion.div>
+  );
+}
+
+function CardShell({
+  project,
+  className,
+  children,
+}: {
+  project: Project;
+  className?: string;
+  children: ReactNode;
+}) {
+  if (project.comingSoon) {
+    return (
+      <div
+        aria-label={`${project.title} — launching soon`}
+        className={className}
+      >
+        {children}
+      </div>
+    );
+  }
+  const href = project.externalUrl ?? `/work/${project.slug}`;
+  return (
+    <Link
+      href={href}
+      target={project.externalUrl ? "_blank" : undefined}
+      rel={project.externalUrl ? "noreferrer" : undefined}
+      aria-label={
+        project.externalUrl
+          ? `Visit live site: ${project.title} (opens in new tab)`
+          : `Open case study: ${project.title}`
+      }
+      className={className}
+    >
+      {children}
+    </Link>
   );
 }
 
