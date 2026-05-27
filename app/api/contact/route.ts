@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
+import {
+  generateContactReply,
+  type ContactReply,
+} from "@/lib/ai/contact-reply";
 
 const CONTACT_TO = process.env.CONTACT_EMAIL_TO ?? "info@itaiwebsolutions.com";
 const CONTACT_FROM =
@@ -16,22 +20,65 @@ function escapeHtml(input: string): string {
     .replace(/'/g, "&#039;");
 }
 
-function buildEmailHtml(args: {
+function nl2br(input: string): string {
+  return escapeHtml(input).replace(/\n/g, "<br/>");
+}
+
+function urgencyColor(urgency: ContactReply["urgency"]): string {
+  if (urgency === "High") return "#b91c1c";
+  if (urgency === "Low") return "#15803d";
+  return "#1e3a8a";
+}
+
+type EmailArgs = {
   name: string;
   email: string;
   topic: string;
   message: string;
-}) {
-  const { name, email, topic, message } = args;
+  ai: ContactReply | null;
+};
+
+function buildEmailHtml(a: EmailArgs) {
+  const { name, email, topic, message, ai } = a;
+  const aiBlock = ai
+    ? `
+      <div style="padding:24px 32px;background:#f6f7f9;border-top:1px solid #e5e5e5;">
+        <p style="margin:0 0 14px;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:#6b7280;">AI assist</p>
+        <table role="presentation" style="width:100%;border-collapse:collapse;">
+          <tr>
+            <td style="padding:6px 0;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#6b7280;width:110px;vertical-align:top;">Summary</td>
+            <td style="padding:6px 0;font-size:14px;color:#0a0a0a;vertical-align:top;">${escapeHtml(ai.summary)}</td>
+          </tr>
+          <tr>
+            <td style="padding:6px 0;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#6b7280;vertical-align:top;">Lead type</td>
+            <td style="padding:6px 0;font-size:14px;color:#0a0a0a;vertical-align:top;">${escapeHtml(ai.leadType)}</td>
+          </tr>
+          <tr>
+            <td style="padding:6px 0;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#6b7280;vertical-align:top;">Urgency</td>
+            <td style="padding:6px 0;font-size:14px;color:${urgencyColor(ai.urgency)};font-weight:600;vertical-align:top;">${escapeHtml(ai.urgency)}</td>
+          </tr>
+        </table>
+      </div>
+      ${
+        ai.reply
+          ? `<div style="padding:24px 32px 28px;border-top:1px solid #e5e5e5;background:#ffffff;">
+              <p style="margin:0 0 12px;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:#6b7280;">Suggested reply · ready to send</p>
+              <div style="margin:0;padding:16px 18px;background:#fafafa;border:1px solid #e5e5e5;border-radius:10px;font-size:15px;line-height:1.7;color:#0a0a0a;white-space:pre-wrap;">${nl2br(ai.reply)}</div>
+              <p style="margin:12px 0 0;font-size:11px;color:#9ca3af;">Reply directly to this email — your reply will go to ${escapeHtml(name)}.</p>
+            </div>`
+          : ""
+      }`
+    : "";
+
   return `<!DOCTYPE html>
 <html lang="en">
   <body style="margin:0;padding:32px;background:#fafafa;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;color:#0a0a0a;">
-    <div style="max-width:600px;margin:0 auto;background:#ffffff;border:1px solid #e5e5e5;border-radius:16px;overflow:hidden;">
+    <div style="max-width:640px;margin:0 auto;background:#ffffff;border:1px solid #e5e5e5;border-radius:16px;overflow:hidden;">
       <div style="padding:28px 32px;border-bottom:1px solid #e5e5e5;">
         <p style="margin:0;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:#6b7280;">New inquiry · itaiwebsolutions.com</p>
         <h1 style="margin:8px 0 0;font-size:22px;font-weight:600;letter-spacing:-0.01em;color:#0a0a0a;">${escapeHtml(name)}</h1>
       </div>
-      <table role="presentation" style="width:100%;border-collapse:collapse;padding:8px 32px;">
+      <table role="presentation" style="width:100%;border-collapse:collapse;">
         <tr>
           <td style="padding:18px 32px 8px;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#6b7280;width:120px;vertical-align:top;">Email</td>
           <td style="padding:18px 32px 8px;font-size:15px;color:#0a0a0a;vertical-align:top;">
@@ -51,20 +98,16 @@ function buildEmailHtml(args: {
         <p style="margin:0 0 12px;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#6b7280;">Message</p>
         <p style="margin:0;font-size:16px;line-height:1.7;color:#0a0a0a;white-space:pre-wrap;">${escapeHtml(message)}</p>
       </div>
+      ${aiBlock}
     </div>
-    <p style="max-width:600px;margin:16px auto 0;font-size:11px;color:#9ca3af;text-align:center;">Reply directly to this email to respond to ${escapeHtml(name)}.</p>
+    <p style="max-width:640px;margin:16px auto 0;font-size:11px;color:#9ca3af;text-align:center;">Reply directly to this email to respond to ${escapeHtml(name)}.</p>
   </body>
 </html>`;
 }
 
-function buildEmailText(args: {
-  name: string;
-  email: string;
-  topic: string;
-  message: string;
-}) {
-  const { name, email, topic, message } = args;
-  return [
+function buildEmailText(a: EmailArgs): string {
+  const { name, email, topic, message, ai } = a;
+  const lines: Array<string | null> = [
     "NEW INQUIRY",
     "",
     `Name:    ${name}`,
@@ -73,12 +116,28 @@ function buildEmailText(args: {
     "",
     "Message:",
     message,
+  ];
+
+  if (ai) {
+    lines.push(
+      "",
+      "— AI ASSIST —",
+      `Summary:   ${ai.summary}`,
+      `Lead type: ${ai.leadType}`,
+      `Urgency:   ${ai.urgency}`,
+    );
+    if (ai.reply) {
+      lines.push("", "Suggested reply (ready to send):", "", ai.reply);
+    }
+  }
+
+  lines.push(
     "",
     "—",
-    "Reply directly to this email to respond.",
-  ]
-    .filter(Boolean)
-    .join("\n");
+    `Reply directly to this email to respond to ${name}.`,
+  );
+
+  return lines.filter((l): l is string => l !== null).join("\n");
 }
 
 export async function POST(req: Request) {
@@ -141,6 +200,23 @@ export async function POST(req: Request) {
     );
   }
 
+  // Generate AI reply, but never let it block the inquiry email.
+  // generateContactReply is non-throwing — any failure returns FALLBACK,
+  // and we belt-and-suspenders it with try/catch here too.
+  let ai: ContactReply | null = null;
+  try {
+    const result = await generateContactReply({
+      name: safeName,
+      email: safeEmail,
+      topic: safeTopic,
+      message: safeMessage,
+    });
+    if (result.reply || result.summary) ai = result;
+  } catch (err) {
+    console.error("[contact] Unexpected AI error", err);
+    ai = null;
+  }
+
   const resend = new Resend(apiKey);
 
   const subject = safeTopic
@@ -158,12 +234,14 @@ export async function POST(req: Request) {
         email: safeEmail,
         topic: safeTopic,
         message: safeMessage,
+        ai,
       }),
       text: buildEmailText({
         name: safeName,
         email: safeEmail,
         topic: safeTopic,
         message: safeMessage,
+        ai,
       }),
     });
 
