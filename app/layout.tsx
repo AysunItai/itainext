@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import WhatsAppButton from "@/components/WhatsAppButton";
 import {
   jsonLdScriptProps,
   organizationLd,
@@ -114,6 +115,7 @@ export default function RootLayout({
         <Header />
         {children}
         <Footer />
+        <WhatsAppButton />
         <script {...jsonLdScriptProps(organizationLd())} />
         <script {...jsonLdScriptProps(websiteLd())} />
       </body>
