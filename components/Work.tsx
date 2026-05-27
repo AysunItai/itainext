@@ -48,16 +48,17 @@ const PROJECTS: Project[] = [
     externalUrl: "https://www.isoon.io/",
   },
   {
-    slug: "booking-client-acquisition-flow",
+    slug: "clinic-booking-site",
     number: "02",
-    title: "Booking and client acquisition flow",
+    title: "Clinic site with online booking",
     summary:
-      "A polished journey from first visit to scheduled consultation, combining website, forms, calendar logic, and follow-up automation.",
-    tags: ["Website", "Booking", "Forms", "CRM"],
+      "A website pattern for clinics and small service businesses — clear service pages, multi-location support, and online appointment booking wired into every touchpoint that matters.",
+    tags: ["Healthcare", "Website", "Online booking", "Local business"],
     status: "Completed",
     category: "completed",
-    year: 2025,
-    cover: "/work/booking-flow.jpg",
+    year: 2026,
+    cover: "/work/drsoldea.png",
+    externalUrl: "https://gynecologuelyon.fr/",
   },
   {
     slug: "custom-business-systems",
