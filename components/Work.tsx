@@ -103,17 +103,18 @@ const PROJECTS: Project[] = [
     role: "Full-stack engineer · 2+ years",
   },
   {
-    slug: "corerevfit-smart-gym-guide",
+    slug: "uri-itai-personal-site",
     number: "06",
-    title: "CoreRevFit — AI smart gym guide",
+    title: "Uri Itai — mathematician at work",
     summary:
-      "An AI training companion for a boutique fitness brand — a smart gym guide that builds personalized programs, tracks progress, and adapts every session to the member in front of it.",
-    tags: ["AI", "Fitness", "Personalization", "Mobile"],
-    status: "Ongoing",
-    category: "ongoing",
+      "A personal site for a senior data scientist and mathematician — a live four-point interpolatory subdivision curve drawn each frame, a hover-reactive career trajectory, and a typed correspondence composer, built as a full-stack Next.js app.",
+    tags: ["Personal site", "Next.js", "Interactive", "Animation"],
+    status: "Completed",
+    category: "completed",
     year: 2026,
-    cover: "/work/corerevfit.png",
-    comingSoon: true,
+    cover: "/work/uriitai.png",
+    externalUrl: "https://www.uriitai.com/",
+    role: "Designer & full-stack engineer",
   },
 ];
 
