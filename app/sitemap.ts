@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/prisma";
+import { listPublications } from "@/lib/library";
 
 const BASE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://itaiwebsolutions.com";
@@ -40,7 +41,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "weekly",
       priority: 0.9,
     },
+    {
+      url: `${BASE_URL}/shop`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.85,
+    },
   ];
+
+  const shopRoutes: MetadataRoute.Sitemap = listPublications().map((p) => ({
+    url: `${BASE_URL}/shop/${p.slug}`,
+    lastModified: new Date(p.publishedAt),
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
 
   let postRoutes: MetadataRoute.Sitemap = [];
   try {
@@ -60,5 +74,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // valid sitemap with the static routes — better than failing the build.
   }
 
-  return [...staticRoutes, ...postRoutes];
+  return [...staticRoutes, ...shopRoutes, ...postRoutes];
 }
