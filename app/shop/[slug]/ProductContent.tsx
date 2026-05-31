@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import BookCover from "@/components/library/BookCover";
+import ShareBar from "@/components/library/ShareBar";
 import { formatPrice, type Publication } from "@/lib/library";
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
@@ -160,6 +161,15 @@ export default function ProductContent({
                 No signup. No email gate. If it&apos;s useful, send it to a
                 teammate.
               </motion.p>
+
+              <motion.div {...fade(0.52)} className="mt-8">
+                <ShareBar
+                  path={`/shop/${pub.slug}`}
+                  title={`${pub.title} — ${pub.subtitle}`}
+                  text={`Free read: ${pub.title}. ${pub.tagline}`}
+                  eyebrow="Share this volume"
+                />
+              </motion.div>
             </div>
 
             <motion.div
@@ -418,6 +428,16 @@ export default function ProductContent({
                     strokeWidth={2}
                   />
                 </Link>
+              </div>
+
+              <div className="mt-10 border-t border-paper/10 pt-8">
+                <ShareBar
+                  variant="dark"
+                  path={`/shop/${pub.slug}`}
+                  title={`${pub.title} — ${pub.subtitle}`}
+                  text={`Free read: ${pub.title}. ${pub.tagline}`}
+                  eyebrow="Pass it along"
+                />
               </div>
             </div>
           </motion.div>
