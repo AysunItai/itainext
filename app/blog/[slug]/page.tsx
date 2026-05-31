@@ -148,6 +148,7 @@ export default async function BlogPostPage({
             eyebrow="Liked this?"
             heading="Get the next essay in your inbox."
             description="One thoughtful note when something new is published. No threads, no promotions, no follow-ups."
+            source={`blog:${post.slug}`}
           />
         </div>
       </article>

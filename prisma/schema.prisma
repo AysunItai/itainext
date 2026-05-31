@@ -37,6 +37,11 @@ model Subscriber {
   createdAt       DateTime  @default(now())
   confirmedAt     DateTime?
   unsubscribedAt  DateTime?
+  /// First-touch acquisition channel. Free-form short string, e.g. "blog",
+  /// "blog:slow-sql", "shop", "shop:sql-performance-masterclass". Set on the
+  /// very first sign-up and never overwritten on subsequent re-engagement.
+  source          String?
 
   @@index([confirmed, unsubscribedAt])
+  @@index([source])
 }

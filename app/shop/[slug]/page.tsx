@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getPublication, listPublications } from "@/lib/library";
+import { prisma } from "@/lib/prisma";
 import ProductContent from "./ProductContent";
+
+export const revalidate = 600;
 
 type Params = { slug: string };
 
@@ -39,6 +42,16 @@ export async function generateMetadata({
   };
 }
 
+async function getConfirmedSubscriberCount(): Promise<number | undefined> {
+  try {
+    return await prisma.subscriber.count({
+      where: { confirmed: true, unsubscribedAt: null },
+    });
+  } catch {
+    return undefined;
+  }
+}
+
 export default async function PublicationPage({
   params,
 }: {
@@ -50,6 +63,13 @@ export default async function PublicationPage({
 
   const all = listPublications();
   const others = all.filter((p) => p.slug !== pub.slug).slice(0, 3);
+  const subscriberCount = await getConfirmedSubscriberCount();
 
-  return <ProductContent pub={pub} others={others} />;
+  return (
+    <ProductContent
+      pub={pub}
+      others={others}
+      subscriberCount={subscriberCount}
+    />
+  );
 }

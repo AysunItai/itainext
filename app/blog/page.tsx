@@ -88,6 +88,7 @@ export default async function BlogIndexPage() {
                 count={subscriberCount}
                 eyebrow="Stay in the loop"
                 heading="One note when something new lands."
+                source="blog"
               />
             </div>
           </>
@@ -158,6 +159,7 @@ function EmptyState({ subscriberCount }: { subscriberCount: number }) {
           count={subscriberCount}
           eyebrow="Be the first to read"
           heading="Get notes in your inbox."
+          source="blog:empty"
         />
       </div>
     </div>

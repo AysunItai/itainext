@@ -20,6 +20,20 @@ export default async function SubscribersPage() {
   ).length;
   const unsubscribed = subs.filter((s) => s.unsubscribedAt).length;
 
+  // Group active subscribers by their first-touch acquisition channel.
+  // We bucket on the prefix before the first colon ("blog:slow-sql" → "blog")
+  // so the picture stays legible as the catalog grows.
+  const sourceBuckets = new Map<string, number>();
+  for (const s of subs) {
+    if (s.unsubscribedAt) continue;
+    const key = (s.source ?? "unknown").split(":")[0] || "unknown";
+    sourceBuckets.set(key, (sourceBuckets.get(key) ?? 0) + 1);
+  }
+  const sortedSources = Array.from(sourceBuckets.entries()).sort(
+    (a, b) => b[1] - a[1],
+  );
+  const activeTotal = subs.filter((s) => !s.unsubscribedAt).length;
+
   return (
     <>
       <AdminNav />
@@ -48,6 +62,49 @@ export default async function SubscribersPage() {
           ) : null}
         </header>
 
+        {sortedSources.length > 0 && activeTotal > 0 ? (
+          <section
+            aria-label="Acquisition by source"
+            className="mb-8 rounded-3xl border border-ink/10 bg-paper p-6 sm:p-7"
+          >
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink/45">
+              Where they came from · first touch
+            </p>
+            <ul className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {sortedSources.map(([key, n]) => {
+                const pct = Math.round((n / activeTotal) * 100);
+                return (
+                  <li
+                    key={key}
+                    className="rounded-2xl border border-ink/10 bg-paper-soft px-4 py-3"
+                  >
+                    <div className="flex items-baseline justify-between gap-3">
+                      <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink/55">
+                        {key}
+                      </span>
+                      <span className="font-mono text-[11px] text-ink/40">
+                        {pct}%
+                      </span>
+                    </div>
+                    <div className="mt-1 text-2xl font-semibold tracking-tight text-ink">
+                      {n}
+                    </div>
+                    <div
+                      aria-hidden
+                      className="mt-2 h-1 w-full overflow-hidden rounded-full bg-ink/5"
+                    >
+                      <div
+                        className="h-full rounded-full bg-accent/70"
+                        style={{ width: `${pct}%` }}
+                      />
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+        ) : null}
+
         {subs.length === 0 ? (
           <EmptyState />
         ) : (
@@ -71,6 +128,7 @@ export default async function SubscribersPage() {
                         {sub.email}
                       </span>
                       <StatusPill status={status} />
+                      {sub.source ? <SourcePill source={sub.source} /> : null}
                     </div>
                     <p className="mt-1 text-xs text-ink/55">
                       Joined {formatDate(sub.createdAt)}
@@ -96,6 +154,20 @@ export default async function SubscribersPage() {
         )}
       </main>
     </>
+  );
+}
+
+function SourcePill({ source }: { source: string }) {
+  return (
+    <span
+      className="inline-flex items-center gap-1.5 rounded-full bg-ink/[0.05] px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-ink/55"
+      title={`First touch: ${source}`}
+    >
+      <span aria-hidden className="text-ink/30">
+        ↳
+      </span>
+      {source}
+    </span>
   );
 }
 

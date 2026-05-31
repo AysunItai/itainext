@@ -8,6 +8,7 @@ import {
   ChevronLeft,
 } from "lucide-react";
 import Link from "next/link";
+import SubscribeForm from "@/components/blog/SubscribeForm";
 import BookCover from "@/components/library/BookCover";
 import ShareBar from "@/components/library/ShareBar";
 import { formatPrice, type Publication } from "@/lib/library";
@@ -17,9 +18,11 @@ const easeOut = [0.22, 1, 0.36, 1] as const;
 export default function ProductContent({
   pub,
   others,
+  subscriberCount,
 }: {
   pub: Publication;
   others: Publication[];
+  subscriberCount?: number;
 }) {
   const reduce = useReducedMotion();
 
@@ -366,6 +369,40 @@ export default function ProductContent({
               </motion.li>
             ))}
           </ul>
+        </div>
+      </section>
+
+      {/* ──────────────── Subscribe strip ──────────────── */}
+      <section
+        aria-label="Subscribe for new releases"
+        className="relative border-t border-line px-5 py-24 sm:px-8 sm:py-32"
+      >
+        <div className="mx-auto grid max-w-5xl grid-cols-1 gap-10 md:grid-cols-12 md:gap-16">
+          <motion.div {...reveal(0)} className="md:col-span-5">
+            <p className="font-mono text-xs uppercase tracking-[0.32em] text-muted">
+              Stay close
+            </p>
+            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-4xl">
+              The next volume,{" "}
+              <span className="text-muted">in your inbox.</span>
+            </h2>
+            <p className="mt-5 max-w-md text-pretty text-base leading-7 text-muted">
+              One short email when a new ebook ships — or when something on the
+              blog is worth your time. No threads, no promotions, no
+              follow-ups.
+            </p>
+          </motion.div>
+
+          <motion.div
+            {...reveal(0.12)}
+            className="md:col-span-7 md:col-start-6 md:self-center"
+          >
+            <SubscribeForm
+              variant="inline"
+              count={subscriberCount}
+              source={`shop:${pub.slug}`}
+            />
+          </motion.div>
         </div>
       </section>
 

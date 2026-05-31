@@ -1,6 +1,11 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { EMAIL_RE, newToken, normalizeEmail } from "@/lib/subscribers";
+import {
+  EMAIL_RE,
+  newToken,
+  normalizeEmail,
+  normalizeSource,
+} from "@/lib/subscribers";
 import { sendConfirmationEmail, SITE_URL } from "@/lib/email";
 
 export async function POST(request: Request) {
@@ -25,6 +30,11 @@ export async function POST(request: Request) {
     );
   }
 
+  // First-touch attribution: store the source on first sign-up and on
+  // re-engagement of dead rows — but never overwrite a source that's
+  // already set. This keeps the acquisition channel honest.
+  const source = normalizeSource(body.source);
+
   // Always respond identically whether or not the address already exists,
   // so the form can't be used to enumerate subscribers.
   // Behavior:
@@ -42,6 +52,7 @@ export async function POST(request: Request) {
           email,
           confirmToken: newToken(),
           unsubToken: newToken(),
+          source,
         },
       });
       await trySendConfirmation(sub.email, sub.confirmToken);
@@ -54,13 +65,18 @@ export async function POST(request: Request) {
           unsubscribedAt: null,
           confirmToken: newToken(),
           unsubToken: newToken(),
+          // Only backfill source if we never captured one originally.
+          ...(existing.source ? {} : { source }),
         },
       });
       await trySendConfirmation(updated.email, updated.confirmToken);
     } else if (!existing.confirmed) {
       const updated = await prisma.subscriber.update({
         where: { id: existing.id },
-        data: { confirmToken: newToken() },
+        data: {
+          confirmToken: newToken(),
+          ...(existing.source ? {} : { source }),
+        },
       });
       await trySendConfirmation(updated.email, updated.confirmToken);
     }

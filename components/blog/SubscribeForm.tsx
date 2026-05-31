@@ -11,6 +11,12 @@ type Props = {
   eyebrow?: string;
   heading?: string;
   description?: string;
+  /**
+   * First-touch acquisition tag stored with the subscriber.
+   * Short, free-form, e.g. "blog", "blog:slow-sql", "shop",
+   * "shop:sql-performance-masterclass". Normalised server-side.
+   */
+  source?: string;
 };
 
 export default function SubscribeForm({
@@ -19,6 +25,7 @@ export default function SubscribeForm({
   eyebrow,
   heading,
   description,
+  source,
 }: Props) {
   const reduce = useReducedMotion();
   const [email, setEmail] = useState("");
@@ -42,7 +49,7 @@ export default function SubscribeForm({
       const response = await fetch("/api/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, website }),
+        body: JSON.stringify({ email, website, source }),
       });
       if (!response.ok) {
         const data = await response.json().catch(() => ({}));

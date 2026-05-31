@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { listPublications } from "@/lib/library";
+import { prisma } from "@/lib/prisma";
 import ShopContent from "./ShopContent";
 
 export const metadata: Metadata = {
@@ -16,7 +17,28 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ShopPage() {
+// Re-fetch subscriber count at most every 10 minutes — it's a vanity number,
+// not a real-time metric. Page stays fast and mostly static.
+export const revalidate = 600;
+
+async function getConfirmedSubscriberCount(): Promise<number | undefined> {
+  try {
+    return await prisma.subscriber.count({
+      where: { confirmed: true, unsubscribedAt: null },
+    });
+  } catch {
+    // DB unavailable at build/request time → just hide the count.
+    return undefined;
+  }
+}
+
+export default async function ShopPage() {
   const publications = listPublications();
-  return <ShopContent publications={publications} />;
+  const subscriberCount = await getConfirmedSubscriberCount();
+  return (
+    <ShopContent
+      publications={publications}
+      subscriberCount={subscriberCount}
+    />
+  );
 }

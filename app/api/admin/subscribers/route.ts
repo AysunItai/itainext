@@ -20,9 +20,14 @@ export async function GET(request: Request) {
       orderBy: { createdAt: "desc" },
     });
     const rows = [
-      ["email", "confirmed", "unsubscribed", "createdAt", "confirmedAt"].join(
-        ",",
-      ),
+      [
+        "email",
+        "confirmed",
+        "unsubscribed",
+        "createdAt",
+        "confirmedAt",
+        "source",
+      ].join(","),
       ...subs.map((s) =>
         [
           quoteCsv(s.email),
@@ -30,6 +35,7 @@ export async function GET(request: Request) {
           s.unsubscribedAt ? s.unsubscribedAt.toISOString() : "",
           s.createdAt.toISOString(),
           s.confirmedAt ? s.confirmedAt.toISOString() : "",
+          quoteCsv(s.source ?? ""),
         ].join(","),
       ),
     ];
@@ -53,6 +59,7 @@ export async function GET(request: Request) {
       createdAt: true,
       confirmedAt: true,
       unsubscribedAt: true,
+      source: true,
     },
   });
   return NextResponse.json({ subscribers: subs });

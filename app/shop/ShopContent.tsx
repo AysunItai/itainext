@@ -3,6 +3,7 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
+import SubscribeForm from "@/components/blog/SubscribeForm";
 import BookCover from "@/components/library/BookCover";
 import { formatPrice, type Publication } from "@/lib/library";
 
@@ -10,8 +11,10 @@ const easeOut = [0.22, 1, 0.36, 1] as const;
 
 export default function ShopContent({
   publications,
+  subscriberCount,
 }: {
   publications: Publication[];
+  subscriberCount?: number;
 }) {
   const reduce = useReducedMotion();
 
@@ -268,9 +271,9 @@ export default function ShopContent({
         </div>
       </section>
 
-      {/* ──────────────── Notify strip ──────────────── */}
+      {/* ──────────────── Subscribe strip ──────────────── */}
       <section
-        aria-label="Stay in the loop"
+        aria-label="Subscribe for new releases"
         className="relative border-t border-line px-5 py-24 sm:px-8 sm:py-32"
       >
         <div className="mx-auto max-w-3xl text-center">
@@ -284,37 +287,41 @@ export default function ShopContent({
             {...reveal(0.08)}
             className="mt-5 text-balance text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-5xl"
           >
-            Want the next one when it drops?
+            First dibs on the next one.
           </motion.h2>
           <motion.p
             {...reveal(0.16)}
             className="mt-5 text-pretty text-base leading-7 text-muted sm:text-lg"
           >
-            One thoughtful email when something new is published. No threads,
-            no promotions, no follow-ups.
+            I&apos;ll send one short email when a new ebook lands in the shop —
+            or when something on the blog is worth reading. That&apos;s it. No
+            threads, no promotions, no follow-ups.
           </motion.p>
+
           <motion.div
             {...reveal(0.24)}
-            className="mt-8 flex flex-wrap items-center justify-center gap-3"
+            className="mx-auto mt-10 max-w-md text-left"
           >
+            <SubscribeForm
+              variant="inline"
+              count={subscriberCount}
+              source="shop"
+            />
+          </motion.div>
+
+          <motion.p
+            {...reveal(0.34)}
+            className="mt-6 text-[12px] text-muted"
+          >
+            Prefer to browse first?{" "}
             <Link
               href="/blog"
-              className="group inline-flex items-center justify-center gap-2 rounded-full bg-ink px-6 py-3.5 text-sm font-medium text-paper shadow-soft transition-all hover:-translate-y-0.5 hover:bg-ink-soft hover:shadow-lifted"
+              className="text-ink underline decoration-line underline-offset-4 transition-colors hover:decoration-ink"
             >
               Read recent notes
-              <ArrowUpRight
-                aria-hidden
-                className="h-4 w-4 transition-transform group-hover:-translate-y-px group-hover:translate-x-px"
-                strokeWidth={2}
-              />
             </Link>
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center rounded-full border border-line bg-paper px-6 py-3.5 text-sm font-medium text-ink transition-colors hover:bg-mist"
-            >
-              Pitch a topic
-            </Link>
-          </motion.div>
+            .
+          </motion.p>
         </div>
       </section>
     </main>
