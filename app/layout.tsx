@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Script from "next/script";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import WhatsAppButton from "@/components/WhatsAppButton";
@@ -9,6 +10,8 @@ import {
   websiteLd,
 } from "@/lib/structured-data";
 import "./globals.css";
+
+const GA_MEASUREMENT_ID = "G-1J9D2QTNE6";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -118,6 +121,19 @@ export default function RootLayout({
         <WhatsAppButton />
         <script {...jsonLdScriptProps(organizationLd())} />
         <script {...jsonLdScriptProps(websiteLd())} />
+
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="ga4-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_MEASUREMENT_ID}');
+          `}
+        </Script>
       </body>
     </html>
   );
