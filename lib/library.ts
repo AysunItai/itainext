@@ -85,7 +85,7 @@ export const PUBLICATIONS: Publication[] = [
     tagline:
       "Field-tested EXPLAIN, index, join, pagination, and aggregation patterns for PostgreSQL and MySQL.",
     description:
-      "A 50-page field manual that condenses years of production database work into a tight, opinionated playbook. Read it cover to cover in an afternoon — keep it on your second monitor every time you touch a query plan.",
+      "Fifty pages, pulled from years of staring at slow queries in production. It's tight, opinionated, and written to be read in a single afternoon — then kept open on a second monitor every time you touch a query plan.",
     author: "Aysun Itai",
     edition: "2026 Edition",
     pages: 50,

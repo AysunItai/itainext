@@ -71,9 +71,9 @@ export default function ShopContent({
             {...fade(0.18)}
             className="max-w-2xl text-pretty text-lg leading-8 text-muted sm:text-xl"
           >
-            A small, deliberate library of practical ebooks for engineering
-            teams. Written from production work. Designed to live on your
-            second monitor — not on a shelf.
+            A small, slowly-growing library of practical ebooks. Each one
+            written from real production work — the kind you keep open in a
+            second tab, not on a shelf.
           </motion.p>
 
           <motion.div
@@ -224,16 +224,16 @@ export default function ShopContent({
                 className="mt-4 text-balance text-4xl font-semibold tracking-[-0.035em] text-ink sm:text-5xl"
               >
                 Every title.{" "}
-                <span className="text-muted">Curated, not mass-produced.</span>
+                <span className="text-muted">Slowly written, fast to read.</span>
               </h2>
             </motion.div>
             <motion.p
               {...reveal(0.1)}
               className="md:col-span-6 md:col-start-7 max-w-2xl text-pretty text-lg leading-8 text-muted sm:text-xl"
             >
-              We publish slowly. Each title is the document we wished existed
-              when we were learning the topic the hard way — short, opinionated,
-              and ready to be read in a sitting.
+              I publish slowly. Each one is the book I wish I&apos;d had open
+              in a second tab when I was learning the topic the hard way —
+              short, opinionated, and meant to be read in a single sitting.
             </motion.p>
           </div>
 
@@ -430,7 +430,7 @@ function ComingSoonCard({
           {title}
         </h3>
         <p className="mt-2 text-sm leading-6 text-muted line-clamp-2">
-          A working title — we&apos;re drafting it now.
+          Working title — I&apos;m writing it now.
         </p>
 
         <div className="mt-6 flex items-center justify-between border-t border-line pt-4 font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
