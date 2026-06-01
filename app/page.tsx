@@ -20,10 +20,10 @@ export default function Home() {
   return (
     <main id="main" className="flex flex-col">
       <Hero />
+      <LibraryTeaser />
       <Work />
       <Services />
       <Showcase />
-      <LibraryTeaser />
       <About />
       <Process />
       <Pricing />
