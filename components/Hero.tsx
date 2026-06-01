@@ -24,15 +24,43 @@ export default function Hero() {
       <AnimatedBackground reduce={!!reduce} />
 
       <div className="relative z-10 mx-auto w-full max-w-5xl text-center">
+        <motion.div {...fade(0)} className="mb-8 flex justify-center">
+          <Link
+            href="/shop/sql-performance-masterclass"
+            aria-label="Free this season — SQL Performance Masterclass"
+            className="group inline-flex max-w-full items-center gap-2.5 rounded-full border border-line bg-paper/70 px-3.5 py-1.5 text-[12px] backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-ink/25 hover:bg-paper hover:shadow-soft focus-visible:outline-none"
+          >
+            <span aria-hidden className="relative flex h-2 w-2 flex-none">
+              <span className="absolute inset-0 animate-ping rounded-full bg-accent/70 opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+            </span>
+            <span className="font-mono uppercase tracking-[0.2em] text-ink/55">
+              Vol. 01
+            </span>
+            <span aria-hidden className="h-3 w-px flex-none bg-line" />
+            <span className="truncate text-ink/85">
+              <span className="sm:hidden">A free SQL ebook</span>
+              <span className="hidden sm:inline">
+                A free SQL Performance ebook
+              </span>
+            </span>
+            <ArrowUpRight
+              aria-hidden
+              className="h-3.5 w-3.5 flex-none text-ink/50 transition-transform group-hover:-translate-y-px group-hover:translate-x-px"
+              strokeWidth={2}
+            />
+          </Link>
+        </motion.div>
+
         <motion.p
-          {...fade(0)}
+          {...fade(0.06)}
           className="mb-7 text-xs font-medium uppercase tracking-[0.36em] text-muted"
         >
           ITAI WEB SOLUTIONS
         </motion.p>
 
         <motion.h1
-          {...fade(0.06)}
+          {...fade(0.12)}
           id="hero-title"
           className="text-balance text-[clamp(3rem,7.4vw,6.4rem)] font-semibold leading-[0.98] tracking-[-0.045em] text-ink"
         >
@@ -56,7 +84,7 @@ export default function Hero() {
         </motion.h1>
 
         <motion.p
-          {...fade(0.16)}
+          {...fade(0.22)}
           className="mx-auto mt-7 max-w-2xl text-pretty text-lg leading-8 text-muted sm:text-xl"
         >
           Custom websites, AI automation, booking systems, dashboards, and
@@ -64,7 +92,7 @@ export default function Hero() {
         </motion.p>
 
         <motion.div
-          {...fade(0.26)}
+          {...fade(0.32)}
           className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4"
         >
           <Link
@@ -87,7 +115,7 @@ export default function Hero() {
         </motion.div>
 
         <motion.div
-          {...fade(0.42)}
+          {...fade(0.48)}
           className="mt-14 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-xs uppercase tracking-[0.2em] text-muted"
         >
           <span>Next.js</span>
