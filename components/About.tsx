@@ -135,7 +135,17 @@ export default function About() {
                     sizes="(min-width: 1024px) 500px, (min-width: 640px) 448px, 90vw"
                     quality={80}
                     onError={() => setImageOk(false)}
-                    className="object-cover transition-transform duration-[700ms] ease-out group-hover:scale-[1.04]"
+                    // Source is roughly square (1152×1155); the card is 4:5,
+                    // so `object-cover` shaves ~12.5% off each horizontal
+                    // edge at the default `center` position. Aysun's face
+                    // sits ~44% from the left of the source, so shifting
+                    // `object-position-x` to 45% nudges her face just
+                    // right-of-center in the card while keeping the
+                    // cathedral spire visible on the left — best balance.
+                    // (Vertical position is a no-op here because there's
+                    // no vertical crop, but `50%` keeps the rule readable
+                    // if the source aspect ever changes.)
+                    className="object-cover object-[45%_50%] transition-transform duration-[700ms] ease-out group-hover:scale-[1.04]"
                   />
                 ) : (
                   <PortraitPlaceholder />
