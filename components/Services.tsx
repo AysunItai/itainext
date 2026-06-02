@@ -70,7 +70,7 @@ export default function Services() {
     <section
       id="services"
       aria-labelledby="services-title"
-      className="relative scroll-mt-24 px-5 py-24 sm:px-8 sm:py-32"
+      className="relative scroll-mt-24 px-5 py-16 sm:px-8 sm:py-28"
     >
       <div className="mx-auto max-w-7xl">
         <header className="mx-auto max-w-2xl text-center">

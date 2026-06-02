@@ -3,6 +3,7 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
+import { trackBookConsultationClick } from "@/lib/analytics";
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
 
@@ -19,12 +20,12 @@ export default function Hero() {
     <section
       id="top"
       aria-labelledby="hero-title"
-      className="relative isolate flex min-h-[100svh] items-center justify-center overflow-hidden px-5 pt-24 pb-20 sm:px-8"
+      className="relative isolate flex min-h-[100svh] items-center justify-center overflow-hidden px-5 pt-20 pb-14 sm:px-8 sm:pt-24 sm:pb-20"
     >
       <AnimatedBackground reduce={!!reduce} />
 
       <div className="relative z-10 mx-auto w-full max-w-5xl text-center">
-        <motion.div {...fade(0)} className="mb-8 flex justify-center">
+        <motion.div {...fade(0)} className="mb-6 flex justify-center sm:mb-8">
           <Link
             href="/shop/sql-performance-masterclass"
             aria-label="Free this season — SQL Performance Masterclass"
@@ -54,7 +55,7 @@ export default function Hero() {
 
         <motion.p
           {...fade(0.06)}
-          className="mb-7 text-xs font-medium uppercase tracking-[0.36em] text-muted"
+          className="mb-5 text-xs font-medium uppercase tracking-[0.36em] text-muted sm:mb-7"
         >
           ITAI WEB SOLUTIONS
         </motion.p>
@@ -85,7 +86,7 @@ export default function Hero() {
 
         <motion.p
           {...fade(0.22)}
-          className="mx-auto mt-7 max-w-2xl text-pretty text-lg leading-8 text-muted sm:text-xl"
+          className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-7 text-muted sm:mt-7 sm:text-xl sm:leading-8"
         >
           Custom websites, AI automation, booking systems, dashboards, and
           scalable web infrastructure for growing businesses.
@@ -93,13 +94,16 @@ export default function Hero() {
 
         <motion.div
           {...fade(0.32)}
-          className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4"
+          className="mt-8 flex flex-col items-center justify-center gap-3 sm:mt-10 sm:flex-row sm:gap-4"
         >
           <Link
-            href="/contact"
-            className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-ink px-7 py-3.5 text-sm font-medium text-paper shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:bg-ink-soft hover:shadow-lifted sm:w-auto"
+            href="/book"
+            onClick={() =>
+              trackBookConsultationClick({ button_location: "hero" })
+            }
+            className="group inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-full bg-ink px-7 py-3.5 text-sm font-medium text-paper shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:bg-ink-soft hover:shadow-lifted sm:w-auto"
           >
-            Start a project
+            Book a Free 15-Minute Consultation
             <ArrowUpRight
               aria-hidden
               className="h-4 w-4 transition-transform group-hover:-translate-y-px group-hover:translate-x-px"
@@ -108,15 +112,25 @@ export default function Hero() {
 
           <Link
             href="#work"
-            className="inline-flex w-full items-center justify-center rounded-full border border-line bg-paper/80 px-7 py-3.5 text-sm font-medium text-ink backdrop-blur transition-colors hover:bg-mist sm:w-auto"
+            className="inline-flex min-h-[48px] w-full items-center justify-center rounded-full border border-line bg-paper/80 px-7 py-3.5 text-sm font-medium text-ink backdrop-blur transition-colors hover:bg-mist sm:w-auto"
           >
             View work
           </Link>
         </motion.div>
 
+        <motion.p
+          {...fade(0.4)}
+          className="mx-auto mt-4 max-w-md text-pretty text-[13px] leading-6 text-muted sm:mt-5"
+        >
+          Not sure what you need? Book a free 15-minute call and we&apos;ll
+          figure it out together.
+        </motion.p>
+
+        {/* Tech badges are aspirational/decorative. Hide them on small
+            phones so the hero stays focused on the CTA. */}
         <motion.div
-          {...fade(0.48)}
-          className="mt-14 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-xs uppercase tracking-[0.2em] text-muted"
+          {...fade(0.5)}
+          className="mt-10 hidden flex-wrap items-center justify-center gap-x-8 gap-y-3 text-xs uppercase tracking-[0.2em] text-muted sm:mt-12 sm:flex"
         >
           <span>Next.js</span>
           <span className="h-1 w-1 rounded-full bg-line" />

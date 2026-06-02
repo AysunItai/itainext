@@ -29,7 +29,7 @@ export default function About() {
     <section
       id="about"
       aria-labelledby="about-title"
-      className="relative scroll-mt-24 px-5 py-24 sm:px-8 sm:py-32"
+      className="relative scroll-mt-24 px-5 py-16 sm:px-8 sm:py-28"
     >
       <div className="mx-auto max-w-7xl">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-16">

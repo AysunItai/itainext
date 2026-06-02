@@ -3,7 +3,7 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, Check, Sparkles } from "lucide-react";
 import Link from "next/link";
-import { trackEvent } from "@/lib/analytics";
+import { trackBookConsultationClick } from "@/lib/analytics";
 
 type Plan = {
   id: string;
@@ -35,7 +35,7 @@ const PLANS: Plan[] = [
       "Basic SEO setup",
       "Fast delivery — 2 to 3 weeks",
     ],
-    cta: "Book consultation",
+    cta: "Book a free 15-min call",
     href: "/book?plan=starter",
   },
   {
@@ -54,7 +54,7 @@ const PLANS: Plan[] = [
       "Blog setup",
       "Priority support",
     ],
-    cta: "Book consultation",
+    cta: "Book a free 15-min call",
     href: "/book?plan=pro",
     badge: "Most popular",
     featured: true,
@@ -74,7 +74,7 @@ const PLANS: Plan[] = [
       "AI integrations",
       "Scalable architecture",
     ],
-    cta: "Book consultation",
+    cta: "Book a free 15-min call",
     href: "/book?plan=custom",
   },
 ];
@@ -95,7 +95,7 @@ export default function Pricing() {
     <section
       id="pricing"
       aria-labelledby="pricing-title"
-      className="relative scroll-mt-24 px-5 py-24 sm:px-8 sm:py-32"
+      className="relative scroll-mt-24 px-5 py-16 sm:px-8 sm:py-28"
     >
       <div className="mx-auto max-w-7xl">
         <div className="grid grid-cols-1 gap-6 md:grid-cols-12 md:gap-12">
@@ -288,10 +288,9 @@ function PricingCard({
         href={plan.href}
         aria-label={`${plan.cta} for ${plan.name}`}
         onClick={() =>
-          trackEvent("book_consultation_click", {
-            event_category: "lead",
-            event_label: `Pricing — ${plan.name}`,
-            plan_id: plan.id,
+          trackBookConsultationClick({
+            button_location: "pricing_card",
+            plan: plan.id,
           })
         }
         className={[

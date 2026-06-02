@@ -32,7 +32,7 @@ export default function LibraryTeaser() {
     <section
       id="library"
       aria-labelledby="library-teaser-title"
-      className="relative scroll-mt-24 overflow-hidden px-5 py-24 sm:px-8 sm:py-32"
+      className="relative scroll-mt-24 overflow-hidden px-5 py-16 sm:px-8 sm:py-28"
     >
       {/* Subtle background — same vocabulary as the shop hero, dialed down */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">

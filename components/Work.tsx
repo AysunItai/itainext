@@ -140,7 +140,7 @@ export default function Work() {
     <section
       id="work"
       aria-labelledby="work-title"
-      className="relative scroll-mt-24 bg-paper px-5 py-24 sm:px-8 sm:py-32"
+      className="relative scroll-mt-24 bg-paper px-5 py-16 sm:px-8 sm:py-28"
     >
       <div className="mx-auto max-w-7xl">
         <motion.header

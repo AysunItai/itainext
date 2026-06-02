@@ -10,9 +10,9 @@ export default function OpengraphImage() {
     (
       <OgCard
         eyebrow="Book a call"
-        title="Free 20-minute consultation."
-        description="Bring your goal. Leave with a clear next step. Zoom, on a time that works for you."
-        footer="20 min · on Zoom"
+        title="Free 15-minute consultation."
+        description="Bring your goal. Leave with a clear next step. Zoom or Google Meet, on a time that works for you."
+        footer="15 min · Free · Zoom or Google Meet"
       />
     ),
     { ...size },

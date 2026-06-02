@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { trackEvent } from "@/lib/analytics";
+import { trackWhatsAppClick } from "@/lib/analytics";
 
 const PHONE = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
 const DEFAULT_MESSAGE =
@@ -19,10 +19,9 @@ export default function WhatsAppButton() {
   const href = `https://wa.me/${cleaned}?text=${encodeURIComponent(DEFAULT_MESSAGE)}`;
 
   const handleClick = () =>
-    trackEvent("whatsapp_click", {
-      event_category: "lead",
-      event_label: "Floating WhatsApp button",
-      page_path: pathname ?? undefined,
+    trackWhatsAppClick({
+      button_location: "floating_button",
+      source_page: pathname ?? undefined,
     });
 
   return (

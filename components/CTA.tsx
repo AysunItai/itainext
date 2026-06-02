@@ -12,7 +12,7 @@ export default function CTA() {
     <section
       id="contact"
       aria-labelledby="cta-title"
-      className="relative scroll-mt-24 px-5 py-24 sm:px-8 sm:py-32"
+      className="relative scroll-mt-24 px-5 py-16 sm:px-8 sm:py-28"
     >
       <motion.div
         initial={reduce ? { opacity: 0 } : { opacity: 0, y: 18 }}

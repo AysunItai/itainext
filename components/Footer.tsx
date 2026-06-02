@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { trackEvent } from "@/lib/analytics";
+import { trackBookConsultationClick, trackEvent } from "@/lib/analytics";
 
 const FOOTER_LINKS = {
   Solutions: [
@@ -126,9 +126,20 @@ function handleFooterLinkClick(label: string, href: string) {
     return;
   }
   if (href === "/book" || href.startsWith("/book?")) {
-    trackEvent("book_consultation_click", {
-      event_category: "lead",
-      event_label: "Footer — Book a call",
+    // Pull a `plan` query param out of the href if one is present, so the
+    // analytics event mirrors the URL the visitor is about to land on.
+    let plan: string | null = null;
+    const q = href.indexOf("?");
+    if (q !== -1) {
+      try {
+        plan = new URLSearchParams(href.slice(q + 1)).get("plan");
+      } catch {
+        plan = null;
+      }
+    }
+    trackBookConsultationClick({
+      button_location: "footer",
+      plan,
     });
   }
 }

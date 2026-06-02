@@ -40,7 +40,7 @@ export default function Showcase() {
     <section
       id="principles"
       aria-labelledby="showcase-title"
-      className="relative scroll-mt-24 px-5 py-24 sm:px-8 sm:py-32"
+      className="relative scroll-mt-24 px-5 py-16 sm:px-8 sm:py-28"
     >
       <div className="mx-auto max-w-7xl">
         <header className="mx-auto max-w-2xl text-center">

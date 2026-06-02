@@ -27,7 +27,7 @@ export default function Process() {
     <section
       id="process"
       aria-labelledby="process-title"
-      className="relative scroll-mt-24 bg-ink px-5 py-24 text-paper sm:px-8 sm:py-32"
+      className="relative scroll-mt-24 bg-ink px-5 py-16 text-paper sm:px-8 sm:py-28"
     >
       <div
         aria-hidden
