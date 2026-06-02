@@ -123,10 +123,17 @@ export default function About() {
 
               <div className="group relative aspect-[4/5] overflow-hidden rounded-[28px] border border-line bg-mist shadow-soft">
                 {imageOk ? (
+                  // Explicit `width`/`height` (not `fill`) so the rendered
+                  // <img> carries real HTML size attributes. The 1152x1155
+                  // dims match the source file — Next uses them for the
+                  // implicit aspect-ratio reservation, and the className
+                  // below stretches the image absolutely to fill the
+                  // surrounding `aspect-[4/5]` card.
                   <Image
                     src="/about-portrait.jpg"
                     alt="Portrait of Aysun Itai, founder of ITAI Web Solutions"
-                    fill
+                    width={1152}
+                    height={1155}
                     // Container is `max-w-md` (≤448px) on mobile/tablet and
                     // `lg:col-span-5` of a `max-w-7xl` row (~500px) on
                     // desktop. Capping at 500px keeps Next's image optimiser
@@ -145,7 +152,7 @@ export default function About() {
                     // (Vertical position is a no-op here because there's
                     // no vertical crop, but `50%` keeps the rule readable
                     // if the source aspect ever changes.)
-                    className="object-cover object-[45%_50%] transition-transform duration-[700ms] ease-out group-hover:scale-[1.04]"
+                    className="absolute inset-0 h-full w-full object-cover object-[45%_50%] transition-transform duration-[700ms] ease-out group-hover:scale-[1.04]"
                   />
                 ) : (
                   <PortraitPlaceholder />

@@ -7,7 +7,10 @@ import SubscribeStatusBanner from "@/components/blog/SubscribeStatusBanner";
 import { blogLd, jsonLdScriptProps } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
-  title: "Notes",
+  // Was "Notes · ITAI" (12 chars). Search engines need more signal —
+  // adding the topic and angle keeps the friendly section name but
+  // also tells Google what the page is about.
+  title: "Notes — Engineering & Design from a Small Studio",
   description:
     "Field notes from ITAI on engineering, design restraint, and the systems I build for ambitious teams.",
   alternates: { canonical: "/blog" },

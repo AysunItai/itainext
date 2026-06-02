@@ -45,7 +45,7 @@ const PROJECTS: Project[] = [
     status: "Completed",
     category: "ai",
     year: 2025,
-    cover: "/work/ai-automation.png",
+    cover: "/work/ai-automation.jpg",
     featured: true,
     externalUrl: "https://www.isoon.io/",
   },
@@ -59,7 +59,7 @@ const PROJECTS: Project[] = [
     status: "Completed",
     category: "completed",
     year: 2026,
-    cover: "/work/drsoldea.png",
+    cover: "/work/drsoldea.jpg",
     externalUrl: "https://www.echographielyon.fr/",
   },
   {
@@ -84,7 +84,7 @@ const PROJECTS: Project[] = [
     status: "Completed",
     category: "completed",
     year: 2026,
-    cover: "/work/grade.png",
+    cover: "/work/grade.jpg",
     externalUrl: "https://usegrade.com/",
     role: "Contract full-stack engineer",
   },
@@ -98,7 +98,7 @@ const PROJECTS: Project[] = [
     status: "Ongoing",
     category: "ongoing",
     year: 2026,
-    cover: "/work/cirweb.png",
+    cover: "/work/cirweb.jpg",
     externalUrl: "https://www.hplconsortium.com/cg",
     role: "Full-stack engineer · 2+ years",
   },
@@ -112,7 +112,7 @@ const PROJECTS: Project[] = [
     status: "Completed",
     category: "completed",
     year: 2026,
-    cover: "/work/uriitai.png",
+    cover: "/work/uriitai.jpg",
     externalUrl: "https://www.uriitai.com/",
     role: "Designer & full-stack engineer",
   },
@@ -356,10 +356,19 @@ function ProjectCard({
         }`}
       >
         {project.cover && imageOk ? (
+          // Explicit `width`/`height` (instead of `fill`) so the rendered
+          // <img> carries real size attributes — Screaming Frog flagged the
+          // fill variant as "Missing Size Attributes". The intrinsic ratio
+          // is what the source PNGs share (~16:7 / 16:10) and the absolute
+          // positioning below stretches the image to fill the aspect-ratio
+          // parent. CLS is prevented both ways, but real attributes are
+          // friendlier to scanners and to browsers that haven't applied CSS
+          // yet (the very first paint).
           <Image
             src={project.cover}
             alt={`${project.title} — case study cover`}
-            fill
+            width={1600}
+            height={isWide ? 700 : 1000}
             sizes={
               isWide
                 ? "(min-width: 1280px) 1216px, (min-width: 1024px) 90vw, 100vw"
@@ -367,7 +376,7 @@ function ProjectCard({
             }
             quality={80}
             onError={() => setImageOk(false)}
-            className="object-cover transition-transform duration-[700ms] ease-out group-hover:scale-[1.04]"
+            className="absolute inset-0 h-full w-full object-cover transition-transform duration-[700ms] ease-out group-hover:scale-[1.04]"
           />
         ) : (
           <PlaceholderCover project={project} />

@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import ContactContent from "./Content";
 
 export const metadata: Metadata = {
-  title: "Contact",
+  // Was just "Contact" (14 chars with template). Adding the action and
+  // value reduces bounce from SERPs — searchers know what to expect.
+  title: "Contact — Start a Project or Ask a Question",
   description:
     "Have a project in mind? Send a note and I'll be in touch within a day. Direct, no middlemen.",
   alternates: { canonical: "/contact" },

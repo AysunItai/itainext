@@ -16,6 +16,31 @@ export function calculateReadingTime(markdown: string): number {
   return Math.max(1, Math.round(words / 220));
 }
 
+/**
+ * Trim a plain string to a max length without breaking words.
+ *
+ * Used for SEO meta tags — Google truncates descriptions at ~155 chars
+ * and titles at ~60. Anything longer gets cut off mid-word in the SERP.
+ * This lets us cap them at the source so they never get truncated by
+ * the crawler.
+ *
+ * Returns `undefined` when the input is empty so we can spread it into
+ * `Metadata` without producing an empty string tag.
+ */
+export function truncateForMeta(
+  text: string | null | undefined,
+  maxLen: number,
+): string | undefined {
+  if (!text) return undefined;
+  const trimmed = text.trim();
+  if (trimmed.length <= maxLen) return trimmed;
+  // Cut, then walk back to the last whitespace so we don't end mid-word.
+  const slice = trimmed.slice(0, maxLen - 1);
+  const lastSpace = slice.lastIndexOf(" ");
+  const safe = lastSpace > maxLen * 0.5 ? slice.slice(0, lastSpace) : slice;
+  return `${safe}…`;
+}
+
 export function deriveExcerpt(markdown: string, maxLen = 180): string {
   const stripped = markdown
     .replace(/```[\s\S]*?```/g, " ")

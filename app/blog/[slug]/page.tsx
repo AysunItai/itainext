@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
-import { formatDate, parseTags } from "@/lib/blog";
+import { formatDate, parseTags, truncateForMeta } from "@/lib/blog";
 import MarkdownRenderer from "@/components/blog/MarkdownRenderer";
 import SubscribeForm from "@/components/blog/SubscribeForm";
 import { blogPostingLd, jsonLdScriptProps } from "@/lib/structured-data";
@@ -22,16 +22,25 @@ export async function generateMetadata({
   if (!post || !post.published) {
     return { title: "Not found", robots: { index: false, follow: false } };
   }
-  const description = post.excerpt ?? undefined;
   const path = `/blog/${post.slug}`;
+  // Defensive truncation: post excerpts are authored freely in the
+  // admin UI and easily exceed Google's ~155-char SERP limit. Likewise
+  // post titles need to clear the ~60-char limit AFTER the root
+  // layout's `· ITAI` suffix (so cap the source at 53). OG/Twitter
+  // can hold a touch more text since they're for social previews, but
+  // we cap them too so the cards don't get cropped.
+  const metaTitle = truncateForMeta(post.title, 53) ?? post.title;
+  const metaDescription = truncateForMeta(post.excerpt, 155);
+  const socialDescription = truncateForMeta(post.excerpt, 200);
+
   return {
-    title: post.title,
-    description,
+    title: metaTitle,
+    description: metaDescription,
     alternates: { canonical: path },
     openGraph: {
       type: "article",
-      title: post.title,
-      description,
+      title: metaTitle,
+      description: socialDescription,
       url: path,
       images: post.coverImage ? [{ url: post.coverImage }] : undefined,
       publishedTime: post.publishedAt?.toISOString(),
@@ -40,8 +49,8 @@ export async function generateMetadata({
     },
     twitter: {
       card: post.coverImage ? "summary_large_image" : "summary",
-      title: post.title,
-      description,
+      title: metaTitle,
+      description: socialDescription,
       images: post.coverImage ? [post.coverImage] : undefined,
     },
   };

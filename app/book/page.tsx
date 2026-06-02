@@ -2,10 +2,18 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import BookContent from "./Content";
 
-const TITLE =
-  "Free Website Consultation for Small Businesses | Itai Web Solutions";
+// Title is rendered through the root layout's `%s · ITAI` template, so
+// what lands in <title> is "Free 15-Minute Website Consultation · ITAI"
+// — 42 chars, comfortably inside Google's ~60 char SERP window. The
+// previous title ("Free Website Consultation for Small Businesses |
+// Itai Web Solutions") was 67 chars on its own and pushed to 74 with
+// the template — both Screaming Frog and Google were truncating it.
+const TITLE = "Free 15-Minute Website Consultation";
+
+// Trimmed from 159 to 152 chars to clear the 155 ceiling without losing
+// the key terms (small business, SEO, WhatsApp, booking, leads).
 const DESCRIPTION =
-  "Book a free 15-minute consultation to discuss your small business website, SEO setup, WhatsApp integration, booking system, and ways to get more leads online.";
+  "Book a free 15-minute consultation. Talk through your small business website, SEO setup, WhatsApp, booking, and how to get more leads online.";
 
 export const metadata: Metadata = {
   title: TITLE,

@@ -12,8 +12,11 @@ import Work from "@/components/Work";
 
 export const metadata: Metadata = {
   title: "ITAI — Modern Digital Systems",
+  // Previously 166 chars (over Google's ~155 char SERP limit). Trimmed by
+  // dropping the duplicative second sentence — the core pitch already
+  // covers it. Reads better and fits the snippet preview.
   description:
-    "Independent software studio building custom websites, AI automation, booking systems, and dashboards for growing businesses. Engineering depth, design restraint.",
+    "Independent studio building custom websites, AI automation, booking systems, and dashboards for growing businesses. Engineering depth, design restraint.",
   alternates: { canonical: "/" },
 };
 
