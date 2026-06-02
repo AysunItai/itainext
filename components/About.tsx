@@ -132,8 +132,8 @@ export default function About() {
                   <Image
                     src="/about-portrait.jpg"
                     alt="Portrait of Aysun Itai, founder of ITAI Web Solutions"
-                    width={1152}
-                    height={1155}
+                    width={848}
+                    height={850}
                     // Container is `max-w-md` (≤448px) on mobile/tablet and
                     // `lg:col-span-5` of a `max-w-7xl` row (~500px) on
                     // desktop. Capping at 500px keeps Next's image optimiser

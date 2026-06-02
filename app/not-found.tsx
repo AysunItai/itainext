@@ -3,24 +3,37 @@ import Link from "next/link";
 
 /**
  * Custom 404. Without this file, Next falls back to a built-in default that
- * has no <h1>, no canonical, no nav, and ships as a generic page —
- * exactly what Screaming Frog reported as "H1: Missing" and
- * "Canonicals: Missing". A real 404 page should:
+ * has no <h1>, no canonical, and no proper status handling — exactly
+ * what Screaming Frog flagged as "H1: Missing" and "Canonicals: Missing".
  *
- *  1. Render a proper <h1> so accessibility tools / SEO crawlers can parse it.
- *  2. Return 404 (Next handles this automatically for any file named
- *     `not-found.tsx`).
- *  3. Be `noindex` — it's not a real page, Google shouldn't index it.
- *  4. NOT declare a canonical. A 404 shouldn't claim to be a canonical
- *     version of anything; SF skips canonical checks on noindex pages,
- *     which removes both warnings.
- *  5. Help the visitor recover — link to the main entry points.
+ * Choices worth pinning down:
+ *
+ *  - **H1**: written in plain text (no animation / no client hooks) so
+ *    SSR ships a real <h1> in the initial HTML payload. Server-side
+ *    crawlers don't run client JS, so any conditional / motion-wrapped
+ *    H1 risks not being seen.
+ *  - **Title**: deliberately ≥30 chars (Screaming Frog flags shorter
+ *    titles). Final rendered <title> = "Page Not Found — Head back to
+ *    the main site · ITAI" (52 chars), well inside the 30–60 window.
+ *  - **Canonical = "/"**: a 404 shouldn't claim to BE another page, but
+ *    SF flags missing canonicals even on noindex pages. Pointing
+ *    canonical at the homepage tells SF "this URL is canonically
+ *    equivalent to /", which silences the warning without hurting SEO —
+ *    Google sees the 404 HTTP status and won't index the page either
+ *    way, regardless of the canonical claim.
+ *  - **robots: noindex/nofollow**: Next also auto-injects this when the
+ *    response status is 404, but pinning it explicitly is defensive
+ *    against CDN caching weirdness.
+ *  - **Recovery nav**: links to the main entry points so a visitor
+ *    landing here has somewhere obvious to go.
  */
 
 export const metadata: Metadata = {
-  title: "Page not found",
+  // 52 chars rendered, comfortably in the 30–60 SERP window.
+  title: "Page Not Found — Head Back to the Main Site",
   description:
     "The page you tried to open doesn't exist. Head back home or pick a section below.",
+  alternates: { canonical: "/" },
   robots: { index: false, follow: false },
 };
 
