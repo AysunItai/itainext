@@ -92,8 +92,12 @@ export default function InlineCTA({
           </div>
         ) : null}
 
-        <div className="relative flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between md:gap-10">
-          <div className="md:max-w-xl">
+        {/* Vertical-stacked layout: text on top, buttons in a row below.
+            Avoids the cramped side-by-side layout where the long
+            "Book a Free 15-Minute Consultation" label would wrap and turn
+            the rounded-full pill into an almond shape. */}
+        <div className="relative flex flex-col gap-7 sm:gap-8">
+          <div className="max-w-2xl">
             {eyebrow ? (
               <p
                 className={[
@@ -125,14 +129,14 @@ export default function InlineCTA({
             ) : null}
           </div>
 
-          <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row md:flex-col md:items-stretch lg:flex-row">
+          <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center">
             <Link
               href="/book"
               onClick={() =>
                 trackBookConsultationClick({ button_location: location })
               }
               className={[
-                "group inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-medium transition-all sm:w-auto",
+                "group inline-flex min-h-[48px] w-full items-center justify-center gap-2 whitespace-nowrap rounded-full px-7 py-3.5 text-sm font-medium transition-all sm:w-auto",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
                 isBold
                   ? "bg-paper text-ink hover:-translate-y-0.5 hover:shadow-lifted focus-visible:ring-paper focus-visible:ring-offset-ink"
@@ -157,7 +161,7 @@ export default function InlineCTA({
                   trackWhatsAppClick({ button_location: location })
                 }
                 className={[
-                  "group inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-medium transition-all sm:w-auto",
+                  "group inline-flex min-h-[48px] w-full items-center justify-center gap-2 whitespace-nowrap rounded-full px-6 py-3.5 text-sm font-medium transition-all sm:w-auto",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
                   isBold
                     ? "border border-paper/25 text-paper hover:bg-paper/5 focus-visible:ring-paper focus-visible:ring-offset-ink"
