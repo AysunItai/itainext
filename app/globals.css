@@ -65,6 +65,89 @@ body {
   }
 }
 
+/* ───────── Hero CSS animations ─────────
+   Pure-CSS replacements for the framer-motion animations the Hero used
+   to run. The reason: framer-motion ships `initial={{opacity:0}}` in SSR,
+   which keeps the H1 invisible until JS loads. That delay was the
+   biggest hit on mobile LCP (4.6s → expected ~2s after this change).
+   CSS keyframes fire as soon as the stylesheet is parsed — no JS
+   bundle required.
+
+   Stagger via `animation-delay` set inline on each element. */
+
+@keyframes hero-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes hero-gradient-shimmer {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes hero-spin-slow {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes hero-spin-reverse {
+  to {
+    transform: translate(-50%, -50%) rotate(-360deg);
+  }
+}
+
+@keyframes hero-pulse {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.18;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.08);
+    opacity: 0.34;
+  }
+}
+
+@keyframes hero-streak-right {
+  0% {
+    transform: translate(-30%, -50%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(130%, -50%);
+    opacity: 0;
+  }
+}
+
+@keyframes hero-streak-left {
+  0% {
+    transform: translate(130%, 0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.45;
+  }
+  100% {
+    transform: translate(-30%, 0);
+    opacity: 0;
+  }
+}
+
 @utility text-balance {
   text-wrap: balance;
 }

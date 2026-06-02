@@ -3,7 +3,6 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowDown, ArrowUpRight, Calendar, Check } from "lucide-react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import Script from "next/script";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { WhatsAppGlyph } from "@/components/library/brand-icons";
@@ -76,10 +75,13 @@ function buildWhatsAppUrl(): string | null {
   return `https://wa.me/${cleaned}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
 }
 
-export default function BookContent() {
+// `plan` is passed from the server (see `app/book/page.tsx`) so the
+// whole component — including the <h1> — ends up in the initial HTML.
+// We previously read this via `useSearchParams()`, which forced the
+// page into a Suspense boundary and meant crawlers saw an empty
+// prerender.
+export default function BookContent({ plan: planKey }: { plan: string | null }) {
   const reduce = useReducedMotion();
-  const params = useSearchParams();
-  const planKey = params.get("plan");
   const plan =
     planKey && PLAN_LABELS[planKey] ? PLAN_LABELS[planKey] : null;
 
