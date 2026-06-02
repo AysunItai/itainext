@@ -1,9 +1,9 @@
 import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/prisma";
 import { listPublications } from "@/lib/library";
+import { SITE_ORIGIN } from "@/lib/site-url";
 
-const BASE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://itaiwebsolutions.com";
+const BASE_URL = SITE_ORIGIN;
 
 export const revalidate = 3600;
 

@@ -358,7 +358,7 @@ function ProjectCard({
         {project.cover && imageOk ? (
           <Image
             src={project.cover}
-            alt=""
+            alt={`${project.title} — case study cover`}
             fill
             sizes={
               isWide

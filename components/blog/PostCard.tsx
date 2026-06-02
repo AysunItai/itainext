@@ -149,7 +149,7 @@ function Cover({
       <div className={`relative overflow-hidden bg-mist ${className}`}>
         <Image
           src={post.coverImage}
-          alt=""
+          alt={`${post.title} — cover image`}
           fill
           sizes="(min-width: 1024px) 600px, 100vw"
           className="object-cover transition duration-700 group-hover:scale-[1.03]"

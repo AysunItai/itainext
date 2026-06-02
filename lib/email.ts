@@ -13,8 +13,11 @@ export const NEWSLETTER_FROM =
   process.env.CONTACT_EMAIL_FROM ??
   "ITAI Notes <onboarding@resend.dev>";
 
-export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+// Email links need an absolute origin. In dev the env override points at
+// localhost; in prod we fall back to the canonical www host so emails
+// never ship with a wrong domain even if the env var is missing.
+import { SITE_ORIGIN } from "@/lib/site-url";
+export const SITE_URL = SITE_ORIGIN;
 
 const BRAND_NAME = "ITAI";
 const NEWSLETTER_NAME = "ITAI Notes";

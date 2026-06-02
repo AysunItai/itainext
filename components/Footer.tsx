@@ -21,12 +21,10 @@ const FOOTER_LINKS = {
     { label: "Book a call", href: "/book" },
     { label: "Contact", href: "/contact" },
   ],
-  Connect: [
-    { label: "Email", href: "mailto:info@itaiwebsolutions.com" },
-    { label: "GitHub", href: "#" },
-    { label: "LinkedIn", href: "#" },
-    { label: "X (Twitter)", href: "#" },
-  ],
+  // Real social profiles haven't been published yet; surfacing placeholder
+  // `href="#"` links here just generated broken outbound links in
+  // Screaming Frog. We'll re-add each row once it has a destination.
+  Connect: [{ label: "Email", href: "mailto:info@itaiwebsolutions.com" }],
 } as const;
 
 export default function Footer() {
@@ -39,10 +37,10 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-12 md:gap-8">
           <div className="md:col-span-5">
-            <Link href="/" aria-label="ITAI — home" className="inline-block">
+            <Link href="/" aria-label="ITAI Web Solutions — home" className="inline-block">
               <Image
                 src="/logo.png"
-                alt=""
+                alt="ITAI Web Solutions"
                 width={605}
                 height={185}
                 sizes="96px"
@@ -95,17 +93,21 @@ export default function Footer() {
 
         <div className="mt-16 flex flex-col items-start justify-between gap-4 border-t border-line pt-8 text-xs text-muted sm:flex-row sm:items-center">
           <p>© {year} ITAI. All rights reserved.</p>
-          <div className="flex gap-6">
-            <Link href="#" className="transition-colors hover:text-ink">
-              Privacy
-            </Link>
-            <Link href="#" className="transition-colors hover:text-ink">
-              Terms
-            </Link>
-            <Link href="#top" className="transition-colors hover:text-ink">
-              Back to top ↑
-            </Link>
-          </div>
+          {/* Privacy & Terms used to be `href="#"` placeholders. Real pages
+              haven't been written yet, so we drop them rather than ship
+              broken outbound links. Replace this with real links once
+              the legal pages exist. */}
+          <button
+            type="button"
+            onClick={() => {
+              if (typeof window !== "undefined") {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }
+            }}
+            className="transition-colors hover:text-ink"
+          >
+            Back to top ↑
+          </button>
         </div>
       </div>
     </footer>

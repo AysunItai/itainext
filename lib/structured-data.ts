@@ -6,8 +6,9 @@
  * https://search.google.com/test/rich-results before deploying changes.
  */
 
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://itaiwebsolutions.com";
+import { SITE_ORIGIN } from "@/lib/site-url";
+
+const SITE_URL = SITE_ORIGIN;
 
 const BRAND = {
   name: "ITAI",

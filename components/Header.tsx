@@ -52,12 +52,12 @@ export default function Header() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:h-20 sm:px-8">
         <Link
           href="/"
-          aria-label="ITAI — home"
+          aria-label="ITAI Web Solutions — home"
           className="flex items-center rounded-md focus-visible:outline-none"
         >
           <Image
             src="/logo.png"
-            alt=""
+            alt="ITAI Web Solutions"
             width={605}
             height={185}
             sizes="96px"

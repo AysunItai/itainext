@@ -4,6 +4,7 @@ import Script from "next/script";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import { SITE_URL } from "@/lib/site-url";
 import {
   jsonLdScriptProps,
   organizationLd,
@@ -25,10 +26,13 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
-const siteUrl = "https://itaiwebsolutions.com";
-
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  // Anchors every relative `alternates.canonical` and `openGraph.url` on
+  // the actual www host. Without this, Next would resolve them against
+  // localhost in dev and — worse — against whatever non-www host the env
+  // happened to define, which is what triggered the "Non-Indexable
+  // Canonical" warnings in Screaming Frog.
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "ITAI — Modern Digital Systems",
     template: "%s · ITAI",
@@ -59,7 +63,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    url: siteUrl,
+    url: SITE_URL,
     title: "ITAI — Modern Digital Systems",
     description:
       "Custom websites, AI automation, booking systems, dashboards, and scalable web infrastructure for growing businesses.",
