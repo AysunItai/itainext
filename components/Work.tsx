@@ -60,7 +60,7 @@ const PROJECTS: Project[] = [
     category: "completed",
     year: 2026,
     cover: "/work/drsoldea.png",
-    externalUrl: "https://www.gynecologuelyon.fr/",
+    externalUrl: "https://www.echographielyon.fr/",
   },
   {
     slug: "gotoorbit",
