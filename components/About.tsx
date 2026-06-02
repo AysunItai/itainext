@@ -125,9 +125,14 @@ export default function About() {
                 {imageOk ? (
                   <Image
                     src="/about-portrait.jpg"
-                    alt="Portrait of Aysun Itai"
+                    alt="Portrait of Aysun Itai, founder of ITAI Web Solutions"
                     fill
-                    sizes="(min-width: 1024px) 512px, (min-width: 640px) 448px, 100vw"
+                    // Container is `max-w-md` (≤448px) on mobile/tablet and
+                    // `lg:col-span-5` of a `max-w-7xl` row (~500px) on
+                    // desktop. Capping at 500px keeps Next's image optimiser
+                    // from generating the 1080/1200/1920 variants it used
+                    // to ship when sizes was set to 100vw on small screens.
+                    sizes="(min-width: 1024px) 500px, (min-width: 640px) 448px, 90vw"
                     quality={80}
                     onError={() => setImageOk(false)}
                     className="object-cover transition-transform duration-[700ms] ease-out group-hover:scale-[1.04]"
