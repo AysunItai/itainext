@@ -3,6 +3,7 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, Mail } from "lucide-react";
 import Link from "next/link";
+import { trackEvent } from "@/lib/analytics";
 
 export default function CTA() {
   const reduce = useReducedMotion();
@@ -61,6 +62,12 @@ export default function CTA() {
             </Link>
             <Link
               href="mailto:info@itaiwebsolutions.com"
+              onClick={() =>
+                trackEvent("email_click", {
+                  event_category: "lead",
+                  event_label: "Homepage CTA",
+                })
+              }
               className="inline-flex items-center justify-center gap-2 rounded-full border border-paper/20 px-7 py-3.5 text-sm font-medium text-paper transition-colors hover:bg-paper/5"
             >
               info@itaiwebsolutions.com

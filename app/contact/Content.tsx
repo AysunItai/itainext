@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useId, useState, type FormEvent } from "react";
+import { trackEvent } from "@/lib/analytics";
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
 
@@ -93,6 +94,11 @@ export default function ContactContent() {
         return;
       }
       setStatus("success");
+      trackEvent("contact_form_submit", {
+        event_category: "lead",
+        event_label: topic || "no topic selected",
+        topic: topic || undefined,
+      });
     } catch {
       setStatus("error");
       setErrorMsg(
@@ -331,6 +337,12 @@ export default function ContactContent() {
                       Or email{" "}
                       <a
                         href="mailto:info@itaiwebsolutions.com"
+                        onClick={() =>
+                          trackEvent("email_click", {
+                            event_category: "lead",
+                            event_label: "Contact form — inline fallback",
+                          })
+                        }
                         className="font-medium text-ink underline decoration-line underline-offset-4 transition-colors hover:decoration-ink"
                       >
                         info@itaiwebsolutions.com
@@ -428,6 +440,12 @@ export default function ContactContent() {
               >
                 <a
                   href="mailto:info@itaiwebsolutions.com"
+                  onClick={() =>
+                    trackEvent("email_click", {
+                      event_category: "lead",
+                      event_label: "Contact page — sidebar",
+                    })
+                  }
                   className="block text-base font-medium text-ink underline decoration-line underline-offset-4 transition-colors hover:decoration-ink sm:text-lg"
                 >
                   info@itaiwebsolutions.com

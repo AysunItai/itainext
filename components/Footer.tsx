@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { trackEvent } from "@/lib/analytics";
 
 const FOOTER_LINKS = {
   Solutions: [
@@ -54,6 +57,12 @@ export default function Footer() {
 
             <Link
               href="mailto:info@itaiwebsolutions.com"
+              onClick={() =>
+                trackEvent("email_click", {
+                  event_category: "lead",
+                  event_label: "Footer — primary email",
+                })
+              }
               className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-ink underline decoration-line underline-offset-4 transition-colors hover:decoration-ink"
             >
               info@itaiwebsolutions.com
@@ -71,6 +80,7 @@ export default function Footer() {
                     <li key={l.label}>
                       <Link
                         href={l.href}
+                        onClick={() => handleFooterLinkClick(l.label, l.href)}
                         className="text-muted transition-colors hover:text-ink"
                       >
                         {l.label}
@@ -100,4 +110,25 @@ export default function Footer() {
       </div>
     </footer>
   );
+}
+
+/**
+ * Tracks the high-intent footer link clicks (booking + email). Plain
+ * navigations like "Privacy" or "Work" intentionally aren't tracked —
+ * the goal is lead funnel events, not pageview duplication.
+ */
+function handleFooterLinkClick(label: string, href: string) {
+  if (href.startsWith("mailto:")) {
+    trackEvent("email_click", {
+      event_category: "lead",
+      event_label: `Footer — ${label}`,
+    });
+    return;
+  }
+  if (href === "/book" || href.startsWith("/book?")) {
+    trackEvent("book_consultation_click", {
+      event_category: "lead",
+      event_label: "Footer — Book a call",
+    });
+  }
 }

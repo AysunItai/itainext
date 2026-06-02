@@ -3,6 +3,7 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, Check, Sparkles } from "lucide-react";
 import Link from "next/link";
+import { trackEvent } from "@/lib/analytics";
 
 type Plan = {
   id: string;
@@ -286,6 +287,13 @@ function PricingCard({
       <Link
         href={plan.href}
         aria-label={`${plan.cta} for ${plan.name}`}
+        onClick={() =>
+          trackEvent("book_consultation_click", {
+            event_category: "lead",
+            event_label: `Pricing — ${plan.name}`,
+            plan_id: plan.id,
+          })
+        }
         className={[
           "group relative mt-10 inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-medium transition-all",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",

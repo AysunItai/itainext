@@ -1,21 +1,18 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowUpRight, Calendar, Mail, Video } from "lucide-react";
+import { ArrowUpRight, Check } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import Script from "next/script";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, type ReactNode } from "react";
+import { WhatsAppGlyph } from "@/components/library/brand-icons";
+import { trackEvent } from "@/lib/analytics";
 
 declare global {
   interface Window {
     Calendly?: {
-      initInlineWidget: (opts: {
-        url: string;
-        parentElement: HTMLElement;
-        prefill?: Record<string, unknown>;
-        utm?: Record<string, unknown>;
-      }) => void;
+      initPopupWidget: (opts: { url: string }) => void;
     };
   }
 }
@@ -29,6 +26,22 @@ const PLAN_LABELS: Record<string, { name: string; price: string }> = {
 };
 
 const CALENDLY_BASE_URL = process.env.NEXT_PUBLIC_CALENDLY_URL;
+const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
+const WHATSAPP_MESSAGE =
+  "Hi! I'd like to ask about a free website consultation.";
+
+const IN_THE_CALL = [
+  "What kind of website your business needs",
+  "How to improve your current website",
+  "How to get more leads from Google, Facebook, and WhatsApp",
+] as const;
+
+const WHO_THIS_IS_FOR = [
+  "You own a small business and need a professional website",
+  "Your current website looks old or doesn't bring leads",
+  "You want WhatsApp, booking, contact forms, or SEO setup",
+  "You want a developer who explains things clearly",
+] as const;
 
 function buildCalendlyUrl(): string | null {
   if (!CALENDLY_BASE_URL) return null;
@@ -45,13 +58,45 @@ function buildCalendlyUrl(): string | null {
   }
 }
 
+function buildWhatsAppUrl(): string | null {
+  if (!WHATSAPP_NUMBER) return null;
+  const cleaned = WHATSAPP_NUMBER.replace(/\D/g, "");
+  if (!cleaned) return null;
+  return `https://wa.me/${cleaned}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
+}
+
 export default function BookContent() {
   const reduce = useReducedMotion();
   const params = useSearchParams();
   const planKey = params.get("plan");
   const plan =
     planKey && PLAN_LABELS[planKey] ? PLAN_LABELS[planKey] : null;
+
   const calendlyUrl = buildCalendlyUrl();
+  const whatsappUrl = buildWhatsAppUrl();
+
+  // Listen for Calendly's "event_scheduled" postMessage so we can fire a
+  // dedicated conversion event in GA4 when a visitor actually books — not
+  // just when they click the CTA.
+  useEffect(() => {
+    function onMessage(e: MessageEvent) {
+      const data: unknown = e.data;
+      if (
+        typeof data === "object" &&
+        data !== null &&
+        "event" in data &&
+        typeof (data as { event: unknown }).event === "string" &&
+        (data as { event: string }).event === "calendly.event_scheduled"
+      ) {
+        trackEvent("calendly_event_scheduled", {
+          event_category: "lead",
+          event_label: "Calendly popup",
+        });
+      }
+    }
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
+  }, []);
 
   const fade = (delay = 0) => ({
     initial: reduce ? { opacity: 0 } : { opacity: 0, y: 20 },
@@ -60,51 +105,78 @@ export default function BookContent() {
     transition: { duration: 0.7, ease: easeOut, delay },
   });
 
+  const reveal = (delay = 0) => ({
+    initial: reduce ? { opacity: 0 } : { opacity: 0, y: 14 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, margin: "-80px" },
+    transition: { duration: 0.6, ease: easeOut, delay },
+  });
+
   return (
     <main id="main" className="relative">
+      {/* Calendly assets — loaded once, used by every BookButton on the page */}
+      {calendlyUrl ? (
+        <>
+          <link
+            rel="stylesheet"
+            href="https://assets.calendly.com/assets/external/widget.css"
+          />
+          <Script
+            src="https://assets.calendly.com/assets/external/widget.js"
+            strategy="afterInteractive"
+          />
+        </>
+      ) : null}
+
+      {/* ───────── HERO ───────── */}
       <section
         aria-labelledby="book-hero-title"
-        className="relative isolate overflow-hidden px-5 pt-32 pb-12 sm:px-8 sm:pt-44 sm:pb-20"
+        className="relative isolate overflow-hidden px-5 pt-32 pb-16 sm:px-8 sm:pt-40 sm:pb-24"
       >
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_60%_50%_at_50%_45%,rgba(30,58,138,0.08),transparent_70%)]"
+          className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(30,58,138,0.08),transparent_70%)]"
         />
 
-        <div className="mx-auto flex max-w-7xl flex-col gap-8">
+        <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
           <motion.div
             {...fade(0)}
-            className="flex flex-wrap items-center gap-x-3 gap-y-2 text-xs font-medium uppercase tracking-[0.32em] text-muted"
+            className="inline-flex items-center gap-2.5 rounded-full border border-line bg-paper/70 px-3.5 py-1.5 text-[12px] backdrop-blur-md"
           >
-            <span>Book</span>
-            <span aria-hidden className="h-px w-12 bg-line" />
-            <span className="font-mono normal-case tracking-normal text-ink/50">
-              20-minute consultation · Free
+            <span
+              aria-hidden
+              className="relative flex h-2 w-2 flex-none"
+            >
+              <span className="absolute inset-0 animate-ping rounded-full bg-accent/70 opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
             </span>
+            <span className="font-mono uppercase tracking-[0.2em] text-ink/55">
+              Free · 20 min
+            </span>
+            <span aria-hidden className="h-3 w-px flex-none bg-line" />
+            <span className="text-ink/80">Zoom or Google Meet</span>
           </motion.div>
 
           <motion.h1
             {...fade(0.1)}
             id="book-hero-title"
-            className="text-balance text-[clamp(2.5rem,8vw,6.5rem)] font-semibold leading-[0.95] tracking-[-0.04em] text-ink"
+            className="mt-8 text-balance text-[clamp(2.25rem,6.5vw,4.5rem)] font-semibold leading-[1.02] tracking-[-0.035em] text-ink"
           >
-            Pick a time
-            <br />
-            that works.
+            Free 20-Minute Website Consultation
           </motion.h1>
 
           <motion.p
             {...fade(0.2)}
-            className="max-w-2xl text-pretty text-lg leading-8 text-muted sm:text-xl"
+            className="mt-6 max-w-2xl text-pretty text-base leading-7 text-muted sm:text-lg sm:leading-8"
           >
-            We&apos;ll meet on Zoom. Just bring your goal and any examples
-            that inspire you — I&apos;ll handle the rest.
+            I help small businesses build clean, modern websites with
+            WhatsApp, booking, SEO setup, and contact forms.
           </motion.p>
 
-          {plan && (
+          {plan ? (
             <motion.div
-              {...fade(0.3)}
-              className="inline-flex w-fit items-center gap-3 rounded-full border border-line bg-paper-soft px-4 py-2 text-sm shadow-soft"
+              {...fade(0.28)}
+              className="mt-7 inline-flex items-center gap-3 rounded-full border border-line bg-paper-soft px-4 py-2 text-sm shadow-soft"
             >
               <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-ink/40">
                 Booking for
@@ -113,166 +185,327 @@ export default function BookContent() {
               <span className="text-muted">·</span>
               <span className="font-medium text-accent">{plan.price}</span>
             </motion.div>
-          )}
+          ) : null}
+
+          <motion.div
+            {...fade(0.34)}
+            className="mt-10 flex w-full flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4"
+          >
+            <BookButton
+              calendlyUrl={calendlyUrl}
+              label="Book Free Consultation"
+              source="Hero"
+              variant="primary"
+            />
+            {whatsappUrl ? (
+              <WhatsAppLink
+                href={whatsappUrl}
+                source="Hero"
+                variant="ghost"
+              />
+            ) : null}
+          </motion.div>
+
+          <motion.p
+            {...fade(0.44)}
+            className="mt-5 text-[13px] text-muted"
+          >
+            No signup required. No sales pressure. Just a friendly conversation.
+          </motion.p>
         </div>
       </section>
 
+      {/* ───────── IN THE CALL WE CAN DISCUSS ───────── */}
       <section
-        aria-label="Booking"
-        className="relative border-t border-line px-5 pb-32 pt-16 sm:px-8 sm:pb-40 sm:pt-24"
+        aria-labelledby="in-the-call-title"
+        className="relative border-t border-line px-5 py-20 sm:px-8 sm:py-24"
       >
-        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 lg:grid-cols-12">
-          <aside className="lg:col-span-4">
-            <div className="space-y-6 lg:sticky lg:top-28">
-              <ContextCard
-                eyebrow="What to expect"
-                icon={<Video className="h-4 w-4" strokeWidth={1.75} />}
-                items={[
-                  "A 20-minute video call on Zoom",
-                  "We'll cover your goal, scope, and timeline",
-                  "You leave with a clear next step + estimate",
-                ]}
-              />
-              <ContextCard
-                eyebrow="What to bring"
-                items={[
-                  "Your goal in one sentence",
-                  "Examples of products you admire",
-                  "Any technical or budget constraints",
-                ]}
-              />
-              <div className="rounded-3xl border border-line bg-paper-soft p-6 sm:p-7">
-                <p className="text-xs font-medium uppercase tracking-[0.22em] text-muted">
-                  Prefer email?
-                </p>
-                <Link
-                  href="mailto:info@itaiwebsolutions.com"
-                  className="mt-3 inline-flex items-center gap-2 text-base font-medium text-ink underline decoration-line underline-offset-4 transition-colors hover:decoration-ink"
-                >
-                  <Mail className="h-4 w-4" strokeWidth={1.75} />
-                  info@itaiwebsolutions.com
-                </Link>
-                <p className="mt-3 text-sm text-muted">
-                  Or use the{" "}
-                  <Link
-                    href="/contact"
-                    className="text-ink underline decoration-line underline-offset-4 transition-colors hover:decoration-ink"
-                  >
-                    contact form
-                  </Link>
-                  .
-                </p>
-              </div>
-            </div>
-          </aside>
+        <div className="mx-auto max-w-5xl">
+          <motion.p
+            {...reveal(0)}
+            className="font-mono text-xs uppercase tracking-[0.32em] text-muted"
+          >
+            What we&apos;ll cover
+          </motion.p>
+          <motion.h2
+            {...reveal(0.06)}
+            id="in-the-call-title"
+            className="mt-4 max-w-2xl text-balance text-3xl font-semibold tracking-[-0.025em] text-ink sm:text-[2.5rem] sm:leading-[1.1]"
+          >
+            In the call we can discuss:
+          </motion.h2>
 
-          <div className="lg:col-span-8">
-            <div className="overflow-hidden rounded-3xl border border-line bg-paper">
-              {calendlyUrl ? (
-                <CalendlyEmbed url={calendlyUrl} />
-              ) : (
-                <CalendlyFallback />
-              )}
-            </div>
-          </div>
+          <ul className="mt-10 grid grid-cols-1 gap-3 sm:gap-4 md:grid-cols-3">
+            {IN_THE_CALL.map((point, i) => (
+              <motion.li
+                key={point}
+                {...reveal(0.12 + i * 0.06)}
+                className="group flex items-start gap-3 rounded-2xl border border-line bg-paper p-5 transition-colors hover:border-ink/20 sm:p-6"
+              >
+                <span className="mt-0.5 flex h-6 w-6 flex-none items-center justify-center rounded-full bg-ink text-paper">
+                  <Check className="h-3.5 w-3.5" strokeWidth={2.5} />
+                </span>
+                <span className="text-pretty text-[15px] leading-6 text-ink/90 sm:text-base">
+                  {point}
+                </span>
+              </motion.li>
+            ))}
+          </ul>
         </div>
+      </section>
+
+      {/* ───────── TRUST PARAGRAPH ───────── */}
+      <section
+        aria-label="What to expect"
+        className="relative border-t border-line bg-paper-soft px-5 py-20 sm:px-8 sm:py-24"
+      >
+        <motion.div
+          {...reveal(0)}
+          className="mx-auto max-w-3xl text-center"
+        >
+          <p className="font-mono text-xs uppercase tracking-[0.32em] text-muted">
+            No pressure
+          </p>
+          <p className="mt-5 text-balance text-xl leading-8 text-ink/85 sm:text-2xl sm:leading-9">
+            No pressure, no complicated tech talk. We&apos;ll look at your
+            business, your current online presence, and what small
+            improvements could help you get more leads.
+          </p>
+        </motion.div>
+      </section>
+
+      {/* ───────── WHO THIS IS FOR ───────── */}
+      <section
+        aria-labelledby="who-its-for-title"
+        className="relative border-t border-line px-5 py-20 sm:px-8 sm:py-24"
+      >
+        <div className="mx-auto max-w-5xl">
+          <motion.p
+            {...reveal(0)}
+            className="font-mono text-xs uppercase tracking-[0.32em] text-muted"
+          >
+            A good fit
+          </motion.p>
+          <motion.h2
+            {...reveal(0.06)}
+            id="who-its-for-title"
+            className="mt-4 max-w-2xl text-balance text-3xl font-semibold tracking-[-0.025em] text-ink sm:text-[2.5rem] sm:leading-[1.1]"
+          >
+            This is for you if:
+          </motion.h2>
+
+          <ul className="mt-10 grid grid-cols-1 gap-3 sm:gap-4 md:grid-cols-2">
+            {WHO_THIS_IS_FOR.map((point, i) => (
+              <motion.li
+                key={point}
+                {...reveal(0.12 + i * 0.05)}
+                className="flex items-start gap-3 rounded-2xl border border-line bg-paper p-5 transition-colors hover:border-ink/20 sm:p-6"
+              >
+                <span className="mt-0.5 flex h-6 w-6 flex-none items-center justify-center rounded-full border border-ink/15 bg-paper-soft text-ink">
+                  <Check className="h-3.5 w-3.5" strokeWidth={2.5} />
+                </span>
+                <span className="text-pretty text-[15px] leading-6 text-ink/90 sm:text-base">
+                  {point}
+                </span>
+              </motion.li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* ───────── CLOSING CTA ───────── */}
+      <section
+        aria-label="Book now"
+        className="relative border-t border-line px-5 py-20 sm:px-8 sm:py-28"
+      >
+        <motion.div
+          {...reveal(0)}
+          className="relative mx-auto max-w-4xl overflow-hidden rounded-[28px] border border-line bg-ink p-10 text-paper sm:rounded-[32px] sm:p-14"
+        >
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_70%_60%_at_50%_30%,black,transparent_75%)]"
+          >
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.06)_1px,transparent_1px)] bg-[size:48px_48px]" />
+            <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-accent/40 blur-3xl" />
+          </div>
+
+          <div className="relative flex flex-col items-center text-center">
+            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-paper/55">
+              Ready when you are
+            </p>
+            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-[-0.025em] sm:text-4xl">
+              Let&apos;s figure out what your business needs.
+            </h2>
+            <p className="mt-4 max-w-xl text-pretty text-base leading-7 text-paper/70">
+              Pick a time that works for you, or send a quick WhatsApp message
+              and I&apos;ll get back today.
+            </p>
+
+            <div className="mt-9 flex w-full flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
+              <BookButton
+                calendlyUrl={calendlyUrl}
+                label="Book Free Consultation"
+                source="Closing CTA"
+                variant="inverted"
+              />
+              {whatsappUrl ? (
+                <WhatsAppLink
+                  href={whatsappUrl}
+                  source="Closing CTA"
+                  variant="ghost-dark"
+                />
+              ) : null}
+            </div>
+
+            <p className="mt-6 text-[12px] text-paper/55">
+              Prefer email?{" "}
+              <Link
+                href="mailto:info@itaiwebsolutions.com"
+                onClick={() =>
+                  trackEvent("email_click", {
+                    event_category: "lead",
+                    event_label: "Book page — closing CTA",
+                  })
+                }
+                className="underline decoration-paper/30 underline-offset-4 transition-colors hover:decoration-paper"
+              >
+                info@itaiwebsolutions.com
+              </Link>
+            </p>
+          </div>
+        </motion.div>
       </section>
     </main>
   );
 }
 
-function ContextCard({
-  eyebrow,
-  icon,
-  items,
-}: {
-  eyebrow: string;
-  icon?: React.ReactNode;
-  items: string[];
-}) {
+/* ─────────────────────────── BookButton ─────────────────────────── */
+
+type BookButtonProps = {
+  calendlyUrl: string | null;
+  label: string;
+  /** Human-readable location used as the GA4 event_label suffix. */
+  source: string;
+  variant: "primary" | "inverted";
+};
+
+/**
+ * Primary booking CTA. Opens Calendly as a centred popup overlay when the
+ * widget script is available; falls back to a same-tab/new-tab navigation
+ * to the Calendly URL otherwise, so the button always works.
+ *
+ * If no Calendly URL is configured at all, the button links to /contact so
+ * we never present a dead-end.
+ */
+function BookButton({ calendlyUrl, label, source, variant }: BookButtonProps) {
+  const fire = useCallback(() => {
+    trackEvent("book_consultation_click", {
+      event_category: "lead",
+      event_label: `Book page — ${source}`,
+    });
+  }, [source]);
+
+  const onClickWithCalendly = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>) => {
+      fire();
+      if (!calendlyUrl) return;
+      if (typeof window === "undefined") return;
+      const Cal = window.Calendly;
+      if (Cal && typeof Cal.initPopupWidget === "function") {
+        e.preventDefault();
+        Cal.initPopupWidget({ url: calendlyUrl });
+      }
+      // else: let the default anchor navigation happen as a fallback.
+    },
+    [calendlyUrl, fire],
+  );
+
+  const isInverted = variant === "inverted";
+  const classes = [
+    "group inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-sm font-medium transition-all w-full sm:w-auto",
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
+    isInverted
+      ? "bg-paper text-ink hover:-translate-y-0.5 hover:shadow-lifted focus-visible:ring-paper focus-visible:ring-offset-ink"
+      : "bg-ink text-paper hover:-translate-y-0.5 hover:bg-ink-soft hover:shadow-lifted focus-visible:ring-ink",
+  ].join(" ");
+
+  if (!calendlyUrl) {
+    return (
+      <Link href="/contact" onClick={fire} className={classes}>
+        {label}
+        <ArrowUpRight
+          aria-hidden
+          className="h-4 w-4 transition-transform group-hover:-translate-y-px group-hover:translate-x-px"
+          strokeWidth={2}
+        />
+      </Link>
+    );
+  }
+
   return (
-    <div className="rounded-3xl border border-line bg-paper p-6 sm:p-7">
-      <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.22em] text-muted">
-        {icon ? <span className="text-ink/60">{icon}</span> : null}
-        <span>{eyebrow}</span>
-      </div>
-      <ol className="mt-4 space-y-3.5">
-        {items.map((item, i) => (
-          <li key={item} className="flex gap-3 text-sm leading-6">
-            <span className="font-mono tabular-nums text-ink/40">
-              {String(i + 1).padStart(2, "0")}
-            </span>
-            <span className="text-ink/85">{item}</span>
-          </li>
-        ))}
-      </ol>
-    </div>
+    <a
+      href={calendlyUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={onClickWithCalendly}
+      className={classes}
+    >
+      {label}
+      <ArrowUpRight
+        aria-hidden
+        className="h-4 w-4 transition-transform group-hover:-translate-y-px group-hover:translate-x-px"
+        strokeWidth={2}
+      />
+    </a>
   );
 }
 
-function CalendlyEmbed({ url }: { url: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [scriptReady, setScriptReady] = useState(false);
+/* ─────────────────────────── WhatsAppLink ─────────────────────────── */
 
-  useEffect(() => {
-    if (typeof window !== "undefined" && window.Calendly) {
-      setScriptReady(true);
-    }
-  }, []);
+type WhatsAppLinkProps = {
+  href: string;
+  source: string;
+  variant: "ghost" | "ghost-dark";
+};
 
-  useEffect(() => {
-    if (!scriptReady || !ref.current || !window.Calendly) return;
+function WhatsAppLink({ href, source, variant }: WhatsAppLinkProps) {
+  const isDark = variant === "ghost-dark";
+  const classes = [
+    "group inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-medium transition-all w-full sm:w-auto",
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
+    isDark
+      ? "border border-paper/20 text-paper hover:bg-paper/5 focus-visible:ring-paper focus-visible:ring-offset-ink"
+      : "border border-line bg-paper text-ink hover:bg-mist focus-visible:ring-ink",
+  ].join(" ");
 
-    ref.current.innerHTML = "";
-    window.Calendly.initInlineWidget({
-      url,
-      parentElement: ref.current,
-    });
-  }, [scriptReady, url]);
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Open WhatsApp chat with ITAI Web Solutions"
+      onClick={() =>
+        trackEvent("whatsapp_click", {
+          event_category: "lead",
+          event_label: `Book page — ${source}`,
+        })
+      }
+      className={classes}
+    >
+      <WhatsAppGlyph className="h-4 w-4 text-[#25D366]" aria-hidden />
+      <WhatsAppCopy />
+    </a>
+  );
+}
 
+function WhatsAppCopy(): ReactNode {
   return (
     <>
-      <div ref={ref} style={{ minWidth: "320px", height: "720px" }} />
-      <Script
-        src="https://assets.calendly.com/assets/external/widget.js"
-        strategy="afterInteractive"
-        onReady={() => setScriptReady(true)}
-      />
+      <span className="sm:hidden">WhatsApp me</span>
+      <span className="hidden sm:inline">
+        Prefer WhatsApp? Message me here.
+      </span>
     </>
-  );
-}
-
-function CalendlyFallback() {
-  return (
-    <div className="flex flex-col items-center justify-center gap-5 px-6 py-20 text-center sm:py-28">
-      <div className="flex h-14 w-14 items-center justify-center rounded-full bg-mist">
-        <Calendar className="h-6 w-6 text-ink/60" strokeWidth={1.5} />
-      </div>
-      <h2 className="text-balance text-2xl font-semibold tracking-[-0.02em] text-ink sm:text-3xl">
-        Calendar setup is in progress.
-      </h2>
-      <p className="max-w-md text-pretty text-base leading-7 text-muted">
-        While the booking widget is being configured, send a quick note and
-        I&apos;ll find a time that works.
-      </p>
-      <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-        <Link
-          href="/contact"
-          className="group inline-flex items-center justify-center gap-2 rounded-full bg-ink px-6 py-3 text-sm font-medium text-paper shadow-soft transition-all hover:-translate-y-0.5 hover:bg-ink-soft hover:shadow-lifted"
-        >
-          Send a note
-          <ArrowUpRight
-            className="h-4 w-4 transition-transform group-hover:-translate-y-px group-hover:translate-x-px"
-            strokeWidth={2}
-          />
-        </Link>
-        <Link
-          href="mailto:info@itaiwebsolutions.com"
-          className="inline-flex items-center justify-center gap-2 rounded-full border border-line bg-paper px-6 py-3 text-sm font-medium text-ink transition-colors hover:bg-mist"
-        >
-          info@itaiwebsolutions.com
-        </Link>
-      </div>
-    </div>
   );
 }
