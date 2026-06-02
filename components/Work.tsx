@@ -59,11 +59,7 @@ const PROJECTS: Project[] = [
     status: "Completed",
     category: "completed",
     year: 2026,
-    // ?v= is a cache-buster for the Next.js image optimizer. The
-    // optimizer keys on the full URL, so bump this whenever the underlying
-    // screenshot at /public/work/drsoldea.png is replaced and you want
-    // the new version served immediately.
-    cover: "/work/drsoldea.png?v=20260602",
+    cover: "/work/drsoldea.png",
     externalUrl: "https://www.gynecologuelyon.fr/",
   },
   {
