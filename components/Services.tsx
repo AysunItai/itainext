@@ -1,6 +1,3 @@
-"use client";
-
-import { m, useReducedMotion } from "framer-motion";
 import {
   BarChart3,
   Bot,
@@ -11,8 +8,19 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
+/**
+ * Services is intentionally a server component now. It used to be
+ * `"use client"` with per-item framer-motion `whileInView` entry
+ * animations — that installed an IntersectionObserver per card at
+ * hydration time, contributing to desktop TBT (PSI reported 1s of
+ * blocking on desktop with 20 long tasks). The cards have no state and
+ * no event handlers, so the only reason for hydration was the entry
+ * animation. The hover/focus polish is preserved with plain CSS
+ * (`transition-colors`, `group-hover:*`), which is composited and free.
+ */
+
 type Service = {
-   icon: LucideIcon;
+  icon: LucideIcon;
   title: string;
   description: string;
   bullets: string[];
@@ -64,8 +72,6 @@ const SERVICES: Service[] = [
 ];
 
 export default function Services() {
-  const reduce = useReducedMotion();
-
   return (
     <section
       id="services"
@@ -93,19 +99,9 @@ export default function Services() {
           role="list"
           className="mt-14 grid grid-cols-1 gap-px overflow-hidden rounded-3xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-3"
         >
-          {SERVICES.map((s, i) => (
-            <m.li
+          {SERVICES.map((s) => (
+            <li
               key={s.title}
-              initial={
-                reduce ? { opacity: 0 } : { opacity: 0, y: 16 }
-              }
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{
-                duration: 0.55,
-                delay: reduce ? 0 : i * 0.05,
-                ease: [0.22, 1, 0.36, 1],
-              }}
               className="group relative bg-paper p-7 transition-colors hover:bg-paper-soft sm:p-8"
             >
               <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-mist text-ink transition-colors group-hover:bg-ink group-hover:text-paper">
@@ -127,7 +123,7 @@ export default function Services() {
                   </li>
                 ))}
               </ul>
-            </m.li>
+            </li>
           ))}
         </ul>
       </div>

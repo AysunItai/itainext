@@ -75,7 +75,13 @@ export default function Hero() {
         >
           Engineering modern{" "}
           <span className="relative inline-block whitespace-nowrap">
-            <span className="bg-[linear-gradient(110deg,#0a0a0a,#1e40af,#0f172a,#2563eb,#0a0a0a)] bg-[length:240%_240%] bg-clip-text text-transparent motion-safe:[animation:hero-gradient-shimmer_7s_ease-in-out_infinite]">
+            {/* Was previously animated `infinite` with a moving
+              `background-position`. That kept the page repainting on
+              the main thread every frame (PSI flagged the only
+              non-composited animation on the page). Switched to a
+              static gradient — visually almost identical, zero
+              ongoing main-thread cost. */}
+            <span className="bg-[linear-gradient(110deg,#0a0a0a_0%,#1e40af_35%,#2563eb_55%,#0f172a_75%,#0a0a0a_100%)] bg-clip-text text-transparent">
               digital systems
             </span>
           </span>

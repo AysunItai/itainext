@@ -1,7 +1,11 @@
-"use client";
-
-import { m, useReducedMotion } from "framer-motion";
 import { Gauge, ShieldCheck, Timer, Zap } from "lucide-react";
+
+/**
+ * Showcase is a server component. It used to install a framer-motion
+ * `whileInView` IntersectionObserver per stat and per pillar (8 total)
+ * at hydration time, contributing to the desktop TBT problem. The
+ * content is pure static markup, so there's nothing to hydrate.
+ */
 
 const STATS = [
   { value: "99", suffix: "+", label: "Lighthouse score, average" },
@@ -34,8 +38,6 @@ const PILLARS = [
 ] as const;
 
 export default function Showcase() {
-  const reduce = useReducedMotion();
-
   return (
     <section
       id="principles"
@@ -60,17 +62,9 @@ export default function Showcase() {
         </header>
 
         <dl className="mt-14 grid grid-cols-2 gap-px overflow-hidden rounded-3xl border border-line bg-line lg:grid-cols-4">
-          {STATS.map((s, i) => (
-            <m.div
+          {STATS.map((s) => (
+            <div
               key={s.label}
-              initial={reduce ? { opacity: 0 } : { opacity: 0, y: 14 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{
-                duration: 0.55,
-                delay: reduce ? 0 : i * 0.06,
-                ease: [0.22, 1, 0.36, 1],
-              }}
               className="bg-paper px-6 py-8 text-center sm:px-8 sm:py-10"
             >
               <dt className="order-2 mt-2 text-xs uppercase tracking-[0.18em] text-muted">
@@ -82,22 +76,14 @@ export default function Showcase() {
                   {s.suffix}
                 </span>
               </dd>
-            </m.div>
+            </div>
           ))}
         </dl>
 
         <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-2">
-          {PILLARS.map((p, i) => (
-            <m.article
+          {PILLARS.map((p) => (
+            <article
               key={p.title}
-              initial={reduce ? { opacity: 0 } : { opacity: 0, y: 14 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{
-                duration: 0.55,
-                delay: reduce ? 0 : i * 0.06,
-                ease: [0.22, 1, 0.36, 1],
-              }}
               className="rounded-3xl border border-line bg-paper-soft p-7 sm:p-8"
             >
               <div className="flex items-center gap-4">
@@ -109,7 +95,7 @@ export default function Showcase() {
                 </h3>
               </div>
               <p className="mt-5 text-[15px] leading-7 text-muted">{p.body}</p>
-            </m.article>
+            </article>
           ))}
         </div>
       </div>

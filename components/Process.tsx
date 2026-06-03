@@ -1,6 +1,8 @@
-"use client";
-
-import { m, useReducedMotion } from "framer-motion";
+/**
+ * Process is a server component. Static markup, no state, no events —
+ * the entry animation was the only client-side reason this used to be
+ * `"use client"`. Removed to cut hydration work on the homepage.
+ */
 
 const STEPS = [
   {
@@ -21,8 +23,6 @@ const STEPS = [
 ] as const;
 
 export default function Process() {
-  const reduce = useReducedMotion();
-
   return (
     <section
       id="process"
@@ -57,17 +57,9 @@ export default function Process() {
           role="list"
           className="mt-16 grid grid-cols-1 gap-5 md:grid-cols-3"
         >
-          {STEPS.map((step, i) => (
-            <m.li
+          {STEPS.map((step) => (
+            <li
               key={step.n}
-              initial={reduce ? { opacity: 0 } : { opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{
-                duration: 0.6,
-                delay: reduce ? 0 : i * 0.08,
-                ease: [0.22, 1, 0.36, 1],
-              }}
               className="relative overflow-hidden rounded-3xl border border-paper/10 bg-paper/[0.04] p-7 backdrop-blur-sm sm:p-8"
             >
               <div className="flex items-center gap-3">
@@ -82,7 +74,7 @@ export default function Process() {
               <p className="mt-3 text-[15px] leading-7 text-paper/70">
                 {step.body}
               </p>
-            </m.li>
+            </li>
           ))}
         </ol>
       </div>

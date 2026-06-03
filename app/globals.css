@@ -86,16 +86,6 @@ body {
   }
 }
 
-@keyframes hero-gradient-shimmer {
-  0%,
-  100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
 @keyframes hero-spin-slow {
   to {
     transform: translate(-50%, -50%) rotate(360deg);

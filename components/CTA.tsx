@@ -1,26 +1,23 @@
-"use client";
-
-import { m, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, Mail } from "lucide-react";
 import Link from "next/link";
-import { trackEvent } from "@/lib/analytics";
+import CTAEmailLink from "./CTAEmailLink";
 
+/**
+ * CTA is now a server component. The whole section used to hydrate as
+ * a client component just for one onClick analytics call on the mailto
+ * link; that work is now contained in <CTAEmailLink />, a tiny client
+ * island. The framer-motion `whileInView` entry animation was dropped
+ * — by the time you scroll here the animation would have completed
+ * anyway, and it was contributing to the desktop TBT problem.
+ */
 export default function CTA() {
-  const reduce = useReducedMotion();
-
   return (
     <section
       id="contact"
       aria-labelledby="cta-title"
       className="relative scroll-mt-24 px-5 py-16 sm:px-8 sm:py-28"
     >
-      <m.div
-        initial={reduce ? { opacity: 0 } : { opacity: 0, y: 18 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        className="relative mx-auto max-w-5xl overflow-hidden rounded-[28px] border border-line bg-ink p-10 text-paper sm:rounded-[32px] sm:p-16"
-      >
+      <div className="relative mx-auto max-w-5xl overflow-hidden rounded-[28px] border border-line bg-ink p-10 text-paper sm:rounded-[32px] sm:p-16">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_70%_60%_at_50%_30%,black,transparent_75%)]"
@@ -60,21 +57,10 @@ export default function CTA() {
                 strokeWidth={2}
               />
             </Link>
-            <Link
-              href="mailto:info@itaiwebsolutions.com"
-              onClick={() =>
-                trackEvent("email_click", {
-                  event_category: "lead",
-                  event_label: "Homepage CTA",
-                })
-              }
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-paper/20 px-7 py-3.5 text-sm font-medium text-paper transition-colors hover:bg-paper/5"
-            >
-              info@itaiwebsolutions.com
-            </Link>
+            <CTAEmailLink />
           </div>
         </div>
-      </m.div>
+      </div>
     </section>
   );
 }
