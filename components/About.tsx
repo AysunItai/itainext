@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { m, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, Code2, Globe, Sparkles } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -34,14 +34,14 @@ export default function About() {
       <div className="mx-auto max-w-7xl">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-7">
-            <motion.p
+            <m.p
               {...fade(0)}
               className="text-xs font-medium uppercase tracking-[0.32em] text-muted"
             >
               About
-            </motion.p>
+            </m.p>
 
-            <motion.h2
+            <m.h2
               {...fade(0.05)}
               id="about-title"
               className="mt-5 text-balance text-4xl font-semibold tracking-[-0.035em] text-ink sm:text-5xl"
@@ -49,9 +49,9 @@ export default function About() {
               Building practical digital solutions
               <br className="hidden sm:block" />
               for modern businesses.
-            </motion.h2>
+            </m.h2>
 
-            <motion.div
+            <m.div
               {...fade(0.15)}
               className="mt-10 max-w-xl space-y-5 text-pretty text-base leading-7 text-muted sm:text-lg"
             >
@@ -70,9 +70,9 @@ export default function About() {
                 communicate better with customers — never create unnecessary
                 complexity.
               </p>
-            </motion.div>
+            </m.div>
 
-            <motion.dl
+            <m.dl
               {...fade(0.25)}
               className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4"
             >
@@ -90,9 +90,9 @@ export default function About() {
                   </dd>
                 </div>
               ))}
-            </motion.dl>
+            </m.dl>
 
-            <motion.div
+            <m.div
               {...fade(0.35)}
               className="mt-10 flex flex-col items-start gap-4 sm:flex-row sm:items-center"
             >
@@ -108,10 +108,10 @@ export default function About() {
                 />
               </Link>
               <span className="text-base italic text-muted">— Aysun</span>
-            </motion.div>
+            </m.div>
           </div>
 
-          <motion.div
+          <m.div
             {...fade(0.1)}
             className="relative lg:col-span-5"
           >
@@ -171,7 +171,7 @@ export default function About() {
                     className="relative flex h-2 w-2 items-center justify-center"
                   >
                     {!reduce && (
-                      <motion.span
+                      <m.span
                         aria-hidden
                         animate={{ scale: [1, 2.4, 2.4], opacity: [0.5, 0, 0] }}
                         transition={{
@@ -195,7 +195,7 @@ export default function About() {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </div>
     </section>

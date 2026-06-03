@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { m, useReducedMotion } from "framer-motion";
 import {
   ArrowDownToLine,
   ArrowUpRight,
@@ -53,7 +53,7 @@ export default function ProductContent({
         <ProductBackdrop reduce={!!reduce} />
 
         <div className="mx-auto max-w-7xl">
-          <motion.div
+          <m.div
             {...fade(0)}
             className="mb-10 flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.22em] text-ink/45"
           >
@@ -68,11 +68,11 @@ export default function ProductContent({
               /
             </span>
             <span className="text-ink/70">{pub.issue}</span>
-          </motion.div>
+          </m.div>
 
           <div className="grid grid-cols-1 items-center gap-14 lg:grid-cols-12 lg:gap-20">
             <div className="order-2 lg:order-1 lg:col-span-7">
-              <motion.div
+              <m.div
                 {...fade(0.05)}
                 className="flex flex-wrap items-center gap-2"
               >
@@ -87,24 +87,24 @@ export default function ProductContent({
                 <span className="rounded-full border border-line bg-paper-soft px-3 py-1 text-[10px] font-mono uppercase tracking-[0.2em] text-ink/65">
                   {pub.format} · {pub.pages} pages
                 </span>
-              </motion.div>
+              </m.div>
 
-              <motion.h1
+              <m.h1
                 {...fade(0.12)}
                 id="product-title"
                 className="mt-7 text-balance text-[clamp(2.4rem,6vw,5rem)] font-semibold leading-[0.98] tracking-[-0.045em] text-ink"
               >
                 {pub.title}.
-              </motion.h1>
+              </m.h1>
 
-              <motion.p
+              <m.p
                 {...fade(0.2)}
                 className="mt-6 max-w-2xl text-pretty text-lg leading-8 text-muted sm:text-xl"
               >
                 {pub.subtitle} {pub.description}
-              </motion.p>
+              </m.p>
 
-              <motion.div
+              <m.div
                 {...fade(0.28)}
                 className="mt-10 flex flex-wrap items-end gap-x-6 gap-y-3"
               >
@@ -121,9 +121,9 @@ export default function ProductContent({
                 <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">
                   {isFree ? "Until checkout opens" : "USD · One-time"}
                 </p>
-              </motion.div>
+              </m.div>
 
-              <motion.div
+              <m.div
                 {...fade(0.36)}
                 className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:gap-4"
               >
@@ -155,27 +155,27 @@ export default function ProductContent({
                     strokeWidth={2}
                   />
                 </a>
-              </motion.div>
+              </m.div>
 
-              <motion.p
+              <m.p
                 {...fade(0.44)}
                 className="mt-5 text-[13px] text-muted"
               >
                 No signup. No email gate. If it&apos;s useful, send it to a
                 teammate.
-              </motion.p>
+              </m.p>
 
-              <motion.div {...fade(0.52)} className="mt-8">
+              <m.div {...fade(0.52)} className="mt-8">
                 <ShareBar
                   path={`/shop/${pub.slug}`}
                   title={`${pub.title} — ${pub.subtitle}`}
                   text={`Free read: ${pub.title}. ${pub.tagline}`}
                   eyebrow="Share this volume"
                 />
-              </motion.div>
+              </m.div>
             </div>
 
-            <motion.div
+            <m.div
               initial={reduce ? { opacity: 0 } : { opacity: 0, y: 32 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, ease: easeOut, delay: 0.1 }}
@@ -186,7 +186,7 @@ export default function ProductContent({
                 variant="showcase"
                 className="mx-auto w-[min(420px,82vw)]"
               />
-            </motion.div>
+            </m.div>
           </div>
         </div>
       </section>
@@ -227,7 +227,7 @@ export default function ProductContent({
       >
         <div className="mx-auto max-w-7xl">
           <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-12">
-            <motion.div {...reveal(0)} className="md:col-span-5">
+            <m.div {...reveal(0)} className="md:col-span-5">
               <p className="font-mono text-xs uppercase tracking-[0.32em] text-muted">
                 Inside this volume
               </p>
@@ -238,9 +238,9 @@ export default function ProductContent({
                 What you&apos;ll be able to do{" "}
                 <span className="text-muted">by the last page.</span>
               </h2>
-            </motion.div>
+            </m.div>
 
-            <motion.ul
+            <m.ul
               {...reveal(0.12)}
               className="md:col-span-7 md:col-start-6 space-y-4"
             >
@@ -257,7 +257,7 @@ export default function ProductContent({
                   </span>
                 </li>
               ))}
-            </motion.ul>
+            </m.ul>
           </div>
         </div>
       </section>
@@ -269,7 +269,7 @@ export default function ProductContent({
       >
         <div className="mx-auto max-w-7xl">
           <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-12">
-            <motion.div {...reveal(0)} className="md:col-span-5">
+            <m.div {...reveal(0)} className="md:col-span-5">
               <p className="font-mono text-xs uppercase tracking-[0.32em] text-muted">
                 Contents · {pub.toc.length.toString().padStart(2, "0")} parts
               </p>
@@ -285,14 +285,14 @@ export default function ProductContent({
                 theory&apos;s sake. Each one ends with the smallest experiment
                 you can run on a real database tonight.
               </p>
-            </motion.div>
+            </m.div>
 
-            <motion.ol
+            <m.ol
               {...reveal(0.12)}
               className="md:col-span-7 md:col-start-6 divide-y divide-line overflow-hidden rounded-3xl border border-line bg-paper"
             >
               {pub.toc.map((c, i) => (
-                <motion.li
+                <m.li
                   key={c.number}
                   initial={
                     reduce
@@ -319,9 +319,9 @@ export default function ProductContent({
                       {c.blurb}
                     </p>
                   </div>
-                </motion.li>
+                </m.li>
               ))}
-            </motion.ol>
+            </m.ol>
           </div>
         </div>
       </section>
@@ -332,7 +332,7 @@ export default function ProductContent({
         className="relative border-t border-line px-5 py-24 sm:px-8 sm:py-32"
       >
         <div className="mx-auto max-w-7xl">
-          <motion.div {...reveal(0)} className="max-w-2xl">
+          <m.div {...reveal(0)} className="max-w-2xl">
             <p className="font-mono text-xs uppercase tracking-[0.32em] text-muted">
               Who this is for
             </p>
@@ -342,11 +342,11 @@ export default function ProductContent({
             >
               Written for working engineers.
             </h2>
-          </motion.div>
+          </m.div>
 
           <ul className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-3">
             {pub.audience.map((a, i) => (
-              <motion.li
+              <m.li
                 key={a}
                 initial={
                   reduce ? { opacity: 0 } : { opacity: 0, y: 18 }
@@ -366,7 +366,7 @@ export default function ProductContent({
                 <p className="mt-4 text-[17px] leading-8 text-ink/85">
                   {a}
                 </p>
-              </motion.li>
+              </m.li>
             ))}
           </ul>
         </div>
@@ -378,7 +378,7 @@ export default function ProductContent({
         className="relative border-t border-line px-5 py-24 sm:px-8 sm:py-32"
       >
         <div className="mx-auto grid max-w-5xl grid-cols-1 gap-10 md:grid-cols-12 md:gap-16">
-          <motion.div {...reveal(0)} className="md:col-span-5">
+          <m.div {...reveal(0)} className="md:col-span-5">
             <p className="font-mono text-xs uppercase tracking-[0.32em] text-muted">
               Stay close
             </p>
@@ -391,9 +391,9 @@ export default function ProductContent({
               blog is worth your time. No threads, no promotions, no
               follow-ups.
             </p>
-          </motion.div>
+          </m.div>
 
-          <motion.div
+          <m.div
             {...reveal(0.12)}
             className="md:col-span-7 md:col-start-6 md:self-center"
           >
@@ -402,7 +402,7 @@ export default function ProductContent({
               count={subscriberCount}
               source={`shop:${pub.slug}`}
             />
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
@@ -412,7 +412,7 @@ export default function ProductContent({
         className="relative border-t border-line px-5 py-24 sm:px-8 sm:py-32"
       >
         <div className="mx-auto max-w-5xl">
-          <motion.div
+          <m.div
             {...reveal(0)}
             className="relative isolate overflow-hidden rounded-[2rem] bg-ink p-10 text-paper sm:p-16"
           >
@@ -477,7 +477,7 @@ export default function ProductContent({
                 />
               </div>
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
@@ -552,7 +552,7 @@ function ProductBackdrop({ reduce }: { reduce: boolean }) {
       <div className="absolute left-1/2 top-1/2 h-[720px] w-[720px] -translate-x-1/2 -translate-y-1/2 bg-[linear-gradient(to_right,rgba(15,23,42,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(15,23,42,0.03)_1px,transparent_1px)] bg-[size:72px_72px] [mask-image:radial-gradient(circle,black,transparent_68%)]" />
 
       {!reduce && (
-        <motion.div
+        <m.div
           animate={{ opacity: [0.18, 0.4, 0.18] }}
           transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
           className="absolute right-[14%] top-[36%] h-[280px] w-[420px] -translate-y-1/2 rounded-full bg-accent/25 blur-3xl"

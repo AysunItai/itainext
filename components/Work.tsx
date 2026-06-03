@@ -2,7 +2,7 @@
 
 import {
   AnimatePresence,
-  motion,
+  m,
   useMotionValue,
   useReducedMotion,
   useSpring,
@@ -143,7 +143,7 @@ export default function Work() {
       className="relative scroll-mt-24 bg-paper px-5 py-16 sm:px-8 sm:py-28"
     >
       <div className="mx-auto max-w-7xl">
-        <motion.header
+        <m.header
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-80px" }}
@@ -157,32 +157,32 @@ export default function Work() {
           }
           className="grid gap-8 md:grid-cols-[0.8fr_1.2fr]"
         >
-          <motion.p
+          <m.p
             variants={revealItem(reduce)}
             transition={{ duration: 0.6, ease: easeOut }}
             className="text-xs font-medium uppercase tracking-[0.32em] text-muted"
           >
             Selected work
-          </motion.p>
+          </m.p>
           <div>
-            <motion.h2
+            <m.h2
               id="work-title"
               variants={revealItem(reduce)}
               transition={{ duration: 0.6, ease: easeOut }}
               className="max-w-3xl text-balance text-4xl font-semibold tracking-[-0.035em] text-ink sm:text-5xl"
             >
               Real systems, doing real work.
-            </motion.h2>
-            <motion.p
+            </m.h2>
+            <m.p
               variants={revealItem(reduce)}
               transition={{ duration: 0.6, ease: easeOut }}
               className="mt-5 max-w-xl text-pretty text-base leading-7 text-muted sm:text-lg"
             >
               Each engagement starts with a real operational need and ends with
               a system the team uses every day.
-            </motion.p>
+            </m.p>
           </div>
-        </motion.header>
+        </m.header>
 
         <div className="mt-12 flex flex-wrap items-center gap-3 sm:mt-14">
           <div
@@ -202,7 +202,7 @@ export default function Work() {
                   className="relative rounded-full px-4 py-2 text-sm font-medium text-muted transition-colors hover:text-ink"
                 >
                   {isActive && (
-                    <motion.span
+                    <m.span
                       layoutId="work-filter-pill"
                       className="absolute inset-0 -z-0 rounded-full bg-ink"
                       transition={{
@@ -229,13 +229,13 @@ export default function Work() {
           </span>
         </div>
 
-        <motion.div
+        <m.div
           layout={!reduce}
           className="mt-10 grid grid-cols-1 gap-5 sm:gap-6 lg:grid-cols-12"
         >
           <AnimatePresence mode="popLayout">
             {visible.map((p, i) => (
-              <motion.div
+              <m.div
                 key={p.slug}
                 layout={!reduce}
                 initial={reduce ? { opacity: 0 } : { opacity: 0, y: 24 }}
@@ -252,10 +252,10 @@ export default function Work() {
                   project={p}
                   isWide={layout[i] === "lg:col-span-12"}
                 />
-              </motion.div>
+              </m.div>
             ))}
           </AnimatePresence>
-        </motion.div>
+        </m.div>
 
         {visible.length === 0 && (
           <div className="mt-10 rounded-3xl border border-line bg-paper-soft p-12 text-center text-sm text-muted">
@@ -333,7 +333,7 @@ function ProjectCard({
   };
 
   return (
-    <motion.div
+    <m.div
       onMouseMove={handleMove}
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
@@ -391,7 +391,7 @@ function ProjectCard({
               className="relative flex h-1.5 w-1.5 items-center justify-center"
             >
               {!reduce && (
-                <motion.span
+                <m.span
                   aria-hidden
                   initial={{ scale: 1, opacity: 0.5 }}
                   animate={{ scale: [1, 2.4, 2.4], opacity: [0.45, 0, 0] }}
@@ -519,7 +519,7 @@ function ProjectCard({
         )}
       </div>
     </CardShell>
-    </motion.div>
+    </m.div>
   );
 }
 

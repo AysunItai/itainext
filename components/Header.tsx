@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, m, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -55,13 +55,20 @@ export default function Header() {
           aria-label="ITAI Web Solutions — home"
           className="flex items-center rounded-md focus-visible:outline-none"
         >
+          {/* `priority` removed: the logo is only ~3 KB after the palette
+              compression and renders at h-6 (24px). It's not the LCP
+              element on any page, and the preload was competing with
+              hero text/font loads in the critical request chain on
+              mobile. `fetchPriority="high"` keeps it ahead of below-
+              the-fold images without forcing a `<link rel="preload">`. */}
           <Image
             src="/logo.png"
             alt="ITAI Web Solutions"
             width={605}
             height={185}
             sizes="96px"
-            priority
+            fetchPriority="high"
+            loading="eager"
             className="h-6 w-auto object-contain"
           />
         </Link>
@@ -113,7 +120,7 @@ export default function Header() {
 
       <AnimatePresence>
         {open && (
-          <motion.div
+          <m.div
             id="mobile-nav"
             role="dialog"
             aria-modal="true"
@@ -152,7 +159,7 @@ export default function Header() {
                 <ArrowUpRight aria-hidden className="h-4 w-4" strokeWidth={2} />
               </Link>
             </nav>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </header>

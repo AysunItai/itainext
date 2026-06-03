@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { m, useReducedMotion } from "framer-motion";
 
 const STEPS = [
   {
@@ -58,7 +58,7 @@ export default function Process() {
           className="mt-16 grid grid-cols-1 gap-5 md:grid-cols-3"
         >
           {STEPS.map((step, i) => (
-            <motion.li
+            <m.li
               key={step.n}
               initial={reduce ? { opacity: 0 } : { opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -82,7 +82,7 @@ export default function Process() {
               <p className="mt-3 text-[15px] leading-7 text-paper/70">
                 {step.body}
               </p>
-            </motion.li>
+            </m.li>
           ))}
         </ol>
       </div>

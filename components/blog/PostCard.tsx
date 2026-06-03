@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion, type Variants } from "framer-motion";
+import { m, type Variants } from "framer-motion";
 import { formatDate, parseTags } from "@/lib/blog";
 
 export type PostCardData = {
@@ -40,7 +40,7 @@ export default function PostCard({ post, variant = "default", index = 0 }: Props
 
   if (variant === "feature") {
     return (
-      <motion.article
+      <m.article
         variants={reveal}
         initial="hidden"
         whileInView="show"
@@ -75,13 +75,13 @@ export default function PostCard({ post, variant = "default", index = 0 }: Props
             </div>
           </div>
         </Link>
-      </motion.article>
+      </m.article>
     );
   }
 
   if (variant === "compact") {
     return (
-      <motion.article
+      <m.article
         variants={reveal}
         initial="hidden"
         whileInView="show"
@@ -103,12 +103,12 @@ export default function PostCard({ post, variant = "default", index = 0 }: Props
             <Tags tags={tags} />
           </div>
         </Link>
-      </motion.article>
+      </m.article>
     );
   }
 
   return (
-    <motion.article
+    <m.article
       variants={reveal}
       initial="hidden"
       whileInView="show"
@@ -133,7 +133,7 @@ export default function PostCard({ post, variant = "default", index = 0 }: Props
           </div>
         </div>
       </Link>
-    </motion.article>
+    </m.article>
   );
 }
 

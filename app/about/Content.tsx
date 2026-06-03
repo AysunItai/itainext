@@ -1,7 +1,7 @@
 "use client";
 
 import {
-  motion,
+  m,
   useReducedMotion,
   useScroll,
   useSpring,
@@ -90,7 +90,7 @@ export default function AboutContent() {
   return (
     <main id="main" className="relative">
       {!reduce && (
-        <motion.div
+        <m.div
           aria-hidden
           style={{ scaleX }}
           className="fixed left-0 right-0 top-0 z-[60] h-px origin-left bg-accent"
@@ -107,7 +107,7 @@ export default function AboutContent() {
         />
 
         <div className="mx-auto flex max-w-7xl flex-col gap-12">
-          <motion.div
+          <m.div
             {...fade(0)}
             className="flex flex-wrap items-center gap-x-3 gap-y-2 text-xs font-medium uppercase tracking-[0.32em] text-muted"
           >
@@ -116,9 +116,9 @@ export default function AboutContent() {
             <span className="font-mono tabular-nums normal-case tracking-normal text-ink/50">
               Vol. 01 · 2026
             </span>
-          </motion.div>
+          </m.div>
 
-          <motion.h1
+          <m.h1
             {...fade(0.1)}
             id="about-hero-title"
             className="text-balance text-[clamp(3rem,9vw,7.5rem)] font-semibold leading-[0.95] tracking-[-0.04em] text-ink"
@@ -126,24 +126,24 @@ export default function AboutContent() {
             An independent
             <br />
             software studio.
-          </motion.h1>
+          </m.h1>
 
-          <motion.p
+          <m.p
             {...fade(0.2)}
             className="max-w-2xl text-pretty text-lg leading-8 text-muted sm:text-xl"
           >
             Engineering depth, design restraint. Modern digital systems for
             growing businesses — built by one person who designs and ships
             them.
-          </motion.p>
+          </m.p>
 
-          <motion.div
+          <m.div
             {...fade(0.3)}
             className="flex items-center gap-3 text-xs uppercase tracking-[0.25em] text-muted/70"
           >
             <span>Reading time</span>
             <span className="font-mono tabular-nums text-ink/60">3 min</span>
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
@@ -152,7 +152,7 @@ export default function AboutContent() {
         className="relative border-t border-line px-5 py-24 sm:px-8 sm:py-32"
       >
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 md:grid-cols-[0.5fr_1.5fr] md:gap-16">
-          <motion.div {...fade(0)} className="flex flex-col gap-1">
+          <m.div {...fade(0)} className="flex flex-col gap-1">
             <span className="font-mono text-xs tabular-nums text-ink/40">
               01
             </span>
@@ -162,8 +162,8 @@ export default function AboutContent() {
             >
               The studio
             </h2>
-          </motion.div>
-          <motion.div
+          </m.div>
+          <m.div
             {...fade(0.1)}
             className="space-y-7 text-pretty text-lg leading-loose text-muted sm:text-xl"
           >
@@ -180,7 +180,7 @@ export default function AboutContent() {
               technologies, APIs, automation workflows, databases, and
               scalable frontend architecture.
             </p>
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
@@ -189,7 +189,7 @@ export default function AboutContent() {
         className="relative border-t border-line px-5 py-24 sm:px-8 sm:py-32"
       >
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 md:grid-cols-[0.5fr_1.5fr] md:gap-16">
-          <motion.div {...fade(0)} className="flex flex-col gap-1">
+          <m.div {...fade(0)} className="flex flex-col gap-1">
             <span className="font-mono text-xs tabular-nums text-ink/40">
               02
             </span>
@@ -199,8 +199,8 @@ export default function AboutContent() {
             >
               Approach to work
             </h2>
-          </motion.div>
-          <motion.div {...fade(0.1)} className="space-y-7">
+          </m.div>
+          <m.div {...fade(0.1)} className="space-y-7">
             <p className="text-pretty text-2xl font-medium leading-relaxed tracking-[-0.02em] text-ink sm:text-3xl">
               Rather than approaching projects as &ldquo;just websites,&rdquo;
               ITAI focuses on building systems that solve practical business
@@ -211,7 +211,7 @@ export default function AboutContent() {
               repetitive work, streamlining operations, or creating tools that
               help businesses scale more efficiently.
             </p>
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
@@ -220,7 +220,7 @@ export default function AboutContent() {
         className="relative border-t border-line px-5 py-24 sm:px-8 sm:py-32"
       >
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 md:grid-cols-[0.5fr_1.5fr] md:gap-16">
-          <motion.div {...fade(0)} className="flex flex-col gap-1">
+          <m.div {...fade(0)} className="flex flex-col gap-1">
             <span className="font-mono text-xs tabular-nums text-ink/40">
               03
             </span>
@@ -230,8 +230,8 @@ export default function AboutContent() {
             >
               Capabilities
             </h2>
-          </motion.div>
-          <motion.div {...fade(0.1)} className="space-y-12">
+          </m.div>
+          <m.div {...fade(0.1)} className="space-y-12">
             <p className="text-pretty text-lg leading-loose text-muted sm:text-xl">
               The studio works across custom web development, AI-assisted
               workflows, booking systems, dashboards, integrations, and modern
@@ -275,7 +275,7 @@ export default function AboutContent() {
                 ))}
               </ul>
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
@@ -284,15 +284,15 @@ export default function AboutContent() {
         className="relative border-t border-line bg-paper-soft px-5 py-32 sm:px-8 sm:py-40"
       >
         <div className="mx-auto flex max-w-5xl flex-col items-center gap-10 text-center">
-          <motion.div
+          <m.div
             {...fade(0)}
             className="flex items-center gap-3 text-xs font-medium uppercase tracking-[0.3em] text-muted"
           >
             <span aria-hidden className="h-px w-10 bg-line" />
             <span>On the work</span>
             <span aria-hidden className="h-px w-10 bg-line" />
-          </motion.div>
-          <motion.blockquote
+          </m.div>
+          <m.blockquote
             {...fade(0.1)}
             className="text-balance text-3xl font-semibold leading-[1.1] tracking-[-0.035em] text-ink sm:text-5xl lg:text-6xl"
           >
@@ -305,7 +305,7 @@ export default function AboutContent() {
               design restraint
             </span>
             .
-          </motion.blockquote>
+          </m.blockquote>
         </div>
       </section>
 
@@ -314,7 +314,7 @@ export default function AboutContent() {
         className="relative border-t border-line px-5 py-24 sm:px-8 sm:py-32"
       >
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 md:grid-cols-[0.5fr_1.5fr] md:gap-16">
-          <motion.div {...fade(0)} className="flex flex-col gap-1">
+          <m.div {...fade(0)} className="flex flex-col gap-1">
             <span className="font-mono text-xs tabular-nums text-ink/40">
               04
             </span>
@@ -324,9 +324,9 @@ export default function AboutContent() {
             >
               Approach
             </h2>
-          </motion.div>
+          </m.div>
           <div className="space-y-12">
-            <motion.p
+            <m.p
               {...fade(0.1)}
               className="text-pretty text-lg leading-loose text-muted sm:text-xl"
             >
@@ -335,9 +335,9 @@ export default function AboutContent() {
               is not to overload products with unnecessary complexity, but to
               create systems that feel modern, fast, intuitive, and
               dependable.
-            </motion.p>
+            </m.p>
 
-            <motion.ul
+            <m.ul
               {...fade(0.2)}
               role="list"
               className="grid grid-cols-1 gap-4 sm:grid-cols-2"
@@ -365,7 +365,7 @@ export default function AboutContent() {
                   </p>
                 </li>
               ))}
-            </motion.ul>
+            </m.ul>
           </div>
         </div>
       </section>
@@ -375,7 +375,7 @@ export default function AboutContent() {
         className="relative border-t border-line px-5 py-24 sm:px-8 sm:py-32"
       >
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 md:grid-cols-[0.5fr_1.5fr] md:gap-16">
-          <motion.div {...fade(0)} className="flex flex-col gap-1">
+          <m.div {...fade(0)} className="flex flex-col gap-1">
             <span className="font-mono text-xs tabular-nums text-ink/40">
               05
             </span>
@@ -385,8 +385,8 @@ export default function AboutContent() {
             >
               Why ITAI
             </h2>
-          </motion.div>
-          <motion.div
+          </m.div>
+          <m.div
             {...fade(0.1)}
             className="space-y-7 text-pretty text-lg leading-loose text-muted sm:text-xl"
           >
@@ -399,7 +399,7 @@ export default function AboutContent() {
               cohesive — technically solid underneath while remaining simple
               and elegant for the people using them.
             </p>
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
@@ -408,7 +408,7 @@ export default function AboutContent() {
         className="relative border-t border-line px-5 py-24 sm:px-8 sm:py-32"
       >
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 md:grid-cols-[0.5fr_1.5fr] md:gap-16">
-          <motion.div {...fade(0)} className="flex flex-col gap-1">
+          <m.div {...fade(0)} className="flex flex-col gap-1">
             <span className="font-mono text-xs tabular-nums text-ink/40">
               06
             </span>
@@ -418,15 +418,15 @@ export default function AboutContent() {
             >
               Studio model
             </h2>
-          </motion.div>
+          </m.div>
           <div className="space-y-7">
-            <motion.p
+            <m.p
               {...fade(0)}
               className="text-pretty text-2xl font-medium leading-tight tracking-[-0.025em] text-ink sm:text-4xl"
             >
               The studio intentionally remains small and focused.
-            </motion.p>
-            <motion.p
+            </m.p>
+            <m.p
               {...fade(0.1)}
               className="text-pretty text-lg leading-loose text-muted sm:text-xl"
             >
@@ -434,7 +434,7 @@ export default function AboutContent() {
               more thoughtful level of attention throughout the process.
               Instead of layers of management and outsourcing, clients work
               directly with the person designing and building the system.
-            </motion.p>
+            </m.p>
           </div>
         </div>
       </section>
@@ -444,7 +444,7 @@ export default function AboutContent() {
         className="relative border-t border-line px-5 py-24 sm:px-8 sm:py-32"
       >
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 md:grid-cols-[0.5fr_1.5fr] md:gap-16">
-          <motion.div {...fade(0)} className="flex flex-col gap-1">
+          <m.div {...fade(0)} className="flex flex-col gap-1">
             <span className="font-mono text-xs tabular-nums text-ink/40">
               07
             </span>
@@ -454,8 +454,8 @@ export default function AboutContent() {
             >
               The work
             </h2>
-          </motion.div>
-          <motion.div {...fade(0.1)} className="space-y-8">
+          </m.div>
+          <m.div {...fade(0.1)} className="space-y-8">
             <p className="text-pretty text-lg leading-loose text-muted sm:text-xl">
               The work spans a range of industries and project types — from
               modern business websites and client acquisition flows to
@@ -471,7 +471,7 @@ export default function AboutContent() {
                 </li>
               ))}
             </ul>
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
@@ -489,16 +489,16 @@ export default function AboutContent() {
         </div>
 
         <div className="relative mx-auto flex max-w-5xl flex-col items-center gap-10 text-center">
-          <motion.div
+          <m.div
             {...fade(0)}
             className="flex items-center gap-3 text-xs font-medium uppercase tracking-[0.3em] text-paper/50"
           >
             <span aria-hidden className="h-px w-10 bg-paper/20" />
             <span>At its core</span>
             <span aria-hidden className="h-px w-10 bg-paper/20" />
-          </motion.div>
+          </m.div>
 
-          <motion.blockquote
+          <m.blockquote
             {...fade(0.1)}
             className="text-balance text-3xl font-semibold leading-[1.05] tracking-[-0.035em] sm:text-5xl lg:text-6xl"
           >
@@ -507,14 +507,14 @@ export default function AboutContent() {
             <span className="text-paper/60">purpose</span>, and{" "}
             <span className="text-paper/60">strong technical foundations</span>
             .
-          </motion.blockquote>
+          </m.blockquote>
 
-          <motion.p
+          <m.p
             {...fade(0.2)}
             className="text-base italic text-paper/60"
           >
             — Aysun Itai, founder
-          </motion.p>
+          </m.p>
         </div>
       </section>
 
@@ -523,20 +523,20 @@ export default function AboutContent() {
         className="relative px-5 py-24 sm:px-8 sm:py-32"
       >
         <div className="mx-auto flex max-w-5xl flex-col items-center gap-8 text-center">
-          <motion.h2
+          <m.h2
             {...fade(0)}
             className="text-balance text-4xl font-semibold tracking-[-0.035em] text-ink sm:text-5xl"
           >
             Have a project in mind?
-          </motion.h2>
-          <motion.p
+          </m.h2>
+          <m.p
             {...fade(0.1)}
             className="max-w-xl text-pretty text-base leading-7 text-muted sm:text-lg"
           >
             Tell me what you&apos;re building and what you&apos;d like to ship
             next.
-          </motion.p>
-          <motion.div
+          </m.p>
+          <m.div
             {...fade(0.2)}
             className="flex flex-col items-stretch gap-3 sm:flex-row"
           >
@@ -557,7 +557,7 @@ export default function AboutContent() {
             >
               Back to home
             </Link>
-          </motion.div>
+          </m.div>
         </div>
       </section>
     </main>

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { m, useReducedMotion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import SubscribeForm from "@/components/blog/SubscribeForm";
@@ -46,7 +46,7 @@ export default function ShopContent({
         <ShopBackdrop reduce={!!reduce} />
 
         <div className="mx-auto flex max-w-7xl flex-col gap-10">
-          <motion.div
+          <m.div
             {...fade(0)}
             className="flex flex-wrap items-center gap-x-3 gap-y-2 text-xs font-medium uppercase tracking-[0.32em] text-muted"
           >
@@ -55,9 +55,9 @@ export default function ShopContent({
             <span className="font-mono normal-case tracking-normal text-ink/50">
               Free this season
             </span>
-          </motion.div>
+          </m.div>
 
-          <motion.h1
+          <m.h1
             {...fade(0.08)}
             id="shop-hero-title"
             className="text-balance text-[clamp(2.5rem,8vw,6.5rem)] font-semibold leading-[0.95] tracking-[-0.045em] text-ink"
@@ -68,18 +68,18 @@ export default function ShopContent({
               for builders
             </span>
             .
-          </motion.h1>
+          </m.h1>
 
-          <motion.p
+          <m.p
             {...fade(0.18)}
             className="max-w-2xl text-pretty text-lg leading-8 text-muted sm:text-xl"
           >
             A small, slowly-growing library of practical ebooks. Each one
             written from real production work — the kind you keep open in a
             second tab, not on a shelf.
-          </motion.p>
+          </m.p>
 
-          <motion.div
+          <m.div
             {...fade(0.3)}
             className="mt-2 flex flex-wrap items-center gap-x-8 gap-y-3 text-xs uppercase tracking-[0.2em] text-muted"
           >
@@ -90,7 +90,7 @@ export default function ShopContent({
             <span>Production-tested</span>
             <span className="h-1 w-1 rounded-full bg-line" />
             <span>Beautifully typeset</span>
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
@@ -101,7 +101,7 @@ export default function ShopContent({
           className="relative border-t border-line px-5 py-24 sm:px-8 sm:py-32"
         >
           <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-16 lg:grid-cols-12 lg:gap-20">
-            <motion.div
+            <m.div
               {...reveal(0)}
               className="relative order-1 lg:order-2 lg:col-span-5"
             >
@@ -116,32 +116,32 @@ export default function ShopContent({
                   className="mx-auto w-[min(380px,80vw)]"
                 />
               </Link>
-            </motion.div>
+            </m.div>
 
             <div className="order-2 lg:order-1 lg:col-span-7">
-              <motion.p
+              <m.p
                 {...reveal(0.05)}
                 className="font-mono text-xs uppercase tracking-[0.32em] text-muted"
               >
                 Featured release · {featured.issue}
-              </motion.p>
+              </m.p>
 
-              <motion.h2
+              <m.h2
                 {...reveal(0.12)}
                 id="featured-title"
                 className="mt-5 text-balance text-4xl font-semibold tracking-[-0.035em] text-ink sm:text-5xl lg:text-[3.4rem]"
               >
                 {featured.title}.
-              </motion.h2>
+              </m.h2>
 
-              <motion.p
+              <m.p
                 {...reveal(0.2)}
                 className="mt-5 max-w-2xl text-pretty text-lg leading-8 text-muted"
               >
                 {featured.subtitle} {featured.description}
-              </motion.p>
+              </m.p>
 
-              <motion.dl
+              <m.dl
                 {...reveal(0.28)}
                 className="mt-10 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-4"
               >
@@ -163,9 +163,9 @@ export default function ShopContent({
                     </dd>
                   </div>
                 ))}
-              </motion.dl>
+              </m.dl>
 
-              <motion.div
+              <m.div
                 {...reveal(0.36)}
                 className="mt-10 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-4"
               >
@@ -190,9 +190,9 @@ export default function ShopContent({
                     {featured.fileSize}
                   </span>
                 </a>
-              </motion.div>
+              </m.div>
 
-              <motion.div
+              <m.div
                 {...reveal(0.44)}
                 className="mt-8 flex flex-wrap gap-2"
               >
@@ -204,7 +204,7 @@ export default function ShopContent({
                     {t}
                   </span>
                 ))}
-              </motion.div>
+              </m.div>
             </div>
           </div>
         </section>
@@ -217,7 +217,7 @@ export default function ShopContent({
       >
         <div className="mx-auto max-w-7xl">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-12 md:gap-12">
-            <motion.div {...reveal(0)} className="md:col-span-5">
+            <m.div {...reveal(0)} className="md:col-span-5">
               <p className="font-mono text-xs uppercase tracking-[0.32em] text-muted">
                 Catalog · {publications.length.toString().padStart(2, "0")} /{" "}
                 {publications.length.toString().padStart(2, "0")}
@@ -229,15 +229,15 @@ export default function ShopContent({
                 Every title.{" "}
                 <span className="text-muted">Slowly written, fast to read.</span>
               </h2>
-            </motion.div>
-            <motion.p
+            </m.div>
+            <m.p
               {...reveal(0.1)}
               className="md:col-span-6 md:col-start-7 max-w-2xl text-pretty text-lg leading-8 text-muted sm:text-xl"
             >
               I publish slowly. Each one is the book I wish I&apos;d had open
               in a second tab when I was learning the topic the hard way —
               short, opinionated, and meant to be read in a single sitting.
-            </motion.p>
+            </m.p>
           </div>
 
           <ul
@@ -277,28 +277,28 @@ export default function ShopContent({
         className="relative border-t border-line px-5 py-24 sm:px-8 sm:py-32"
       >
         <div className="mx-auto max-w-3xl text-center">
-          <motion.p
+          <m.p
             {...reveal(0)}
             className="font-mono text-xs uppercase tracking-[0.32em] text-muted"
           >
             New releases
-          </motion.p>
-          <motion.h2
+          </m.p>
+          <m.h2
             {...reveal(0.08)}
             className="mt-5 text-balance text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-5xl"
           >
             First dibs on the next one.
-          </motion.h2>
-          <motion.p
+          </m.h2>
+          <m.p
             {...reveal(0.16)}
             className="mt-5 text-pretty text-base leading-7 text-muted sm:text-lg"
           >
             I&apos;ll send one short email when a new ebook lands in the shop —
             or when something on the blog is worth reading. That&apos;s it. No
             threads, no promotions, no follow-ups.
-          </motion.p>
+          </m.p>
 
-          <motion.div
+          <m.div
             {...reveal(0.24)}
             className="mx-auto mt-10 max-w-md text-left"
           >
@@ -307,9 +307,9 @@ export default function ShopContent({
               count={subscriberCount}
               source="shop"
             />
-          </motion.div>
+          </m.div>
 
-          <motion.p
+          <m.p
             {...reveal(0.34)}
             className="mt-6 text-[12px] text-muted"
           >
@@ -321,7 +321,7 @@ export default function ShopContent({
               Read recent notes
             </Link>
             .
-          </motion.p>
+          </m.p>
         </div>
       </section>
     </main>
@@ -338,7 +338,7 @@ function CatalogCard({
   reduce: boolean;
 }) {
   return (
-    <motion.li
+    <m.li
       initial={reduce ? { opacity: 0 } : { opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
@@ -384,7 +384,7 @@ function CatalogCard({
           </span>
         </div>
       </Link>
-    </motion.li>
+    </m.li>
   );
 }
 
@@ -402,7 +402,7 @@ function ComingSoonCard({
   reduce: boolean;
 }) {
   return (
-    <motion.li
+    <m.li
       initial={reduce ? { opacity: 0 } : { opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
@@ -445,7 +445,7 @@ function ComingSoonCard({
           <span>—</span>
         </div>
       </div>
-    </motion.li>
+    </m.li>
   );
 }
 
@@ -459,7 +459,7 @@ function ShopBackdrop({ reduce }: { reduce: boolean }) {
       <div className="absolute left-1/2 top-1/2 h-[820px] w-[820px] -translate-x-1/2 -translate-y-1/2 bg-[linear-gradient(to_right,rgba(15,23,42,0.035)_1px,transparent_1px),linear-gradient(to_bottom,rgba(15,23,42,0.035)_1px,transparent_1px)] bg-[size:72px_72px] [mask-image:radial-gradient(circle,black,transparent_70%)]" />
 
       {!reduce && (
-        <motion.div
+        <m.div
           animate={{
             opacity: [0.2, 0.5, 0.2],
           }}

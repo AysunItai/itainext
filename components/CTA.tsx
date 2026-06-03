@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { m, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, Mail } from "lucide-react";
 import Link from "next/link";
 import { trackEvent } from "@/lib/analytics";
@@ -14,7 +14,7 @@ export default function CTA() {
       aria-labelledby="cta-title"
       className="relative scroll-mt-24 px-5 py-16 sm:px-8 sm:py-28"
     >
-      <motion.div
+      <m.div
         initial={reduce ? { opacity: 0 } : { opacity: 0, y: 18 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
@@ -74,7 +74,7 @@ export default function CTA() {
             </Link>
           </div>
         </div>
-      </motion.div>
+      </m.div>
     </section>
   );
 }

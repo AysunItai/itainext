@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { m, useReducedMotion } from "framer-motion";
 import { Gauge, ShieldCheck, Timer, Zap } from "lucide-react";
 
 const STATS = [
@@ -61,7 +61,7 @@ export default function Showcase() {
 
         <dl className="mt-14 grid grid-cols-2 gap-px overflow-hidden rounded-3xl border border-line bg-line lg:grid-cols-4">
           {STATS.map((s, i) => (
-            <motion.div
+            <m.div
               key={s.label}
               initial={reduce ? { opacity: 0 } : { opacity: 0, y: 14 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -82,13 +82,13 @@ export default function Showcase() {
                   {s.suffix}
                 </span>
               </dd>
-            </motion.div>
+            </m.div>
           ))}
         </dl>
 
         <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-2">
           {PILLARS.map((p, i) => (
-            <motion.article
+            <m.article
               key={p.title}
               initial={reduce ? { opacity: 0 } : { opacity: 0, y: 14 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -109,7 +109,7 @@ export default function Showcase() {
                 </h3>
               </div>
               <p className="mt-5 text-[15px] leading-7 text-muted">{p.body}</p>
-            </motion.article>
+            </m.article>
           ))}
         </div>
       </div>

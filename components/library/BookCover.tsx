@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { m, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
 import type { Publication } from "@/lib/library";
 
@@ -52,7 +52,7 @@ export default function BookCover({
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
-      <motion.div
+      <m.div
         className="relative aspect-[2/3] w-full"
         animate={
           reduce
@@ -252,7 +252,7 @@ export default function BookCover({
               "radial-gradient(ellipse, rgba(8,12,40,0.55), transparent 70%)",
           }}
         />
-      </motion.div>
+      </m.div>
     </div>
   );
 }

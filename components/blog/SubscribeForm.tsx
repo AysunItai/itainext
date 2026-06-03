@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, m, useReducedMotion } from "framer-motion";
 import { useState } from "react";
 
 type Variant = "card" | "inline";
@@ -164,7 +164,7 @@ function FormCore({
   return (
     <AnimatePresence mode="wait" initial={false}>
       {status === "success" ? (
-        <motion.div
+        <m.div
           key="success"
           initial={reduce ? { opacity: 0 } : { opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
@@ -182,9 +182,9 @@ function FormCore({
             and you&apos;re in. (Peek in spam if you don&apos;t see it within a
             minute.)
           </p>
-        </motion.div>
+        </m.div>
       ) : (
-        <motion.form
+        <m.form
           key="form"
           onSubmit={onSubmit}
           initial={false}
@@ -240,7 +240,7 @@ function FormCore({
               {error}
             </p>
           ) : null}
-        </motion.form>
+        </m.form>
       )}
     </AnimatePresence>
   );

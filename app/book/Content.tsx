@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { m, useReducedMotion } from "framer-motion";
 import { ArrowDown, ArrowUpRight, Calendar, Check } from "lucide-react";
 import Link from "next/link";
 import Script from "next/script";
@@ -115,7 +115,7 @@ export default function BookContent({ plan: planKey }: { plan: string | null }) 
         />
 
         <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
-          <motion.div
+          <m.div
             {...fade(0)}
             className="inline-flex items-center gap-2.5 rounded-full border border-line bg-paper/70 px-3.5 py-1.5 text-[12px] backdrop-blur-md"
           >
@@ -128,26 +128,26 @@ export default function BookContent({ plan: planKey }: { plan: string | null }) 
             </span>
             <span aria-hidden className="h-3 w-px flex-none bg-line" />
             <span className="text-ink/80">Zoom or Google Meet</span>
-          </motion.div>
+          </m.div>
 
-          <motion.h1
+          <m.h1
             {...fade(0.1)}
             id="book-hero-title"
             className="mt-8 text-balance text-[clamp(2.25rem,6.5vw,4.5rem)] font-semibold leading-[1.02] tracking-[-0.035em] text-ink"
           >
             Free 15-Minute Website Consultation
-          </motion.h1>
+          </m.h1>
 
-          <motion.p
+          <m.p
             {...fade(0.2)}
             className="mt-6 max-w-2xl text-pretty text-base leading-7 text-muted sm:text-lg sm:leading-8"
           >
             I help small businesses build clean, modern websites with
             WhatsApp, booking, SEO setup, and contact forms.
-          </motion.p>
+          </m.p>
 
           {plan ? (
-            <motion.div
+            <m.div
               {...fade(0.28)}
               className="mt-7 inline-flex items-center gap-3 rounded-full border border-line bg-paper-soft px-4 py-2 text-sm shadow-soft"
             >
@@ -157,10 +157,10 @@ export default function BookContent({ plan: planKey }: { plan: string | null }) 
               <span className="font-medium text-ink">{plan.name}</span>
               <span className="text-muted">·</span>
               <span className="font-medium text-accent">{plan.price}</span>
-            </motion.div>
+            </m.div>
           ) : null}
 
-          <motion.div
+          <m.div
             {...fade(0.34)}
             className="mt-10 flex w-full flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4"
           >
@@ -178,11 +178,11 @@ export default function BookContent({ plan: planKey }: { plan: string | null }) 
                 variant="ghost"
               />
             ) : null}
-          </motion.div>
+          </m.div>
 
-          <motion.p {...fade(0.44)} className="mt-5 text-[13px] text-muted">
+          <m.p {...fade(0.44)} className="mt-5 text-[13px] text-muted">
             No signup required. No sales pressure. Just a friendly conversation.
-          </motion.p>
+          </m.p>
         </div>
       </section>
 
@@ -239,23 +239,23 @@ export default function BookContent({ plan: planKey }: { plan: string | null }) 
         className="relative border-t border-line px-5 py-20 sm:px-8 sm:py-24"
       >
         <div className="mx-auto max-w-5xl">
-          <motion.p
+          <m.p
             {...reveal(0)}
             className="font-mono text-xs uppercase tracking-[0.32em] text-muted"
           >
             What we&apos;ll cover
-          </motion.p>
-          <motion.h2
+          </m.p>
+          <m.h2
             {...reveal(0.06)}
             id="in-the-call-title"
             className="mt-4 max-w-2xl text-balance text-3xl font-semibold tracking-[-0.025em] text-ink sm:text-[2.5rem] sm:leading-[1.1]"
           >
             In the call we can discuss:
-          </motion.h2>
+          </m.h2>
 
           <ul className="mt-10 grid grid-cols-1 gap-3 sm:gap-4 md:grid-cols-3">
             {IN_THE_CALL.map((point, i) => (
-              <motion.li
+              <m.li
                 key={point}
                 {...reveal(0.12 + i * 0.06)}
                 className="group flex items-start gap-3 rounded-2xl border border-line bg-paper p-5 transition-colors hover:border-ink/20 sm:p-6"
@@ -266,7 +266,7 @@ export default function BookContent({ plan: planKey }: { plan: string | null }) 
                 <span className="text-pretty text-[15px] leading-6 text-ink/90 sm:text-base">
                   {point}
                 </span>
-              </motion.li>
+              </m.li>
             ))}
           </ul>
         </div>
@@ -277,7 +277,7 @@ export default function BookContent({ plan: planKey }: { plan: string | null }) 
         aria-label="What to expect"
         className="relative border-t border-line bg-paper-soft px-5 py-20 sm:px-8 sm:py-24"
       >
-        <motion.div
+        <m.div
           {...reveal(0)}
           className="mx-auto max-w-3xl text-center"
         >
@@ -289,7 +289,7 @@ export default function BookContent({ plan: planKey }: { plan: string | null }) 
             business, your current online presence, and what small
             improvements could help you get more leads.
           </p>
-        </motion.div>
+        </m.div>
       </section>
 
       {/* ───────── WHO THIS IS FOR ───────── */}
@@ -298,23 +298,23 @@ export default function BookContent({ plan: planKey }: { plan: string | null }) 
         className="relative border-t border-line px-5 py-20 sm:px-8 sm:py-24"
       >
         <div className="mx-auto max-w-5xl">
-          <motion.p
+          <m.p
             {...reveal(0)}
             className="font-mono text-xs uppercase tracking-[0.32em] text-muted"
           >
             A good fit
-          </motion.p>
-          <motion.h2
+          </m.p>
+          <m.h2
             {...reveal(0.06)}
             id="who-its-for-title"
             className="mt-4 max-w-2xl text-balance text-3xl font-semibold tracking-[-0.025em] text-ink sm:text-[2.5rem] sm:leading-[1.1]"
           >
             This is for you if:
-          </motion.h2>
+          </m.h2>
 
           <ul className="mt-10 grid grid-cols-1 gap-3 sm:gap-4 md:grid-cols-2">
             {WHO_THIS_IS_FOR.map((point, i) => (
-              <motion.li
+              <m.li
                 key={point}
                 {...reveal(0.12 + i * 0.05)}
                 className="flex items-start gap-3 rounded-2xl border border-line bg-paper p-5 transition-colors hover:border-ink/20 sm:p-6"
@@ -325,7 +325,7 @@ export default function BookContent({ plan: planKey }: { plan: string | null }) 
                 <span className="text-pretty text-[15px] leading-6 text-ink/90 sm:text-base">
                   {point}
                 </span>
-              </motion.li>
+              </m.li>
             ))}
           </ul>
         </div>
@@ -336,7 +336,7 @@ export default function BookContent({ plan: planKey }: { plan: string | null }) 
         aria-label="Book now"
         className="relative border-t border-line px-5 py-20 sm:px-8 sm:py-28"
       >
-        <motion.div
+        <m.div
           {...reveal(0)}
           className="relative mx-auto max-w-4xl overflow-hidden rounded-[28px] border border-line bg-ink p-10 text-paper sm:rounded-[32px] sm:p-14"
         >
@@ -393,7 +393,7 @@ export default function BookContent({ plan: planKey }: { plan: string | null }) 
               </Link>
             </p>
           </div>
-        </motion.div>
+        </m.div>
       </section>
     </main>
   );

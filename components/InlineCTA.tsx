@@ -15,7 +15,7 @@
  * keeping the funnel single-purpose: book a free 15-minute call.
  */
 
-import { motion, useReducedMotion } from "framer-motion";
+import { m, useReducedMotion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { WhatsAppGlyph } from "@/components/library/brand-icons";
@@ -73,7 +73,7 @@ export default function InlineCTA({
       aria-label={heading}
       className="relative px-5 py-12 sm:px-8 sm:py-20"
     >
-      <motion.div
+      <m.div
         {...reveal}
         className={[
           "relative mx-auto max-w-4xl overflow-hidden rounded-[24px] p-6 sm:rounded-[28px] sm:p-10",
@@ -180,7 +180,7 @@ export default function InlineCTA({
             ) : null}
           </div>
         </div>
-      </motion.div>
+      </m.div>
     </section>
   );
 }

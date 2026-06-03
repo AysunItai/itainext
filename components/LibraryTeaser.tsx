@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { m, useReducedMotion } from "framer-motion";
 import { ArrowDownToLine, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import BookCover from "@/components/library/BookCover";
@@ -43,7 +43,7 @@ export default function LibraryTeaser() {
       <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-14 lg:grid-cols-12 lg:gap-20">
         {/* ────────── Text column ────────── */}
         <div className="order-2 lg:order-1 lg:col-span-7">
-          <motion.div
+          <m.div
             {...reveal(0)}
             className="flex flex-wrap items-center gap-x-3 gap-y-2"
           >
@@ -54,9 +54,9 @@ export default function LibraryTeaser() {
             <span className="inline-flex items-center gap-1.5 rounded-full bg-ink px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-paper">
               Free this season
             </span>
-          </motion.div>
+          </m.div>
 
-          <motion.h2
+          <m.h2
             {...reveal(0.08)}
             id="library-teaser-title"
             className="mt-6 text-balance text-4xl font-semibold leading-[1.02] tracking-[-0.035em] text-ink sm:text-5xl lg:text-[3.4rem]"
@@ -67,18 +67,18 @@ export default function LibraryTeaser() {
             </span>
             .{" "}
             <span className="text-muted">And more on the way.</span>
-          </motion.h2>
+          </m.h2>
 
-          <motion.p
+          <m.p
             {...reveal(0.16)}
             className="mt-6 max-w-2xl text-pretty text-lg leading-8 text-muted"
           >
             Fifty pages pulled from years of staring at slow queries in
             production — EXPLAIN, indexes, joins, pagination, aggregation.
             Yours to download. No signup, no email gate.
-          </motion.p>
+          </m.p>
 
-          <motion.div
+          <m.div
             {...reveal(0.24)}
             className="mt-10 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:gap-4"
           >
@@ -108,9 +108,9 @@ export default function LibraryTeaser() {
                 · {featured.fileSize}
               </span>
             </a>
-          </motion.div>
+          </m.div>
 
-          <motion.p
+          <m.p
             {...reveal(0.32)}
             className="mt-6 font-mono text-[11px] uppercase tracking-[0.22em] text-muted"
           >
@@ -124,11 +124,11 @@ export default function LibraryTeaser() {
             >
               Browse the library
             </Link>
-          </motion.p>
+          </m.p>
         </div>
 
         {/* ────────── Book column ────────── */}
-        <motion.div
+        <m.div
           {...reveal(0.1)}
           className="order-1 lg:order-2 lg:col-span-5"
         >
@@ -143,7 +143,7 @@ export default function LibraryTeaser() {
               className="mx-auto w-[min(340px,72vw)]"
             />
           </Link>
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );

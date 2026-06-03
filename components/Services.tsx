@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { m, useReducedMotion } from "framer-motion";
 import {
   BarChart3,
   Bot,
@@ -94,7 +94,7 @@ export default function Services() {
           className="mt-14 grid grid-cols-1 gap-px overflow-hidden rounded-3xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-3"
         >
           {SERVICES.map((s, i) => (
-            <motion.li
+            <m.li
               key={s.title}
               initial={
                 reduce ? { opacity: 0 } : { opacity: 0, y: 16 }
@@ -127,7 +127,7 @@ export default function Services() {
                   </li>
                 ))}
               </ul>
-            </motion.li>
+            </m.li>
           ))}
         </ul>
       </div>

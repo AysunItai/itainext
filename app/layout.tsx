@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import { SITE_URL } from "@/lib/site-url";
+import Providers from "./providers";
 import {
   jsonLdScriptProps,
   organizationLd,
@@ -14,12 +15,29 @@ import "./globals.css";
 
 const GA_MEASUREMENT_ID = "G-1J9D2QTNE6";
 
+// Geist powers every headline on the site — including the hero H1, which
+// is the mobile LCP element. With `display: "swap"`, the browser paints
+// the H1 first in the fallback metrics-adjusted system font, then
+// repaints when Geist loads. Lighthouse treats that second paint as the
+// LCP, which was the source of the ~1.5s gap between FCP (2.7s) and LCP
+// (4.2s) on mobile. Switching to `display: "optional"`:
+//   • lets the browser use Geist if it arrives within ~100ms (which is
+//     the typical case because next/font already preloads it), and
+//   • otherwise sticks with the metrics-adjusted fallback for the
+//     remainder of the page lifetime, so LCP = FCP.
+// The fallback (system-ui → Segoe UI → Roboto → Helvetica Neue → Arial)
+// is what next/font already size-adjusts against, so there is no
+// layout shift either way. Visual difference is imperceptible on
+// repeat visits (font is cached).
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
-  display: "swap",
+  display: "optional",
 });
 
+// Mono is used only for small UI badges and code blocks (never an LCP
+// candidate), so `swap` is fine — the swap repaint can't move the LCP
+// timestamp.
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
@@ -119,10 +137,12 @@ export default function RootLayout({
         >
           Skip to content
         </a>
-        <Header />
-        {children}
-        <Footer />
-        <WhatsAppButton />
+        <Providers>
+          <Header />
+          {children}
+          <Footer />
+          <WhatsAppButton />
+        </Providers>
         <script {...jsonLdScriptProps(organizationLd())} />
         <script {...jsonLdScriptProps(websiteLd())} />
 

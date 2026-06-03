@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { m, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, Check, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { trackBookConsultationClick } from "@/lib/analytics";
@@ -99,7 +99,7 @@ export default function Pricing() {
     >
       <div className="mx-auto max-w-7xl">
         <div className="grid grid-cols-1 gap-6 md:grid-cols-12 md:gap-12">
-          <motion.div {...fade(0)} className="md:col-span-5">
+          <m.div {...fade(0)} className="md:col-span-5">
             <p className="font-mono text-xs uppercase tracking-[0.32em] text-muted">
               Pricing · 03 / 03
             </p>
@@ -110,14 +110,14 @@ export default function Pricing() {
               Clear pricing.{" "}
               <span className="text-muted">No surprises.</span>
             </h2>
-          </motion.div>
-          <motion.p
+          </m.div>
+          <m.p
             {...fade(0.1)}
             className="md:col-span-6 md:col-start-7 max-w-2xl text-pretty text-lg leading-8 text-muted sm:text-xl"
           >
             Three starting points designed for clarity. Every plan can be
             tailored — you only pay for what you actually need.
-          </motion.p>
+          </m.p>
         </div>
 
         <ul
@@ -134,13 +134,13 @@ export default function Pricing() {
           ))}
         </ul>
 
-        <motion.p
+        <m.p
           {...fade(0.4)}
           className="mt-10 text-center text-sm text-muted"
         >
           All plans include code ownership, hosting setup guidance, and a
           30-day post-launch support window.
-        </motion.p>
+        </m.p>
       </div>
     </section>
   );
@@ -159,7 +159,7 @@ function PricingCard({
   const isTailored = plan.price === "Tailored";
 
   return (
-    <motion.li
+    <m.li
       initial={reduce ? { opacity: 0 } : { opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
@@ -308,6 +308,6 @@ function PricingCard({
           strokeWidth={2}
         />
       </Link>
-    </motion.li>
+    </m.li>
   );
 }

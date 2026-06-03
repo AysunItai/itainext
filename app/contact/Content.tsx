@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, m, useReducedMotion } from "framer-motion";
 import {
   ArrowUpRight,
   Check,
@@ -119,7 +119,7 @@ export default function ContactContent() {
         />
 
         <div className="mx-auto flex max-w-7xl flex-col gap-10">
-          <motion.div
+          <m.div
             {...fade(0)}
             className="flex flex-wrap items-center gap-x-3 gap-y-2 text-xs font-medium uppercase tracking-[0.32em] text-muted"
           >
@@ -128,9 +128,9 @@ export default function ContactContent() {
             <span className="font-mono tabular-nums normal-case tracking-normal text-ink/50">
               Direct line · No middlemen
             </span>
-          </motion.div>
+          </m.div>
 
-          <motion.h1
+          <m.h1
             {...fade(0.1)}
             id="contact-hero-title"
             className="text-balance text-[clamp(2.5rem,8vw,6.5rem)] font-semibold leading-[0.95] tracking-[-0.04em] text-ink"
@@ -138,15 +138,15 @@ export default function ContactContent() {
             Let&apos;s start a
             <br />
             conversation.
-          </motion.h1>
+          </m.h1>
 
-          <motion.p
+          <m.p
             {...fade(0.2)}
             className="max-w-2xl text-pretty text-lg leading-8 text-muted sm:text-xl"
           >
             Tell me a little about what you&apos;re building. Replies come
             straight from me — usually within a day, often sooner.
-          </motion.p>
+          </m.p>
         </div>
       </section>
 
@@ -158,7 +158,7 @@ export default function ContactContent() {
           <div className="lg:col-span-8">
             <AnimatePresence mode="wait" initial={false}>
               {status !== "success" ? (
-                <motion.form
+                <m.form
                   key="form"
                   onSubmit={handleSubmit}
                   noValidate
@@ -353,7 +353,7 @@ export default function ContactContent() {
 
                   <AnimatePresence>
                     {status === "error" && (
-                      <motion.div
+                      <m.div
                         key="error"
                         initial={{ opacity: 0, y: -6 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -363,12 +363,12 @@ export default function ContactContent() {
                       >
                         {errorMsg ||
                           "Something went wrong. Please try again."}
-                      </motion.div>
+                      </m.div>
                     )}
                   </AnimatePresence>
-                </motion.form>
+                </m.form>
               ) : (
-                <motion.div
+                <m.div
                   key="success"
                   initial={
                     reduce
@@ -388,7 +388,7 @@ export default function ContactContent() {
                     className="pointer-events-none absolute -bottom-24 -left-20 h-72 w-72 rounded-full bg-accent-soft/10 blur-3xl"
                   />
                   <div className="relative flex flex-col gap-6">
-                    <motion.div
+                    <m.div
                       initial={
                         reduce ? { opacity: 0 } : { opacity: 0, scale: 0.6 }
                       }
@@ -401,7 +401,7 @@ export default function ContactContent() {
                       className="flex h-14 w-14 items-center justify-center rounded-full bg-ink text-paper"
                     >
                       <Check className="h-6 w-6" strokeWidth={2.25} />
-                    </motion.div>
+                    </m.div>
                     <h2 className="text-balance text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-4xl">
                       Message received,{" "}
                       <span className="text-muted">{trimmedName}.</span>
@@ -427,7 +427,7 @@ export default function ContactContent() {
                       </Link>
                     </div>
                   </div>
-                </motion.div>
+                </m.div>
               )}
             </AnimatePresence>
           </div>

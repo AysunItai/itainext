@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, m, useReducedMotion } from "framer-motion";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -72,7 +72,7 @@ export default function SubscribeStatusBanner() {
   return (
     <AnimatePresence>
       {visible && copy ? (
-        <motion.div
+        <m.div
           initial={reduce ? { opacity: 0 } : { opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
           exit={reduce ? { opacity: 0 } : { opacity: 0, y: -8 }}
@@ -110,7 +110,7 @@ export default function SubscribeStatusBanner() {
           <p className="mt-1 text-[14px] leading-relaxed text-ink/65">
             {copy.body}
           </p>
-        </motion.div>
+        </m.div>
       ) : null}
     </AnimatePresence>
   );
