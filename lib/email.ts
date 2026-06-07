@@ -11,7 +11,17 @@ import rehypeStringify from "rehype-stringify";
 export const NEWSLETTER_FROM =
   process.env.NEWSLETTER_FROM_EMAIL ??
   process.env.CONTACT_EMAIL_FROM ??
-  "ITAI Notes <onboarding@resend.dev>";
+  "ITAI Notes <notes@itaiwebsolutions.com>";
+
+// Purchase receipts come from here. Keeping the transactional sender
+// distinct from the newsletter sender lets buyers' inboxes (and reputation
+// systems) treat receipts as transactional mail, not marketing.
+export const RECEIPT_FROM =
+  process.env.RECEIPT_FROM_EMAIL ?? NEWSLETTER_FROM;
+
+// Where customers should reply if a purchase goes sideways. Matches the
+// contact form's destination so support follow-ups land in the same place.
+const SUPPORT_EMAIL = "info@itaiwebsolutions.com";
 
 // Email links need an absolute origin. In dev the env override points at
 // localhost; in prod we fall back to the canonical www host so emails
@@ -269,4 +279,81 @@ function buildBroadcastText(args: {
   ]
     .filter((line) => line !== null && line !== undefined)
     .join("\n");
+}
+
+// ───────── Purchase receipt ─────────
+// Sent from the Stripe webhook after a successful checkout. Carries the
+// signed download link — no PDF attachment, no private file path, no
+// price (Stripe already sent its own card receipt for the money side).
+
+const MAX_DOWNLOADS_HUMAN = 5;
+
+function formatExpiryDate(d: Date): string {
+  return new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }).format(d);
+}
+
+export async function sendPurchaseReceipt(args: {
+  to: string;
+  productTitle: string;
+  downloadUrl: string;
+  expiresAt: Date;
+}) {
+  const { to, productTitle, downloadUrl, expiresAt } = args;
+  const resend = getResend();
+  if (!resend) {
+    console.error("[email] RESEND_API_KEY missing — cannot send receipt");
+    throw new Error("Email service not configured.");
+  }
+
+  const expires = formatExpiryDate(expiresAt);
+  const subject = `Your download — ${productTitle}`;
+  const preheader = `Tap to download. Link valid until ${expires}.`;
+
+  const body = `
+    <h1 style="margin:0 0 16px;font-size:28px;line-height:1.25;letter-spacing:-0.02em;color:#0a0a0a;font-weight:600;">Thanks for your purchase</h1>
+    <p style="margin:0 0 12px;font-size:16px;line-height:1.7;color:#2a2a2c;">Your copy of <strong>${escapeHtml(productTitle)}</strong> is ready. Use the button below to download it.</p>
+    <p style="margin:24px 0 28px;">
+      <a href="${downloadUrl}" style="display:inline-block;background:#0a0a0a;color:#ffffff;text-decoration:none;font-weight:500;font-size:15px;padding:14px 26px;border-radius:999px;">Download →</a>
+    </p>
+    <p style="margin:0 0 8px;font-size:13px;line-height:1.6;color:#6b7280;">If the button doesn't work, paste this link into your browser:</p>
+    <p style="margin:0 0 24px;font-size:12px;line-height:1.5;color:#6b7280;word-break:break-all;"><a href="${downloadUrl}" style="color:#1e3a8a;text-decoration:none;">${escapeHtml(downloadUrl)}</a></p>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:24px 0 0;border-collapse:separate;border:1px solid #e5e5e5;border-radius:8px;background:#fafafa;">
+      <tr><td style="padding:14px 16px;font-size:13px;line-height:1.6;color:#4a4a4c;">
+        <strong style="color:#0a0a0a;">A couple of details:</strong><br/>
+        • This link is valid until <strong>${escapeHtml(expires)}</strong>.<br/>
+        • You can use it for up to <strong>${MAX_DOWNLOADS_HUMAN} downloads</strong> — save the file locally after the first one.
+      </td></tr>
+    </table>
+    <p style="margin:32px 0 0;font-size:13px;line-height:1.6;color:#6b7280;">If something doesn't work or you need a fresh link, reply to this email or write to <a href="mailto:${SUPPORT_EMAIL}" style="color:#1e3a8a;text-decoration:none;">${SUPPORT_EMAIL}</a>. I'll sort it out.</p>
+  `;
+
+  const html = shell({ title: subject, preheader, body });
+
+  const text = [
+    `Thanks for your purchase.`,
+    "",
+    `Your copy of ${productTitle} is ready. Download it here:`,
+    downloadUrl,
+    "",
+    `This link is valid until ${expires} and works for up to ${MAX_DOWNLOADS_HUMAN} downloads — save the file locally after the first one.`,
+    "",
+    `If something doesn't work or you need a fresh link, reply to this email or write to ${SUPPORT_EMAIL}.`,
+  ].join("\n");
+
+  const { error } = await resend.emails.send({
+    from: RECEIPT_FROM,
+    to,
+    subject,
+    html,
+    text,
+    replyTo: SUPPORT_EMAIL,
+  });
+  if (error) {
+    console.error("[email] receipt send error", error);
+    throw new Error(error.message ?? "Failed to send receipt.");
+  }
 }

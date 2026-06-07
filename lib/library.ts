@@ -159,9 +159,7 @@ export const PUBLICATIONS: Publication[] = [
     ],
     file: "/publications/sqlmasterclass.pdf",
     fileSize: "245 KB",
-    priceCents: 0,
-    listPriceCents: 3900,
-    ribbon: "Free this season",
+    priceCents: 3900,
     publishedAt: "2026-01-01",
   },
 ];

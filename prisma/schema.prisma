@@ -45,3 +45,61 @@ model Subscriber {
   @@index([confirmed, unsubscribedAt])
   @@index([source])
 }
+
+// Digital-product purchase. One row per paid Stripe Checkout Session.
+// Fields named generically (productSlug/Title/Type) so the same table works
+// for any digital product, not just publications.
+model Order {
+  id                    String    @id @default(cuid())
+
+  // Snapshot of what was bought. Kept on the order row so a future catalog
+  // edit (rename, repricing, deletion) doesn't rewrite purchase history.
+  productSlug           String
+  productTitle          String
+  productType           String
+
+  // Money in the smallest currency unit (cents), matching Stripe.
+  amountCents           Int
+  currency              String
+
+  // Buyer — anonymous, just the email Stripe collected at Checkout.
+  email                 String
+
+  // Stripe references. stripeSessionId is unique so the webhook can upsert
+  // idempotently (Stripe may retry the same event).
+  stripeSessionId       String    @unique
+  stripePaymentIntentId String?
+  stripeCustomerId      String?
+
+  status                String    // "paid" | "refunded" | "failed"
+  createdAt             DateTime  @default(now())
+  paidAt                DateTime?
+
+  downloads             Download[]
+
+  @@index([email])
+  @@index([productSlug])
+}
+
+// Signed download token. One Order may have multiple Downloads (e.g. a
+// support re-issue). The token gates access to the private file.
+model Download {
+  id               String    @id @default(cuid())
+  token            String    @unique
+  orderId          String
+  order            Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  // Snapshot the file path at issue time so a later catalog change can't
+  // silently retarget an old link.
+  productSlug      String
+  privateFilePath  String
+
+  expiresAt        DateTime
+  maxDownloads     Int       @default(5)
+  downloadCount    Int       @default(0)
+  lastDownloadedAt DateTime?
+
+  createdAt        DateTime  @default(now())
+
+  @@index([orderId])
+}

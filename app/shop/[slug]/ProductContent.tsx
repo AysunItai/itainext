@@ -11,6 +11,7 @@ import Link from "next/link";
 import SubscribeForm from "@/components/blog/SubscribeForm";
 import BookCover from "@/components/library/BookCover";
 import ShareBar from "@/components/library/ShareBar";
+import BuyButton from "@/components/shop/BuyButton";
 import { formatPrice, type Publication } from "@/lib/library";
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
@@ -42,6 +43,9 @@ export default function ProductContent({
   const isFree = pub.priceCents === 0;
   const hasList =
     pub.listPriceCents !== undefined && pub.listPriceCents > pub.priceCents;
+  const shareText = isFree
+    ? `Free read: ${pub.title}. ${pub.tagline}`
+    : `${pub.title} — ${pub.tagline}`;
 
   return (
     <main id="main" className="relative">
@@ -127,49 +131,65 @@ export default function ProductContent({
                 {...fade(0.36)}
                 className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:gap-4"
               >
-                <a
-                  href={pub.file}
-                  download
-                  className="group inline-flex items-center justify-center gap-2 rounded-full bg-ink px-7 py-3.5 text-sm font-medium text-paper shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:bg-ink-soft hover:shadow-lifted"
-                >
-                  <ArrowDownToLine
-                    aria-hidden
-                    className="h-4 w-4 transition-transform group-hover:translate-y-px"
-                    strokeWidth={2}
-                  />
-                  Download the {pub.format}
-                  <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-paper/60">
-                    · {pub.fileSize}
-                  </span>
-                </a>
-                <a
-                  href={pub.file}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center justify-center gap-2 rounded-full border border-line bg-paper px-7 py-3.5 text-sm font-medium text-ink transition-colors hover:bg-mist"
-                >
-                  Preview in browser
-                  <ArrowUpRight
-                    aria-hidden
-                    className="h-4 w-4"
-                    strokeWidth={2}
-                  />
-                </a>
+                {isFree ? (
+                  <a
+                    href={pub.file}
+                    download
+                    className="group inline-flex items-center justify-center gap-2 rounded-full bg-ink px-7 py-3.5 text-sm font-medium text-paper shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:bg-ink-soft hover:shadow-lifted"
+                  >
+                    <ArrowDownToLine
+                      aria-hidden
+                      className="h-4 w-4 transition-transform group-hover:translate-y-px"
+                      strokeWidth={2}
+                    />
+                    Download the {pub.format}
+                    <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-paper/60">
+                      · {pub.fileSize}
+                    </span>
+                  </a>
+                ) : (
+                  <BuyButton
+                    slug={pub.slug}
+                    className="group inline-flex items-center justify-center gap-2 rounded-full bg-ink px-7 py-3.5 text-sm font-medium text-paper shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:bg-ink-soft hover:shadow-lifted"
+                  >
+                    Buy — {formatPrice(pub.priceCents)}
+                    <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-paper/60">
+                      · {pub.format}
+                    </span>
+                  </BuyButton>
+                )}
+                {isFree && (
+                  <a
+                    href={pub.file}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center justify-center gap-2 rounded-full border border-line bg-paper px-7 py-3.5 text-sm font-medium text-ink transition-colors hover:bg-mist"
+                  >
+                    Preview in browser
+                    <ArrowUpRight
+                      aria-hidden
+                      className="h-4 w-4"
+                      strokeWidth={2}
+                    />
+                  </a>
+                )}
               </m.div>
 
-              <m.p
-                {...fade(0.44)}
-                className="mt-5 text-[13px] text-muted"
-              >
-                No signup. No email gate. If it&apos;s useful, send it to a
-                teammate.
-              </m.p>
+              {isFree && (
+                <m.p
+                  {...fade(0.44)}
+                  className="mt-5 text-[13px] text-muted"
+                >
+                  No signup. No email gate. If it&apos;s useful, send it to a
+                  teammate.
+                </m.p>
+              )}
 
               <m.div {...fade(0.52)} className="mt-8">
                 <ShareBar
                   path={`/shop/${pub.slug}`}
                   title={`${pub.title} — ${pub.subtitle}`}
-                  text={`Free read: ${pub.title}. ${pub.tagline}`}
+                  text={shareText}
                   eyebrow="Share this volume"
                 />
               </m.div>
@@ -439,21 +459,33 @@ export default function ProductContent({
               </p>
 
               <div className="mt-10 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
-                <a
-                  href={pub.file}
-                  download
-                  className="group inline-flex items-center justify-center gap-2 rounded-full bg-paper px-7 py-3.5 text-sm font-medium text-ink transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lifted"
-                >
-                  <ArrowDownToLine
-                    aria-hidden
-                    className="h-4 w-4 transition-transform group-hover:translate-y-px"
-                    strokeWidth={2}
-                  />
-                  Download {formatPrice(pub.priceCents)}
-                  <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink/55">
-                    · {pub.fileSize}
-                  </span>
-                </a>
+                {isFree ? (
+                  <a
+                    href={pub.file}
+                    download
+                    className="group inline-flex items-center justify-center gap-2 rounded-full bg-paper px-7 py-3.5 text-sm font-medium text-ink transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lifted"
+                  >
+                    <ArrowDownToLine
+                      aria-hidden
+                      className="h-4 w-4 transition-transform group-hover:translate-y-px"
+                      strokeWidth={2}
+                    />
+                    Download {formatPrice(pub.priceCents)}
+                    <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink/55">
+                      · {pub.fileSize}
+                    </span>
+                  </a>
+                ) : (
+                  <BuyButton
+                    slug={pub.slug}
+                    className="group inline-flex items-center justify-center gap-2 rounded-full bg-paper px-7 py-3.5 text-sm font-medium text-ink transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lifted"
+                  >
+                    Buy — {formatPrice(pub.priceCents)}
+                    <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink/55">
+                      · {pub.format}
+                    </span>
+                  </BuyButton>
+                )}
                 <Link
                   href="/shop"
                   className="inline-flex items-center justify-center gap-2 rounded-full border border-paper/20 bg-transparent px-7 py-3.5 text-sm font-medium text-paper transition-colors hover:bg-paper/10"
@@ -472,7 +504,7 @@ export default function ProductContent({
                   variant="dark"
                   path={`/shop/${pub.slug}`}
                   title={`${pub.title} — ${pub.subtitle}`}
-                  text={`Free read: ${pub.title}. ${pub.tagline}`}
+                  text={shareText}
                   eyebrow="Pass it along"
                 />
               </div>

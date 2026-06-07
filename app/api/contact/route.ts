@@ -7,7 +7,8 @@ import {
 
 const CONTACT_TO = process.env.CONTACT_EMAIL_TO ?? "info@itaiwebsolutions.com";
 const CONTACT_FROM =
-  process.env.CONTACT_EMAIL_FROM ?? "ITAI Contact <onboarding@resend.dev>";
+  process.env.CONTACT_EMAIL_FROM ??
+  "ITAI Web Solutions <contact@itaiwebsolutions.com>";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
