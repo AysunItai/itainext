@@ -6,8 +6,16 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  // Runtime queries — uses Neon's pooled endpoint (-pooler hostname).
+  // Pooled connections handle serverless cold starts + connection reuse
+  // far better than direct ones, which is why Vercel was tripping over
+  // build-time DB calls before.
+  url       = env("DATABASE_URL")
+  // Migrations only. Pooled endpoints don't support DDL, so prisma
+  // migrate / db push / introspection have to go through the direct
+  // endpoint. Same database, different hostname (no -pooler suffix).
+  directUrl = env("DIRECT_URL")
 }
 
 model Post {
