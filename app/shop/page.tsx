@@ -6,7 +6,7 @@ import ShopContent from "./ShopContent";
 export const metadata: Metadata = {
   title: "Shop — Field manuals for engineering teams",
   description:
-    "A small, deliberate library of ebooks for working engineers. Free this season — designed to live on your second monitor, not your shelf.",
+    "A small, deliberate library of ebooks for working engineers. Designed to live on your second monitor, not your shelf.",
   alternates: { canonical: "/shop" },
   openGraph: {
     type: "website",

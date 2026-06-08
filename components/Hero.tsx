@@ -34,7 +34,7 @@ export default function Hero() {
         >
           <Link
             href="/shop/sql-performance-masterclass"
-            aria-label="Free this season — SQL Performance Masterclass"
+            aria-label="Launch discount — SQL Performance Masterclass"
             className="group inline-flex max-w-full items-center gap-2.5 rounded-full border border-line bg-paper/70 px-3.5 py-1.5 text-[12px] backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-ink/25 hover:bg-paper hover:shadow-soft focus-visible:outline-none"
           >
             <span aria-hidden className="relative flex h-2 w-2 flex-none">
@@ -46,9 +46,9 @@ export default function Hero() {
             </span>
             <span aria-hidden className="h-3 w-px flex-none bg-line" />
             <span className="truncate text-ink/85">
-              <span className="sm:hidden">A free SQL ebook</span>
+              <span className="sm:hidden">SQL Performance ebook</span>
               <span className="hidden sm:inline">
-                A free SQL Performance ebook
+                The SQL Performance ebook
               </span>
             </span>
             <ArrowUpRight

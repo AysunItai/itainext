@@ -170,7 +170,7 @@ function LibraryCard({
               display: "flex",
             }}
           />
-          <span>Free this season</span>
+          <span>Launch discount</span>
         </div>
       </div>
 
@@ -283,7 +283,7 @@ function LibraryCard({
                 }}
               />
               <span style={{ color: "#a7f3d0", fontWeight: 600 }}>
-                Free download
+                $9.99 launch price
               </span>
             </>
           ) : (

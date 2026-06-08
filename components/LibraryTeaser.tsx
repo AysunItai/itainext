@@ -1,4 +1,4 @@
-import { ArrowDownToLine, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import BookCover from "@/components/library/BookCover";
 import { listPublications } from "@/lib/library";
@@ -38,7 +38,7 @@ export default function LibraryTeaser() {
             </span>
             <span aria-hidden className="h-px w-10 bg-line" />
             <span className="inline-flex items-center gap-1.5 rounded-full bg-ink px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-paper">
-              Free this season
+              Launch discount
             </span>
           </div>
 
@@ -46,7 +46,7 @@ export default function LibraryTeaser() {
             id="library-teaser-title"
             className="mt-6 text-balance text-4xl font-semibold leading-[1.02] tracking-[-0.035em] text-ink sm:text-5xl lg:text-[3.4rem]"
           >
-            A free ebook on{" "}
+            An ebook on{" "}
             <span className="bg-[linear-gradient(110deg,#0a0a0a,#1e40af,#0f172a,#2563eb,#0a0a0a)] bg-[length:240%_240%] bg-clip-text text-transparent">
               SQL performance
             </span>
@@ -57,7 +57,7 @@ export default function LibraryTeaser() {
           <p className="mt-6 max-w-2xl text-pretty text-lg leading-8 text-muted">
             Fifty pages pulled from years of staring at slow queries in
             production — EXPLAIN, indexes, joins, pagination, aggregation.
-            Yours to download. No signup, no email gate.
+            Read on any device — yours forever.
           </p>
 
           <div className="mt-10 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:gap-4">
@@ -65,28 +65,13 @@ export default function LibraryTeaser() {
               href={`/shop/${featured.slug}`}
               className="group inline-flex items-center justify-center gap-2 rounded-full bg-ink px-7 py-3.5 text-sm font-medium text-paper shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:bg-ink-soft hover:shadow-lifted"
             >
-              Read the overview
+              Get the ebook
               <ArrowUpRight
                 aria-hidden
                 className="h-4 w-4 transition-transform group-hover:-translate-y-px group-hover:translate-x-px"
                 strokeWidth={2}
               />
             </Link>
-            <a
-              href={featured.file}
-              download
-              className="group inline-flex items-center justify-center gap-2 rounded-full border border-line bg-paper px-7 py-3.5 text-sm font-medium text-ink transition-colors hover:bg-mist"
-            >
-              <ArrowDownToLine
-                aria-hidden
-                className="h-4 w-4 transition-transform group-hover:translate-y-px"
-                strokeWidth={2}
-              />
-              Download the PDF
-              <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
-                · {featured.fileSize}
-              </span>
-            </a>
           </div>
 
           <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.22em] text-muted">
