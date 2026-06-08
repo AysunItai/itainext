@@ -9,11 +9,12 @@ export const metadata: Metadata = {
 };
 
 /**
- * Where Stripe redirects buyers who hit "Back" on the hosted Checkout
- * page (or close the payment sheet). No payment was attempted, so no
- * webhook will fire and no Order/Download rows exist.
+ * Where the payment provider can return buyers who back out of the
+ * hosted checkout. Not actively used by the current Lemon Squeezy
+ * direct-link flow (Lemon Squeezy doesn't fire a cancel redirect), but
+ * kept around as a useful landing target for support links.
  *
- * We accept a `?slug=` query so the "Try again" CTA can drop the buyer
+ * Accepts a `?slug=` query so the "Try again" CTA can drop the buyer
  * straight back onto the same product page. If slug is missing, we send
  * them back to the catalog.
  */
@@ -23,8 +24,8 @@ export default async function CheckoutCancelledPage({
   searchParams: Promise<{ slug?: string }>;
 }) {
   const { slug } = await searchParams;
-  // Defensive: the slug came back through Stripe's redirect, but treat
-  // it as untrusted display data. A simple slug shape (letters, digits,
+  // Defensive: the slug came back through a query param, so treat it as
+  // untrusted display data. A simple slug shape (letters, digits,
   // dash) — anything else, send the buyer to the catalog.
   const safeSlug =
     typeof slug === "string" && /^[a-z0-9-]{1,80}$/.test(slug) ? slug : null;

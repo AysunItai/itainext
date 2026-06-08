@@ -152,7 +152,7 @@ export default function ProductContent({
                     slug={pub.slug}
                     className="group inline-flex items-center justify-center gap-2 rounded-full bg-ink px-7 py-3.5 text-sm font-medium text-paper shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:bg-ink-soft hover:shadow-lifted"
                   >
-                    Buy — {formatPrice(pub.priceCents)}
+                    Buy now · {formatPrice(pub.priceCents)}
                     <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-paper/60">
                       · {pub.format}
                     </span>
@@ -480,7 +480,7 @@ export default function ProductContent({
                     slug={pub.slug}
                     className="group inline-flex items-center justify-center gap-2 rounded-full bg-paper px-7 py-3.5 text-sm font-medium text-ink transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lifted"
                   >
-                    Buy — {formatPrice(pub.priceCents)}
+                    Buy now · {formatPrice(pub.priceCents)}
                     <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink/55">
                       · {pub.format}
                     </span>

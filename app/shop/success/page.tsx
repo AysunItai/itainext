@@ -9,16 +9,10 @@ export const metadata: Metadata = {
 };
 
 /**
- * Where Stripe redirects buyers after a successful Checkout Session.
- *
- * This page is intentionally a purely presentational acknowledgement.
- * It does NOT read session_id, does NOT fetch the order, does NOT create
- * downloads. The webhook (POST /api/stripe/webhook) is the source of
- * truth for fulfillment — the buyer's browser may never even reach this
- * page (mobile redirects flake, tabs get closed) and that's fine.
- *
- * Stripe appends `?session_id={CHECKOUT_SESSION_ID}` to the URL. We
- * deliberately ignore it.
+ * Where the payment provider redirects buyers after a successful
+ * hosted checkout. Purely presentational — does not provision the
+ * download itself. The buyer receives their download link by email
+ * (sent by the provider in the current minimal setup).
  */
 export default function CheckoutSuccessPage() {
   return (
@@ -36,14 +30,13 @@ export default function CheckoutSuccessPage() {
         </p>
 
         <h1 className="mt-4 text-balance text-4xl font-semibold leading-[1.05] tracking-[-0.03em] text-ink sm:text-5xl">
-          Thanks — your download is on the way.
+          Thanks for your purchase.
         </h1>
 
         <p className="mt-6 text-pretty text-base leading-7 text-muted sm:text-lg">
-          We&apos;ve emailed you a private download link. It usually lands
-          within a minute. Check your inbox (and the spam folder, just in
-          case) — the link is valid for 7 days and good for up to 5
-          downloads.
+          Your download link will arrive by email shortly. Check your
+          inbox (and the spam folder, just in case). If nothing has shown
+          up after a few minutes, get in touch and I&apos;ll sort it out.
         </p>
 
         <div className="mt-10 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-center">

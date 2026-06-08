@@ -1,90 +1,41 @@
-"use client";
-
-import { useState } from "react";
+import { getLemonCheckoutUrl } from "@/lib/lemon-checkout";
 
 /**
- * Tiny client component that turns a click into a Stripe Checkout
- * redirect. POSTs only `{ slug }` to /api/checkout — the server is the
- * one and only place that knows the price.
+ * Renders a styled link pointing at the hosted checkout URL for a given
+ * product slug. Same component signature the page used to call when it
+ * was a client component that POSTed to /api/checkout — keeping the
+ * shape stable lets the existing call sites in ProductContent stay put.
  *
- * Renders the button you give it (children + className), plus an error
- * line below if the request fails. Wraps both in a flex-column div so
- * the button keeps its parent's sizing while the error sits beneath.
+ * If the URL is missing (env var not set), renders a disabled button so
+ * the page still lays out correctly instead of crashing.
  */
 export default function BuyButton({
   slug,
   className,
   children,
-  loadingLabel = "Starting checkout…",
 }: {
   slug: string;
   className: string;
   children: React.ReactNode;
-  loadingLabel?: string;
 }) {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const url = getLemonCheckoutUrl(slug);
 
-  async function onClick() {
-    setLoading(true);
-    setError(null);
-
-    let data: unknown = null;
-    try {
-      const res = await fetch("/api/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ slug }),
-      });
-      data = await res.json().catch(() => null);
-
-      if (
-        res.ok &&
-        data &&
-        typeof data === "object" &&
-        "url" in data &&
-        typeof (data as { url: unknown }).url === "string"
-      ) {
-        // Hand off to Stripe-hosted Checkout. We don't reset loading on
-        // purpose — the page is about to unload.
-        window.location.assign((data as { url: string }).url);
-        return;
-      }
-
-      const message =
-        data &&
-        typeof data === "object" &&
-        "error" in data &&
-        typeof (data as { error: unknown }).error === "string"
-          ? (data as { error: string }).error
-          : "Couldn't start checkout. Please try again.";
-      setError(message);
-    } catch {
-      setError("Couldn't reach the server. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+  if (!url) {
+    return (
+      <button
+        type="button"
+        disabled
+        aria-disabled
+        className={`${className} disabled:cursor-not-allowed disabled:opacity-60`}
+      >
+        {children}
+      </button>
+    );
   }
 
   return (
-    <div className="flex flex-col items-stretch sm:items-start">
-      <button
-        type="button"
-        onClick={onClick}
-        disabled={loading}
-        aria-busy={loading}
-        className={`${className} disabled:cursor-wait disabled:opacity-70`}
-      >
-        {loading ? loadingLabel : children}
-      </button>
-      {error && (
-        <p
-          role="alert"
-          className="mt-3 max-w-md text-[13px] leading-6 text-red-700"
-        >
-          {error}
-        </p>
-      )}
-    </div>
+    <a href={url} className={className}>
+      {children}
+    </a>
   );
 }
