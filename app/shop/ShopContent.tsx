@@ -182,7 +182,7 @@ export default function ShopContent({
                 </Link>
                 <a
                   href={featured.file}
-                  download
+                  download="sql-performance-masterclass.pdf"
                   className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-line bg-paper px-7 py-3.5 text-sm font-medium text-ink transition-colors hover:bg-mist sm:w-auto"
                 >
                   Download the PDF

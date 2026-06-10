@@ -123,7 +123,11 @@ export default function ProductContent({
                   )}
                 </div>
                 <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">
-                  {isFree ? "Until checkout opens" : "USD · One-time"}
+                  {isFree
+                    ? hasList
+                      ? "No payment required"
+                      : "Free download"
+                    : "USD · One-time"}
                 </p>
               </m.div>
 
@@ -134,7 +138,7 @@ export default function ProductContent({
                 {isFree ? (
                   <a
                     href={pub.file}
-                    download
+                    download="sql-performance-masterclass.pdf"
                     className="group inline-flex items-center justify-center gap-2 rounded-full bg-ink px-7 py-3.5 text-sm font-medium text-paper shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:bg-ink-soft hover:shadow-lifted"
                   >
                     <ArrowDownToLine
@@ -462,7 +466,7 @@ export default function ProductContent({
                 {isFree ? (
                   <a
                     href={pub.file}
-                    download
+                    download="sql-performance-masterclass.pdf"
                     className="group inline-flex items-center justify-center gap-2 rounded-full bg-paper px-7 py-3.5 text-sm font-medium text-ink transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lifted"
                   >
                     <ArrowDownToLine
