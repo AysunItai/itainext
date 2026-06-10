@@ -59,9 +59,7 @@ const PRODUCTS: DigitalProduct[] = [
     title: "SQL Performance Masterclass",
     description:
       "A practical ebook for writing fast, scalable SQL on PostgreSQL and MySQL.",
-    // Free on the shop UI for now — checkout disabled until payment store
-    // is approved. Paid flow stays wired for when priceCents > 0 again.
-    priceCents: 0,
+    priceCents: 999,
     currency: "usd",
     stripePriceId: null,
     productType: "publication",

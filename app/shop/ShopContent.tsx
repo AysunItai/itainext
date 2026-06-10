@@ -5,6 +5,7 @@ import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import SubscribeForm from "@/components/blog/SubscribeForm";
 import BookCover from "@/components/library/BookCover";
+import BuyButton from "@/components/shop/BuyButton";
 import { formatPrice, type Publication } from "@/lib/library";
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
@@ -180,16 +181,28 @@ export default function ShopContent({
                     strokeWidth={2}
                   />
                 </Link>
-                <a
-                  href={featured.file}
-                  download="sql-performance-masterclass.pdf"
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-line bg-paper px-7 py-3.5 text-sm font-medium text-ink transition-colors hover:bg-mist sm:w-auto"
-                >
-                  Download the PDF
-                  <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
-                    {featured.fileSize}
-                  </span>
-                </a>
+                {featured.priceCents === 0 ? (
+                  <a
+                    href={featured.file}
+                    download="sql-performance-masterclass.pdf"
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-line bg-paper px-7 py-3.5 text-sm font-medium text-ink transition-colors hover:bg-mist sm:w-auto"
+                  >
+                    Download the PDF
+                    <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
+                      {featured.fileSize}
+                    </span>
+                  </a>
+                ) : (
+                  <BuyButton
+                    slug={featured.slug}
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-line bg-paper px-7 py-3.5 text-sm font-medium text-ink transition-colors hover:bg-mist sm:w-auto"
+                  >
+                    Buy now · {formatPrice(featured.priceCents)}
+                    <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
+                      · {featured.format}
+                    </span>
+                  </BuyButton>
+                )}
               </m.div>
 
               <m.div

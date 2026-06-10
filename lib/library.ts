@@ -159,11 +159,9 @@ export const PUBLICATIONS: Publication[] = [
     ],
     file: "/publications/sqlmasterclass.pdf",
     fileSize: "245 KB",
-    // Free while payment store is pending approval. listPriceCents drives the
-    // struck-through “$9.90” next to “Free” on the product page.
-    priceCents: 0,
-    listPriceCents: 990,
-    ribbon: "Free download",
+    priceCents: 999,
+    listPriceCents: 1500,
+    ribbon: "Launch discount",
     publishedAt: "2026-01-01",
   },
 ];
