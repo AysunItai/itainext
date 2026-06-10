@@ -34,7 +34,7 @@ export default function OpengraphImage() {
         >
           <span style={{ fontWeight: 600, color: "#0a0a0a" }}>ITAI</span>
           <span style={{ width: 56, height: 1, background: "#d4d4d4" }} />
-          <span>Notes</span>
+          <span>Blog</span>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>

@@ -40,7 +40,7 @@ export const metadata: Metadata = {
 const RESCUE_LINKS = [
   { href: "/", label: "Home" },
   { href: "/shop", label: "Shop" },
-  { href: "/blog", label: "Notes" },
+  { href: "/blog", label: "Blog" },
   { href: "/about", label: "About" },
   { href: "/book", label: "Book a call" },
   { href: "/contact", label: "Contact" },

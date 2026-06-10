@@ -8,14 +8,14 @@ import { blogLd, jsonLdScriptProps } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
   // Was "Notes · ITAI" (12 chars). Search engines need more signal —
-  // adding the topic and angle keeps the friendly section name but
-  // also tells Google what the page is about.
-  title: "Notes — Engineering & Design from a Small Studio",
+  // adding the topic and angle keeps it descriptive while the section is
+  // now consistently called "Blog" across the site's navigation.
+  title: "Blog — Engineering & Design from a Small Studio",
   description:
     "Field notes from ITAI on engineering, design restraint, and the systems I build for ambitious teams.",
   alternates: { canonical: "/blog" },
   openGraph: {
-    title: "Notes · ITAI",
+    title: "Blog · ITAI",
     description:
       "Field notes from ITAI on engineering, design restraint, and the systems I build for ambitious teams.",
     url: "/blog",
@@ -107,7 +107,7 @@ function Hero({ count }: { count: number }) {
       <BackgroundField />
       <div className="relative mx-auto max-w-4xl text-center">
         <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink/45">
-          ITAI · Notes
+          ITAI · Blog
         </p>
         <h1 className="mt-5 text-balance text-5xl font-semibold tracking-tight text-ink sm:text-6xl lg:text-7xl">
           Field notes from a small studio.

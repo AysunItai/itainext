@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { formatDate, parseTags, truncateForMeta } from "@/lib/blog";
 import MarkdownRenderer from "@/components/blog/MarkdownRenderer";
 import SubscribeForm from "@/components/blog/SubscribeForm";
+import ShareBar from "@/components/library/ShareBar";
 import { blogPostingLd, jsonLdScriptProps } from "@/lib/structured-data";
 
 export const revalidate = 3600;
@@ -100,7 +101,7 @@ export default async function BlogPostPage({
               href="/blog"
               className="underline-offset-4 transition hover:text-ink hover:underline"
             >
-              ← All notes
+              ← All posts
             </Link>
           </p>
           {tags.length > 0 ? (
@@ -130,6 +131,14 @@ export default async function BlogPostPage({
             <span className="text-ink/20">·</span>
             <span>{post.readingTime} min read</span>
           </div>
+
+          <ShareBar
+            path={`/blog/${post.slug}`}
+            title={post.title}
+            text={post.excerpt ?? post.title}
+            eyebrow="Share"
+            className="mt-6"
+          />
         </header>
 
         {post.coverImage ? (

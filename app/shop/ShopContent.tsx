@@ -318,7 +318,7 @@ export default function ShopContent({
               href="/blog"
               className="text-ink underline decoration-line underline-offset-4 transition-colors hover:decoration-ink"
             >
-              Read recent notes
+              Read recent posts
             </Link>
             .
           </m.p>

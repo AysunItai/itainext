@@ -130,7 +130,7 @@ export function blogLd() {
     "@type": "Blog",
     "@id": `${SITE_URL}/blog#blog`,
     url: `${SITE_URL}/blog`,
-    name: "ITAI Notes",
+    name: "ITAI Blog",
     description:
       "Field notes from ITAI on engineering depth and design restraint.",
     publisher: { "@id": `${SITE_URL}/#organization` },

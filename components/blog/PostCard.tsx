@@ -180,7 +180,7 @@ function PlaceholderCover({
     >
       <div className="absolute inset-0 grid place-items-center">
         <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-ink/30">
-          ITAI · Notes
+          ITAI · Blog
         </span>
       </div>
       <div className="absolute inset-0 bg-gradient-to-t from-ink/[0.04] to-transparent" />

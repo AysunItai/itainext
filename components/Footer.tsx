@@ -19,7 +19,7 @@ const FOOTER_LINKS = {
     { label: "Process", href: "/#process" },
     { label: "Pricing", href: "/#pricing" },
     { label: "Shop", href: "/shop" },
-    { label: "Notes", href: "/blog" },
+    { label: "Blog", href: "/blog" },
     { label: "About", href: "/about" },
     { label: "Book a call", href: "/book" },
     { label: "Contact", href: "/contact" },
