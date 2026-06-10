@@ -61,7 +61,9 @@ export type BookButtonLocation =
   | "book_page_closing_cta"
   | "homepage_teaser"
   | "homepage_after_hero"
-  | "homepage_after_services";
+  | "homepage_after_services"
+  | "services_hub"
+  | "service_page";
 
 export type WhatsAppButtonLocation =
   | "floating_button"

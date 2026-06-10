@@ -143,7 +143,8 @@ export default function BookContent({ plan: planKey }: { plan: string | null }) 
             className="mt-6 max-w-2xl text-pretty text-base leading-7 text-muted sm:text-lg sm:leading-8"
           >
             I help small businesses build clean, modern websites with
-            WhatsApp, booking, SEO setup, and contact forms.
+            WhatsApp, booking, SEO setup, and contact forms — working remotely
+            with clients in the US, UK, Europe, Israel, and beyond.
           </m.p>
 
           {plan ? (

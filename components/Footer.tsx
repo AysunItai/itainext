@@ -6,10 +6,13 @@ import { trackBookConsultationClick, trackEvent } from "@/lib/analytics";
 
 const FOOTER_LINKS = {
   Solutions: [
-    { label: "Custom websites", href: "/#services" },
-    { label: "AI automation", href: "/#services" },
-    { label: "Booking systems", href: "/#services" },
-    { label: "Dashboards", href: "/#services" },
+    { label: "Website design", href: "/services/small-business-website-design" },
+    { label: "AI automation", href: "/services/ai-automation-for-small-business" },
+    { label: "Booking systems", href: "/services/website-with-booking-system" },
+    { label: "WhatsApp integration", href: "/services/website-with-whatsapp-integration" },
+    { label: "Website redesign", href: "/services/website-redesign" },
+    { label: "SEO setup", href: "/services/seo-setup-for-small-business" },
+    { label: "All services", href: "/services" },
   ],
   Studio: [
     { label: "Work", href: "/#work" },

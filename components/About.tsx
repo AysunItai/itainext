@@ -70,6 +70,10 @@ export default function About() {
                 communicate better with customers — never create unnecessary
                 complexity.
               </p>
+              <p>
+                I work remotely with small businesses, consultants, and founders
+                in the US, UK, Europe, Israel, and beyond.
+              </p>
             </m.div>
 
             <m.dl

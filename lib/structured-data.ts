@@ -138,6 +138,123 @@ export function blogLd() {
   };
 }
 
+/**
+ * ProfessionalService — a richer description of the business itself, suited
+ * to the services hub. Reuses the Organization @id so the two nodes are
+ * understood as the same entity rather than duplicates.
+ */
+export function professionalServiceLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "@id": `${SITE_URL}/#professionalservice`,
+    name: BRAND.legalName,
+    url: `${SITE_URL}/services`,
+    image: BRAND.logo,
+    email: BRAND.email,
+    founder: { "@type": "Person", name: BRAND.founder },
+    parentOrganization: { "@id": `${SITE_URL}/#organization` },
+    description:
+      "ITAI Web Solutions helps small businesses build modern websites, booking systems, WhatsApp contact flows, SEO-ready pages, dashboards, and practical AI automation.",
+    // Remote studio — serves clients internationally rather than from a
+    // single storefront, so we describe the area served rather than a
+    // physical address.
+    areaServed: [
+      "United States",
+      "United Kingdom",
+      "Europe",
+      "Israel",
+      "Worldwide",
+    ],
+    serviceType: [
+      "Small business website design",
+      "AI automation for small business",
+      "Website with booking system",
+      "Website with WhatsApp integration",
+      "Website redesign",
+      "SEO setup for small business",
+    ],
+  };
+}
+
+export type ServiceLdInput = {
+  name: string;
+  slug: string;
+  description: string;
+};
+
+/**
+ * Service node for an individual service page. Kept deliberately lean —
+ * `provider` points back to the shared Organization @id.
+ */
+export function serviceLd(input: ServiceLdInput) {
+  const url = `${SITE_URL}/services/${input.slug}`;
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": `${url}#service`,
+    name: input.name,
+    serviceType: input.name,
+    url,
+    description: input.description,
+    provider: { "@id": `${SITE_URL}/#organization` },
+    areaServed: [
+      "United States",
+      "United Kingdom",
+      "Europe",
+      "Israel",
+      "Worldwide",
+    ],
+    audience: {
+      "@type": "Audience",
+      audienceType:
+        "Small businesses, consultants, service providers, and founders",
+    },
+  };
+}
+
+export type FaqLdItem = { question: string; answer: string };
+
+/**
+ * FAQPage node. Google only renders FAQ rich results when the same
+ * questions/answers are visible on the page, so always pair this with a
+ * real, visible FAQ section.
+ */
+export function faqPageLd(items: FaqLdItem[], pageUrl?: string) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    ...(pageUrl ? { "@id": `${pageUrl}#faq` } : {}),
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  };
+}
+
+export type BreadcrumbItem = { name: string; path: string };
+
+/**
+ * BreadcrumbList node. `path` values are site-relative (e.g. "/services")
+ * and resolved against the canonical origin here.
+ */
+export function breadcrumbLd(items: BreadcrumbItem[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      item: `${SITE_URL}${item.path}`,
+    })),
+  };
+}
+
 function toIso(value: Date | string | null | undefined): string | undefined {
   if (!value) return undefined;
   return value instanceof Date ? value.toISOString() : value;

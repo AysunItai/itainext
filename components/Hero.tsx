@@ -92,8 +92,9 @@ export default function Hero() {
           className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-7 text-muted sm:mt-7 sm:text-xl sm:leading-8 motion-safe:[animation:hero-fade-in_0.8s_cubic-bezier(0.22,1,0.36,1)_both]"
           style={{ animationDelay: "220ms" }}
         >
-          Custom websites, AI automation, booking systems, dashboards, and
-          scalable web infrastructure for growing businesses.
+          Custom websites, booking systems, WhatsApp contact, SEO-ready pages,
+          dashboards, and practical AI automation for small businesses and
+          founders.
         </p>
 
         <div

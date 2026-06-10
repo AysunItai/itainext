@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/prisma";
 import { listPublications } from "@/lib/library";
+import { SERVICES } from "@/lib/services";
 import { SITE_ORIGIN } from "@/lib/site-url";
 
 const BASE_URL = SITE_ORIGIN;
@@ -36,6 +37,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     },
     {
+      url: `${BASE_URL}/services`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
       url: `${BASE_URL}/blog`,
       lastModified: now,
       changeFrequency: "weekly",
@@ -48,6 +55,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.85,
     },
   ];
+
+  // Individual SEO service pages — high-priority, statically generated.
+  const serviceRoutes: MetadataRoute.Sitemap = SERVICES.map((s) => ({
+    url: `${BASE_URL}/services/${s.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
 
   const shopRoutes: MetadataRoute.Sitemap = listPublications().map((p) => ({
     url: `${BASE_URL}/shop/${p.slug}`,
@@ -74,5 +89,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // valid sitemap with the static routes — better than failing the build.
   }
 
-  return [...staticRoutes, ...shopRoutes, ...postRoutes];
+  return [...staticRoutes, ...serviceRoutes, ...shopRoutes, ...postRoutes];
 }

@@ -1,76 +1,21 @@
-import {
-  BarChart3,
-  Bot,
-  CalendarCheck,
-  Globe,
-  Layers,
-  Workflow,
-  type LucideIcon,
-} from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
+import Link from "next/link";
+import ServiceIcon from "@/components/ServiceIcon";
+import { SERVICES } from "@/lib/services";
 
 /**
- * Services is intentionally a server component now. It used to be
- * `"use client"` with per-item framer-motion `whileInView` entry
- * animations — that installed an IntersectionObserver per card at
- * hydration time, contributing to desktop TBT (PSI reported 1s of
- * blocking on desktop with 20 long tasks). The cards have no state and
- * no event handlers, so the only reason for hydration was the entry
- * animation. The hover/focus polish is preserved with plain CSS
- * (`transition-colors`, `group-hover:*`), which is composited and free.
+ * Homepage services section.
+ *
+ * Server component (no state, no event handlers) so it ships zero JS. The
+ * cards are real links into the individual SEO service pages, which both
+ * helps visitors navigate and gives Google clear internal links to the
+ * service pages from the homepage.
+ *
+ * The intro carries the plain-language positioning sentence (who I help +
+ * what I build) so the page reads clearly within a few seconds — and so
+ * search engines get an honest summary of the services without keyword
+ * stuffing.
  */
-
-type Service = {
-  icon: LucideIcon;
-  title: string;
-  description: string;
-  bullets: string[];
-};
-
-const SERVICES: Service[] = [
-  {
-    icon: Globe,
-    title: "Custom websites",
-    description:
-      "Conversion-focused marketing sites engineered with Next.js, designed to feel fast everywhere.",
-    bullets: ["Performance budgets", "CMS-ready", "SEO baseline"],
-  },
-  {
-    icon: Bot,
-    title: "AI automation",
-    description:
-      "Workflows, agents, and intake systems that quietly take repetitive work off your plate.",
-    bullets: ["LLM integrations", "RAG pipelines", "Human-in-the-loop"],
-  },
-  {
-    icon: CalendarCheck,
-    title: "Booking systems",
-    description:
-      "Reliable scheduling with calendar sync, payments, reminders, and cancellation rules.",
-    bullets: ["Stripe-ready", "Calendar sync", "Notifications"],
-  },
-  {
-    icon: BarChart3,
-    title: "Dashboards",
-    description:
-      "Operational and analytics dashboards that turn raw data into decisions your team trusts.",
-    bullets: ["Realtime data", "Role-based access", "Exportable views"],
-  },
-  {
-    icon: Workflow,
-    title: "Internal tools",
-    description:
-      "Custom CRMs, admin panels, and ops tools that fit how your business actually works.",
-    bullets: ["Auth & roles", "Audit trails", "Workflow design"],
-  },
-  {
-    icon: Layers,
-    title: "Web infrastructure",
-    description:
-      "Edge-deployed, type-safe stacks built to scale without rewrites a year from now.",
-    bullets: ["Edge runtime", "Observability", "CI/CD"],
-  },
-];
-
 export default function Services() {
   return (
     <section
@@ -87,11 +32,17 @@ export default function Services() {
             id="services-title"
             className="mt-4 text-balance text-4xl font-semibold tracking-tight text-ink sm:text-5xl"
           >
-            One engineer, end to end.
+            Services for small businesses.
           </h2>
           <p className="mt-5 text-pretty text-base leading-7 text-muted sm:text-lg">
-            From the first pixel to the last deploy, I ship work that looks
-            premium and behaves like infrastructure.
+            ITAI Web Solutions helps small businesses build modern websites,
+            booking systems, WhatsApp contact flows, SEO-ready pages,
+            dashboards, and practical AI automation — so you get more leads and
+            spend less time on manual work.
+          </p>
+          <p className="mt-3 text-pretty text-[15px] leading-7 text-muted">
+            I work remotely with small businesses, consultants, and founders in
+            the US, UK, Europe, Israel, and beyond.
           </p>
         </header>
 
@@ -100,32 +51,43 @@ export default function Services() {
           className="mt-14 grid grid-cols-1 gap-px overflow-hidden rounded-3xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-3"
         >
           {SERVICES.map((s) => (
-            <li
-              key={s.title}
-              className="group relative bg-paper p-7 transition-colors hover:bg-paper-soft sm:p-8"
-            >
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-mist text-ink transition-colors group-hover:bg-ink group-hover:text-paper">
-                <s.icon aria-hidden className="h-5 w-5" strokeWidth={1.75} />
-              </div>
-              <h3 className="mt-6 text-lg font-semibold tracking-tight text-ink">
-                {s.title}
-              </h3>
-              <p className="mt-2.5 text-[15px] leading-7 text-muted">
-                {s.description}
-              </p>
-              <ul className="mt-5 flex flex-wrap gap-1.5">
-                {s.bullets.map((b) => (
-                  <li
-                    key={b}
-                    className="rounded-full border border-line bg-paper px-2.5 py-1 text-xs font-medium text-muted"
-                  >
-                    {b}
-                  </li>
-                ))}
-              </ul>
+            <li key={s.slug}>
+              <Link
+                href={`/services/${s.slug}`}
+                className="group flex h-full flex-col bg-paper p-7 transition-colors hover:bg-paper-soft sm:p-8"
+              >
+                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-mist text-ink transition-colors group-hover:bg-ink group-hover:text-paper">
+                  <ServiceIcon icon={s.icon} className="h-5 w-5" />
+                </span>
+                <span className="mt-6 flex items-center gap-1.5 text-lg font-semibold tracking-tight text-ink">
+                  {s.name}
+                  <ArrowUpRight
+                    aria-hidden
+                    className="h-4 w-4 text-muted transition-transform group-hover:-translate-y-px group-hover:translate-x-px"
+                    strokeWidth={2}
+                  />
+                </span>
+                <span className="mt-2.5 text-[15px] leading-7 text-muted">
+                  {s.cardSummary}
+                </span>
+              </Link>
             </li>
           ))}
         </ul>
+
+        <div className="mt-10 flex justify-center">
+          <Link
+            href="/services"
+            className="group inline-flex items-center gap-2 rounded-full border border-line bg-paper px-6 py-3 text-sm font-medium text-ink transition-colors hover:bg-mist"
+          >
+            Explore all services
+            <ArrowRight
+              aria-hidden
+              className="h-4 w-4 text-muted transition-transform group-hover:translate-x-0.5"
+              strokeWidth={2}
+            />
+          </Link>
+        </div>
       </div>
     </section>
   );
