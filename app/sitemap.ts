@@ -2,9 +2,9 @@ import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/prisma";
 import { listPublications } from "@/lib/library";
 import { SERVICES } from "@/lib/services";
-import { SITE_ORIGIN } from "@/lib/site-url";
+import { SITE_URL } from "@/lib/site-url";
 
-const BASE_URL = SITE_ORIGIN;
+const BASE_URL = SITE_URL;
 
 export const revalidate = 3600;
 

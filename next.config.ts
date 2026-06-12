@@ -34,6 +34,16 @@ const SECURITY_HEADERS = [
 ];
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    return [
+      // `/home` has no page — crawlers and old links should land on `/`.
+      {
+        source: "/home",
+        destination: "/",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {
