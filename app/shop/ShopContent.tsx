@@ -54,7 +54,7 @@ export default function ShopContent({
             <span>The ITAI Library</span>
             <span aria-hidden className="h-px w-12 bg-line" />
             <span className="font-mono normal-case tracking-normal text-ink/50">
-              Launch discount
+              {featured?.ribbon ?? "Out now"}
             </span>
           </m.div>
 

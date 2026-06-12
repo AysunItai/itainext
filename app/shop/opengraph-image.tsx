@@ -174,7 +174,7 @@ function LibraryCard({
               display: "flex",
             }}
           />
-          <span>Launch discount</span>
+          <span>Out now</span>
         </div>
       </div>
 

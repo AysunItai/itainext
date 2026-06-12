@@ -38,7 +38,7 @@ export default function LibraryTeaser() {
             </span>
             <span aria-hidden className="h-px w-10 bg-line" />
             <span className="inline-flex items-center gap-1.5 rounded-full bg-ink px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-paper">
-              Launch discount
+              Out now
             </span>
           </div>
 
