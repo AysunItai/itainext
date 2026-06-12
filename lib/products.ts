@@ -59,7 +59,7 @@ const PRODUCTS: DigitalProduct[] = [
     title: "SQL Performance Masterclass",
     description:
       "A practical ebook for writing fast, scalable SQL on PostgreSQL and MySQL.",
-    priceCents: 999,
+    priceCents: 399,
     currency: "usd",
     stripePriceId: null,
     productType: "publication",

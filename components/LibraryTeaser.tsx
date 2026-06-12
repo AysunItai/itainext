@@ -55,7 +55,7 @@ export default function LibraryTeaser() {
           </h2>
 
           <p className="mt-6 max-w-2xl text-pretty text-lg leading-8 text-muted">
-            Fifty pages pulled from years of staring at slow queries in
+            Seventeen pages pulled from years of staring at slow queries in
             production — EXPLAIN, indexes, joins, pagination, aggregation.
             Read on any device — yours forever.
           </p>

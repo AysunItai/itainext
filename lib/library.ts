@@ -85,12 +85,12 @@ export const PUBLICATIONS: Publication[] = [
     tagline:
       "Field-tested EXPLAIN, index, join, pagination, and aggregation patterns for PostgreSQL and MySQL.",
     description:
-      "Fifty pages, pulled from years of staring at slow queries in production. It's tight, opinionated, and written to be read in a single afternoon — then kept open on a second monitor every time you touch a query plan.",
+      "Seventeen tight pages, pulled from years of staring at slow queries in production. Opinionated and written to be read in one sitting — then kept open on a second monitor every time you touch a query plan.",
     author: "Aysun Itai",
     edition: "2026 Edition",
-    pages: 50,
+    pages: 17,
     format: "PDF",
-    readingTime: "≈ 2h read",
+    readingTime: "≈ 40 min read",
     topics: [
       "EXPLAIN",
       "Indexes",
@@ -159,8 +159,8 @@ export const PUBLICATIONS: Publication[] = [
     ],
     file: "/publications/sqlmasterclass.pdf",
     fileSize: "245 KB",
-    priceCents: 999,
-    listPriceCents: 1500,
+    priceCents: 399,
+    listPriceCents: 999,
     ribbon: "Launch discount",
     publishedAt: "2026-01-01",
   },

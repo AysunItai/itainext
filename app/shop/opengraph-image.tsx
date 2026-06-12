@@ -1,5 +1,9 @@
 import { ImageResponse } from "next/og";
-import { listPublications, type Publication } from "@/lib/library";
+import {
+  formatPrice,
+  listPublications,
+  type Publication,
+} from "@/lib/library";
 
 export const alt = "The ITAI Library — practical ebooks for builders";
 export const size = { width: 1200, height: 630 } as const;
@@ -283,7 +287,7 @@ function LibraryCard({
                 }}
               />
               <span style={{ color: "#a7f3d0", fontWeight: 600 }}>
-                $9.99 launch price
+                {formatPrice(first.priceCents)} launch price
               </span>
             </>
           ) : (
