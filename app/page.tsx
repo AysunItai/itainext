@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import About from "@/components/About";
 import CTA from "@/components/CTA";
 import FreeWebsiteReview from "@/components/FreeWebsiteReview";
 import FounderTrust from "@/components/FounderTrust";
@@ -11,6 +10,7 @@ import ReviewCTA from "@/components/ReviewCTA";
 import Services from "@/components/Services";
 import Showcase from "@/components/Showcase";
 import WhoIHelp from "@/components/WhoIHelp";
+import WhyWorkWithMe from "@/components/WhyWorkWithMe";
 import Work from "@/components/Work";
 
 export const metadata: Metadata = {
@@ -44,7 +44,7 @@ export default function Home() {
         location="homepage_after_services"
       />
       <Showcase />
-      <About />
+      <WhyWorkWithMe />
       <Process />
       <Pricing />
       <LibraryTeaser />

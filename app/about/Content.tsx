@@ -8,13 +8,17 @@ import {
 } from "framer-motion";
 import {
   ArrowUpRight,
+  Code2,
   Gauge,
+  Globe,
   Layers,
   Mail,
+  Sparkles,
   Wrench,
   Zap,
 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
 
@@ -70,6 +74,12 @@ const RANGE = [
   "Automation infrastructure",
   "Custom internal platforms",
 ];
+
+const STUDIO_META = [
+  { label: "Studio", value: "ITAI Web Solutions", icon: Globe },
+  { label: "Specialty", value: "AI · Dashboards · Booking", icon: Sparkles },
+  { label: "Stack", value: "Next.js · TypeScript", icon: Code2 },
+] as const;
 
 export default function AboutContent() {
   const reduce = useReducedMotion();
@@ -144,6 +154,89 @@ export default function AboutContent() {
             <span>Reading time</span>
             <span className="font-mono tabular-nums text-ink/60">3 min</span>
           </m.div>
+        </div>
+      </section>
+
+      <section
+        aria-labelledby="founder-story-title"
+        className="relative border-t border-line px-5 py-24 sm:px-8 sm:py-32"
+      >
+        <div className="mx-auto max-w-7xl">
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16 lg:items-start">
+            <m.div {...fade(0)} className="lg:col-span-7">
+              <p className="text-xs font-medium uppercase tracking-[0.32em] text-muted">
+                Studio founder
+              </p>
+              <h2
+                id="founder-story-title"
+                className="mt-5 text-balance text-4xl font-semibold tracking-[-0.035em] text-ink sm:text-5xl"
+              >
+                Building practical digital solutions for modern businesses.
+              </h2>
+
+              <div className="mt-10 max-w-xl space-y-5 text-pretty text-base leading-7 text-muted sm:text-lg">
+                <p>
+                  Hi, I&apos;m{" "}
+                  <span className="font-semibold text-ink">Aysun Itai</span> — a
+                  full-stack developer and founder of ITAI Web Solutions.
+                </p>
+                <p>
+                  I started this studio to help small businesses and
+                  entrepreneurs launch professional websites and digital systems
+                  — without paying agency overhead.
+                </p>
+                <p>
+                  I believe technology should help businesses grow, save time,
+                  and communicate better with customers — never create
+                  unnecessary complexity.
+                </p>
+                <p>
+                  I work remotely with small businesses, consultants, and
+                  founders in the US, UK, Europe, Israel, and beyond.
+                </p>
+              </div>
+
+              <dl className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4">
+                {STUDIO_META.map((item) => (
+                  <div
+                    key={item.label}
+                    className="rounded-2xl border border-line bg-paper-soft px-4 py-3.5"
+                  >
+                    <dt className="flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-[0.18em] text-muted">
+                      <item.icon className="h-3.5 w-3.5" strokeWidth={1.75} />
+                      {item.label}
+                    </dt>
+                    <dd className="mt-1.5 text-sm font-semibold text-ink">
+                      {item.value}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </m.div>
+
+            <m.div {...fade(0.1)} className="lg:col-span-5">
+              <div className="relative mx-auto max-w-xs lg:max-w-sm">
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute -inset-6 -z-10 rounded-[32px] bg-[radial-gradient(circle_at_50%_40%,rgba(30,58,138,0.12),transparent_68%)] blur-2xl"
+                />
+                <figure
+                  className="overflow-hidden rounded-3xl border border-line bg-mist shadow-soft"
+                >
+                  <div className="relative aspect-[4/5]">
+                    <Image
+                      src="/about-portrait.jpg"
+                      alt="Portrait of Aysun Itai, founder of ITAI Web Solutions"
+                      fill
+                      sizes="(min-width: 1024px) 384px, 320px"
+                      quality={80}
+                      className="object-cover object-[45%_50%]"
+                    />
+                  </div>
+                </figure>
+              </div>
+            </m.div>
+          </div>
         </div>
       </section>
 
