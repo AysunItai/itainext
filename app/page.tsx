@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import About from "@/components/About";
 import CTA from "@/components/CTA";
 import FreeWebsiteReview from "@/components/FreeWebsiteReview";
+import FounderTrust from "@/components/FounderTrust";
 import Hero from "@/components/Hero";
 import LibraryTeaser from "@/components/LibraryTeaser";
 import Pricing from "@/components/Pricing";
@@ -25,6 +26,7 @@ export default function Home() {
       <Hero />
       <FreeWebsiteReview />
       <WhoIHelp />
+      <FounderTrust />
       <ReviewCTA
         variant="soft"
         eyebrow="No obligation"

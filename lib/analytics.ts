@@ -74,6 +74,7 @@ export type ReviewButtonLocation =
   | "homepage_after_hero"
   | "homepage_after_services"
   | "homepage_footer_cta"
+  | "homepage_founder"
   | "pricing_card"
   | "free_review_page";
 
