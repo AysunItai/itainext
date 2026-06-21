@@ -161,9 +161,8 @@ export default function FreeWebsiteReviewContent() {
               ))}
             </ul>
             <p className="mt-8 text-pretty text-[15px] leading-7 text-muted">
-              Based in Israel, working with local and international clients.
-              Haifa-area consultations available by appointment; remote projects
-              worldwide.
+              Working with international clients remotely — across the US, UK,
+              Europe, and beyond.
             </p>
             <p className="mt-4 text-pretty text-sm text-muted">
               Prefer a call instead?{" "}

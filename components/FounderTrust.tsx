@@ -49,10 +49,9 @@ export default function FounderTrust() {
                   tools.
                 </p>
                 <p>
-                  I work with local businesses in Israel and international
-                  clients remotely. My goal is simple: build websites that look
-                  professional, load fast, and help people contact you more
-                  easily.
+                  I work with international clients remotely. My goal is simple:
+                  build websites that look professional, load fast, and help people
+                  contact you more easily.
                 </p>
               </div>
 

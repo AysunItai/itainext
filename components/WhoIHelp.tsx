@@ -68,10 +68,8 @@ export default function WhoIHelp() {
         </ul>
 
         <p className="mx-auto mt-12 max-w-3xl text-center text-pretty text-[15px] leading-7 text-muted sm:text-base">
-          <span className="font-medium text-ink">Based in Israel.</span> Working
-          with local and international clients. Local consultations are
-          available in the Haifa area by appointment, and remote projects are
-          available worldwide.
+          Working with international clients remotely — across the US, UK,
+          Europe, and beyond.
         </p>
       </div>
     </section>
