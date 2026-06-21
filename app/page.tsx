@@ -1,22 +1,21 @@
 import type { Metadata } from "next";
 import About from "@/components/About";
 import CTA from "@/components/CTA";
+import FreeWebsiteReview from "@/components/FreeWebsiteReview";
 import Hero from "@/components/Hero";
-import InlineCTA from "@/components/InlineCTA";
 import LibraryTeaser from "@/components/LibraryTeaser";
 import Pricing from "@/components/Pricing";
 import Process from "@/components/Process";
+import ReviewCTA from "@/components/ReviewCTA";
 import Services from "@/components/Services";
 import Showcase from "@/components/Showcase";
+import WhoIHelp from "@/components/WhoIHelp";
 import Work from "@/components/Work";
 
 export const metadata: Metadata = {
-  title: "ITAI — Modern Digital Systems",
-  // Previously 166 chars (over Google's ~155 char SERP limit). Trimmed by
-  // dropping the duplicative second sentence — the core pitch already
-  // covers it. Reads better and fits the snippet preview.
+  title: "ITAI — Websites, SEO & AI for Small Businesses",
   description:
-    "Independent studio building custom websites, AI automation, booking systems, and dashboards for growing businesses. Engineering depth, design restraint.",
+    "Websites, SEO setup, Google visibility, booking forms, WhatsApp integration, and practical AI automation for small businesses. Free website review available.",
   alternates: { canonical: "/" },
 };
 
@@ -24,31 +23,29 @@ export default function Home() {
   return (
     <main id="main" className="flex flex-col">
       <Hero />
-      <LibraryTeaser />
-      {/* Soft mid-page CTA — keeps the action visible right after the hero
-          area, before the visitor disappears into a long scroll. */}
-      <InlineCTA
+      <FreeWebsiteReview />
+      <WhoIHelp />
+      <ReviewCTA
         variant="soft"
-        eyebrow="Quick start"
-        heading="Not sure what your business needs?"
-        description="Hop on a free 15-minute call and let's figure it out together — no pressure, no sales pitch."
+        eyebrow="No obligation"
+        heading="Send me your website and I’ll show you what may be stopping visitors from becoming leads."
+        description="I’ll reply with practical notes — what to fix first, what can wait, and whether a quick fix or full refresh makes sense."
         location="homepage_after_hero"
       />
       <Work />
       <Services />
-      {/* Bold mid-page CTA — they've now seen the work and the services;
-          this is the moment to push toward booking. */}
-      <InlineCTA
+      <ReviewCTA
         variant="bold"
-        eyebrow="Ready when you are"
-        heading="Ready to improve your website?"
-        description="Book a free 15-minute consultation and let's see what your business needs."
+        eyebrow="Next step"
+        heading="Ready to get more leads from your website?"
+        description="Start with a free review. If it makes sense to work together, I’ll suggest a clear package and timeline."
         location="homepage_after_services"
       />
       <Showcase />
       <About />
       <Process />
       <Pricing />
+      <LibraryTeaser />
       <CTA />
     </main>
   );

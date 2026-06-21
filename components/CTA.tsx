@@ -1,5 +1,4 @@
-import { ArrowUpRight, Mail } from "lucide-react";
-import Link from "next/link";
+import ReviewCTAButton from "./ReviewCTAButton";
 import CTAEmailLink from "./CTAEmailLink";
 
 /**
@@ -29,34 +28,26 @@ export default function CTA() {
 
         <div className="relative max-w-2xl">
           <p className="text-xs font-medium uppercase tracking-[0.25em] text-paper/60">
-            Let&apos;s build
+            Start here
           </p>
           <h2
             id="cta-title"
             className="mt-4 text-balance text-4xl font-semibold tracking-tight sm:text-5xl"
           >
-            Have a project in mind? <br className="hidden sm:block" />
-            <span className="text-paper/70">Let&apos;s talk.</span>
+            Send me your website and I&apos;ll show you what may be stopping
+            visitors from becoming leads.
           </h2>
           <p className="mt-5 max-w-xl text-pretty text-base leading-7 text-paper/70 sm:text-lg">
-            Tell me about your business and what you&apos;d like to build.
-            I&apos;ll get back within one working day with thoughts and a
-            clear next step.
+            A short, honest review — mobile experience, Google visibility,
+            contact flows, and trust signals. Then we can talk about the right
+            fix if you want help implementing it.
           </p>
 
           <div className="mt-9 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
-            <Link
-              href="/contact"
+            <ReviewCTAButton
+              location="homepage_footer_cta"
               className="group inline-flex items-center justify-center gap-2 rounded-full bg-paper px-7 py-3.5 text-sm font-medium text-ink transition-all hover:-translate-y-0.5 hover:shadow-lifted"
-            >
-              <Mail aria-hidden className="h-4 w-4" strokeWidth={2} />
-              Start a conversation
-              <ArrowUpRight
-                aria-hidden
-                className="h-4 w-4 transition-transform group-hover:-translate-y-px group-hover:translate-x-px"
-                strokeWidth={2}
-              />
-            </Link>
+            />
             <CTAEmailLink />
           </div>
         </div>

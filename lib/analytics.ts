@@ -62,8 +62,20 @@ export type BookButtonLocation =
   | "homepage_teaser"
   | "homepage_after_hero"
   | "homepage_after_services"
+  | "homepage_after_review"
+  | "homepage_footer_cta"
+  | "free_review_page"
   | "services_hub"
   | "service_page";
+
+export type ReviewButtonLocation =
+  | "hero"
+  | "homepage_review_section"
+  | "homepage_after_hero"
+  | "homepage_after_services"
+  | "homepage_footer_cta"
+  | "pricing_card"
+  | "free_review_page";
 
 export type WhatsAppButtonLocation =
   | "floating_button"
@@ -128,6 +140,18 @@ export function trackWhatsAppClick(opts: {
   source_page?: string;
 }): void {
   trackEvent("whatsapp_click", {
+    event_category: "lead",
+    button_location: opts.button_location,
+    source_page: opts.source_page ?? currentPath(),
+    device_type: getDeviceType(),
+  });
+}
+
+export function trackFreeReviewClick(opts: {
+  button_location: ReviewButtonLocation;
+  source_page?: string;
+}): void {
+  trackEvent("free_website_review_click", {
     event_category: "lead",
     button_location: opts.button_location,
     source_page: opts.source_page ?? currentPath(),

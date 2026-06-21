@@ -13,9 +13,8 @@ import HeroPrimaryCta from "./HeroPrimaryCta";
  *  - The H1 paints immediately (no entry animation) so LCP fires at FCP.
  *  - The surrounding elements use CSS keyframes (declared in
  *    `app/globals.css`) staggered via inline `animation-delay`.
- *  - The gradient shimmer on "digital systems" is also a CSS keyframe.
  *  - The decorative background is pure CSS with a mobile-light variant.
- *  - Only the booking CTA is a small client island (for GA tracking).
+ *  - Only the primary CTA is a small client island (for GA tracking).
  *  - `prefers-reduced-motion: reduce` is honored via the global CSS rule.
  */
 export default function Hero() {
@@ -28,111 +27,51 @@ export default function Hero() {
       <AnimatedBackground />
 
       <div className="relative z-10 mx-auto w-full max-w-5xl text-center">
-        <div
-          className="mb-6 flex justify-center sm:mb-8 motion-safe:[animation:hero-fade-in_0.8s_cubic-bezier(0.22,1,0.36,1)_both]"
-          style={{ animationDelay: "0ms" }}
-        >
-          <Link
-            href="/shop/sql-performance-masterclass"
-            aria-label="SQL Performance Masterclass — shop"
-            className="group inline-flex max-w-full items-center gap-2.5 rounded-full border border-line bg-paper/70 px-3.5 py-1.5 text-[12px] backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-ink/25 hover:bg-paper hover:shadow-soft focus-visible:outline-none"
-          >
-            <span aria-hidden className="relative flex h-2 w-2 flex-none">
-              <span className="absolute inset-0 animate-ping rounded-full bg-accent/70 opacity-75" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
-            </span>
-            <span className="font-mono uppercase tracking-[0.2em] text-ink/55">
-              Vol. 01
-            </span>
-            <span aria-hidden className="h-3 w-px flex-none bg-line" />
-            <span className="truncate text-ink/85">
-              <span className="sm:hidden">SQL Performance ebook</span>
-              <span className="hidden sm:inline">
-                The SQL Performance ebook
-              </span>
-            </span>
-            <ArrowUpRight
-              aria-hidden
-              className="h-3.5 w-3.5 flex-none text-ink/50 transition-transform group-hover:-translate-y-px group-hover:translate-x-px"
-              strokeWidth={2}
-            />
-          </Link>
-        </div>
-
         <p
           className="mb-5 text-xs font-medium uppercase tracking-[0.36em] text-muted sm:mb-7 motion-safe:[animation:hero-fade-in_0.8s_cubic-bezier(0.22,1,0.36,1)_both]"
-          style={{ animationDelay: "60ms" }}
+          style={{ animationDelay: "0ms" }}
         >
           ITAI WEB SOLUTIONS
         </p>
 
-        {/* H1 has NO entry animation: it must paint with FCP so LCP
-            matches FCP. The gradient shimmer on the inner span is a
-            separate, continuous CSS animation (no impact on first paint). */}
         <h1
           id="hero-title"
-          className="text-balance text-[clamp(3rem,7.4vw,6.4rem)] font-semibold leading-[0.98] tracking-[-0.045em] text-ink"
+          className="text-balance text-[clamp(2.35rem,6.2vw,5.5rem)] font-semibold leading-[1.02] tracking-[-0.04em] text-ink motion-safe:[animation:hero-fade-in_0.8s_cubic-bezier(0.22,1,0.36,1)_both]"
+          style={{ animationDelay: "60ms" }}
         >
-          Engineering modern{" "}
-          <span className="relative inline-block whitespace-nowrap">
-            {/* Was previously animated `infinite` with a moving
-              `background-position`. That kept the page repainting on
-              the main thread every frame (PSI flagged the only
-              non-composited animation on the page). Switched to a
-              static gradient — visually almost identical, zero
-              ongoing main-thread cost. */}
-            <span className="bg-[linear-gradient(110deg,#0a0a0a_0%,#1e40af_35%,#2563eb_55%,#0f172a_75%,#0a0a0a_100%)] bg-clip-text text-transparent">
-              digital systems
-            </span>
-          </span>
-          .
+          Websites, SEO &amp; AI automation for small businesses.
         </h1>
 
         <p
           className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-7 text-muted sm:mt-7 sm:text-xl sm:leading-8 motion-safe:[animation:hero-fade-in_0.8s_cubic-bezier(0.22,1,0.36,1)_both]"
-          style={{ animationDelay: "220ms" }}
+          style={{ animationDelay: "180ms" }}
         >
-          Custom websites, booking systems, WhatsApp contact, SEO-ready pages,
-          dashboards, and practical AI automation for small businesses and
-          founders.
+          I help small businesses turn outdated websites into fast, modern
+          lead-generation systems with Google visibility, booking/contact forms,
+          WhatsApp, and practical AI tools.
         </p>
 
         <div
           className="mt-8 flex flex-col items-center justify-center gap-3 sm:mt-10 sm:flex-row sm:gap-4 motion-safe:[animation:hero-fade-in_0.8s_cubic-bezier(0.22,1,0.36,1)_both]"
-          style={{ animationDelay: "320ms" }}
+          style={{ animationDelay: "280ms" }}
         >
           <HeroPrimaryCta />
 
           <Link
-            href="#work"
+            href="/services"
             className="inline-flex min-h-[48px] w-full items-center justify-center rounded-full border border-line bg-paper/80 px-7 py-3.5 text-sm font-medium text-ink backdrop-blur transition-colors hover:bg-mist sm:w-auto"
           >
-            View work
+            See Services
           </Link>
         </div>
 
         <p
           className="mx-auto mt-4 max-w-md text-pretty text-[13px] leading-6 text-muted sm:mt-5 motion-safe:[animation:hero-fade-in_0.8s_cubic-bezier(0.22,1,0.36,1)_both]"
-          style={{ animationDelay: "400ms" }}
+          style={{ animationDelay: "360ms" }}
         >
-          Not sure what you need? Book a free 15-minute call and we&apos;ll
-          figure it out together.
+          Not sure where to start? Request a free review and I&apos;ll point
+          you to the highest-impact fixes first.
         </p>
-
-        {/* Tech badges are aspirational/decorative. Hide them on small
-            phones so the hero stays focused on the CTA. */}
-        <div
-          className="mt-10 hidden flex-wrap items-center justify-center gap-x-8 gap-y-3 text-xs uppercase tracking-[0.2em] text-muted sm:mt-12 sm:flex motion-safe:[animation:hero-fade-in_0.8s_cubic-bezier(0.22,1,0.36,1)_both]"
-          style={{ animationDelay: "500ms" }}
-        >
-          <span>Next.js</span>
-          <span className="h-1 w-1 rounded-full bg-line" />
-          <span>TypeScript</span>
-          <span className="h-1 w-1 rounded-full bg-line" />
-          <span>AI Workflows</span>
-          <span className="h-1 w-1 rounded-full bg-line" />
-          <span>Edge Infra</span>
-        </div>
       </div>
     </section>
   );

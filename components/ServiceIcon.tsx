@@ -2,8 +2,10 @@ import {
   Bot,
   CalendarCheck,
   Globe,
+  MapPin,
   RefreshCw,
   Search,
+  Zap,
   type LucideProps,
 } from "lucide-react";
 import { WhatsAppGlyph } from "@/components/library/brand-icons";
@@ -42,6 +44,10 @@ export default function ServiceIcon({
       return <Search {...props} />;
     case "whatsapp":
       return <WhatsAppGlyph className={className} aria-hidden />;
+    case "zap":
+      return <Zap {...props} />;
+    case "map":
+      return <MapPin {...props} />;
     default:
       return <Globe {...props} />;
   }

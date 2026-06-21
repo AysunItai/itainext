@@ -3,79 +3,71 @@
 import { m, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, Check, Sparkles } from "lucide-react";
 import Link from "next/link";
-import { trackBookConsultationClick } from "@/lib/analytics";
+import { trackFreeReviewClick } from "@/lib/analytics";
 
 type Plan = {
   id: string;
   name: string;
   description: string;
   price: string;
-  priceUnit?: string;
   priceNote: string;
   features: string[];
   cta: string;
-  href: string;
   badge?: string;
   featured?: boolean;
 };
 
 const PLANS: Plan[] = [
   {
-    id: "starter",
-    name: "Starter Website",
+    id: "quick-fix",
+    name: "Quick Website Fix",
     description:
-      "For small businesses needing a modern, professional online presence.",
-    price: "699",
-    priceUnit: "$",
-    priceNote: "USD · One-time",
+      "Targeted fixes when something specific is broken or hurting leads.",
+    price: "$300–$500",
+    priceNote: "USD · Scoped to the issue",
     features: [
-      "3–5 custom-designed pages",
-      "Mobile-first responsive design",
-      "Contact form + WhatsApp integration",
-      "Basic SEO setup",
-      "Fast delivery — 2 to 3 weeks",
+      "Mobile layout or contact-form fixes",
+      "WhatsApp or click-to-call setup",
+      "Speed tweaks on key pages",
+      "SEO title & description cleanup",
+      "Small copy or trust-signal updates",
     ],
-    cta: "Book a free 15-min call",
-    href: "/book?plan=starter",
+    cta: "Get Free Website Review",
   },
   {
-    id: "pro",
-    name: "Business Website Pro",
+    id: "refresh",
+    name: "Landing Page / Website Refresh",
     description:
-      "For businesses needing bookings, automation, and a stronger online presence.",
-    price: "1,499",
-    priceUnit: "$",
-    priceNote: "USD · One-time",
+      "A sharper first impression — modern design, clearer offer, better conversion.",
+    price: "$750–$1,200",
+    priceNote: "USD · One-time project",
     features: [
-      "Custom website design",
-      "Booking & calendar integration",
-      "Advanced forms & lead capture",
-      "Analytics & SEO optimization",
-      "Blog setup",
-      "Priority support",
+      "Homepage or landing page redesign",
+      "Mobile-first responsive layout",
+      "Contact & WhatsApp integration",
+      "Basic SEO setup",
+      "Fast delivery — typically 2–3 weeks",
     ],
-    cta: "Book a free 15-min call",
-    href: "/book?plan=pro",
+    cta: "Get Free Website Review",
     badge: "Most popular",
     featured: true,
   },
   {
-    id: "custom",
-    name: "Custom Development",
+    id: "full",
+    name: "Full Website + SEO Setup",
     description:
-      "Bespoke systems, dashboards, automation, and AI-powered workflows.",
-    price: "Tailored",
-    priceNote: "Quote on call",
+      "A complete lead-generation site with Google visibility built in from day one.",
+    price: "$1,500–$3,000",
+    priceNote: "USD · Depends on scope",
     features: [
-      "Custom backend systems",
-      "API integrations",
-      "Automation workflows",
-      "Dashboards & internal portals",
-      "AI integrations",
-      "Scalable architecture",
+      "Multi-page custom website",
+      "Booking or inquiry flows",
+      "SEO & Google visibility setup",
+      "Google Business Profile guidance",
+      "AI chatbot or automation (if needed)",
+      "Post-launch support window",
     ],
-    cta: "Book a free 15-min call",
-    href: "/book?plan=custom",
+    cta: "Get Free Website Review",
   },
 ];
 
@@ -101,22 +93,23 @@ export default function Pricing() {
         <div className="grid grid-cols-1 gap-6 md:grid-cols-12 md:gap-12">
           <m.div {...fade(0)} className="md:col-span-5">
             <p className="font-mono text-xs uppercase tracking-[0.32em] text-muted">
-              Pricing · 03 / 03
+              Packages · Starting points
             </p>
             <h2
               id="pricing-title"
               className="mt-4 text-balance text-4xl font-semibold tracking-[-0.035em] text-ink sm:text-5xl"
             >
-              Clear pricing.{" "}
-              <span className="text-muted">No surprises.</span>
+              Simple packages.{" "}
+              <span className="text-muted">Clear ranges.</span>
             </h2>
           </m.div>
           <m.p
             {...fade(0.1)}
             className="md:col-span-6 md:col-start-7 max-w-2xl text-pretty text-lg leading-8 text-muted sm:text-xl"
           >
-            Three starting points designed for clarity. Every plan can be
-            tailored — you only pay for what you actually need.
+            Every business is different — these are typical starting ranges. After
+            a free review, I&apos;ll recommend the smallest fix that actually moves
+            the needle.
           </m.p>
         </div>
 
@@ -138,8 +131,8 @@ export default function Pricing() {
           {...fade(0.4)}
           className="mt-10 text-center text-sm text-muted"
         >
-          All plans include code ownership, hosting setup guidance, and a
-          30-day post-launch support window.
+          Final price depends on pages, integrations, and content. You always
+          get a clear quote before any work begins.
         </m.p>
       </div>
     </section>
@@ -156,7 +149,6 @@ function PricingCard({
   reduce: boolean;
 }) {
   const isFeatured = plan.featured;
-  const isTailored = plan.price === "Tailored";
 
   return (
     <m.li
@@ -187,7 +179,7 @@ function PricingCard({
         <div className="flex flex-wrap items-center gap-3">
           <h3
             className={[
-              "text-2xl font-semibold tracking-[-0.02em]",
+              "text-xl font-semibold tracking-[-0.02em] sm:text-2xl",
               isFeatured ? "text-paper" : "text-ink",
             ].join(" ")}
           >
@@ -219,27 +211,14 @@ function PricingCard({
       </div>
 
       <div className="relative mt-8">
-        <div className="flex items-baseline gap-1">
-          {plan.priceUnit && (
-            <span
-              className={[
-                "text-2xl font-medium",
-                isFeatured ? "text-paper/80" : "text-ink/60",
-              ].join(" ")}
-            >
-              {plan.priceUnit}
-            </span>
-          )}
-          <span
-            className={[
-              "font-semibold tracking-[-0.04em]",
-              isTailored ? "text-5xl italic sm:text-6xl" : "text-6xl sm:text-7xl",
-              isFeatured ? "text-paper" : "text-ink",
-            ].join(" ")}
-          >
-            {plan.price}
-          </span>
-        </div>
+        <span
+          className={[
+            "text-3xl font-semibold tracking-[-0.03em] sm:text-4xl",
+            isFeatured ? "text-paper" : "text-ink",
+          ].join(" ")}
+        >
+          {plan.price}
+        </span>
         <p
           className={[
             "mt-2 font-mono text-xs uppercase tracking-[0.18em]",
@@ -285,13 +264,10 @@ function PricingCard({
       <div className="relative flex-1" aria-hidden />
 
       <Link
-        href={plan.href}
+        href="/free-website-review"
         aria-label={`${plan.cta} for ${plan.name}`}
         onClick={() =>
-          trackBookConsultationClick({
-            button_location: "pricing_card",
-            plan: plan.id,
-          })
+          trackFreeReviewClick({ button_location: "pricing_card" })
         }
         className={[
           "group relative mt-10 inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-medium transition-all",

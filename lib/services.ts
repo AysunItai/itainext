@@ -24,7 +24,9 @@ export type IconKey =
   | "calendar"
   | "whatsapp"
   | "refresh"
-  | "search";
+  | "search"
+  | "zap"
+  | "map";
 
 export type Service = {
   slug: string;
