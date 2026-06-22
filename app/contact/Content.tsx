@@ -28,6 +28,7 @@ type Status = "idle" | "submitting" | "success" | "error";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MESSAGE_MAX = 1500;
+const BUSINESS_EMAIL = "aysun.itai@gmail.com";
 
 export default function ContactContent() {
   const reduce = useReducedMotion();
@@ -336,7 +337,7 @@ export default function ContactContent() {
                     <p className="text-sm text-muted">
                       Or email{" "}
                       <a
-                        href="mailto:info@itaiwebsolutions.com"
+                        href={`mailto:${BUSINESS_EMAIL}`}
                         onClick={() =>
                           trackEvent("email_click", {
                             event_category: "lead",
@@ -345,7 +346,7 @@ export default function ContactContent() {
                         }
                         className="font-medium text-ink underline decoration-line underline-offset-4 transition-colors hover:decoration-ink"
                       >
-                        info@itaiwebsolutions.com
+                        {BUSINESS_EMAIL}
                       </a>{" "}
                       directly.
                     </p>
@@ -439,7 +440,7 @@ export default function ContactContent() {
                 icon={<Mail className="h-4 w-4" strokeWidth={1.75} />}
               >
                 <a
-                  href="mailto:info@itaiwebsolutions.com"
+                  href={`mailto:${BUSINESS_EMAIL}`}
                   onClick={() =>
                     trackEvent("email_click", {
                       event_category: "lead",
@@ -448,7 +449,7 @@ export default function ContactContent() {
                   }
                   className="block text-base font-medium text-ink underline decoration-line underline-offset-4 transition-colors hover:decoration-ink sm:text-lg"
                 >
-                  info@itaiwebsolutions.com
+                  {BUSINESS_EMAIL}
                 </a>
               </SidebarRow>
               <SidebarRow

@@ -5,7 +5,7 @@ import {
   type ContactReply,
 } from "@/lib/ai/contact-reply";
 
-const CONTACT_TO = process.env.CONTACT_EMAIL_TO ?? "info@itaiwebsolutions.com";
+const CONTACT_TO = process.env.CONTACT_EMAIL_TO ?? "aysun.itai@gmail.com";
 const CONTACT_FROM =
   process.env.CONTACT_EMAIL_FROM ??
   "ITAI Web Solutions <contact@itaiwebsolutions.com>";
@@ -211,7 +211,7 @@ export async function POST(req: Request) {
     return NextResponse.json(
       {
         error:
-          "Email is not configured yet. Please email info@itaiwebsolutions.com directly.",
+          "Email is not configured yet. Please email aysun.itai@gmail.com directly.",
       },
       { status: 503 },
     );
