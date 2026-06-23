@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, m, useReducedMotion } from "framer-motion";
+import { m, useReducedMotion } from "framer-motion";
 import {
   Check,
   Clock,
@@ -9,8 +9,8 @@ import {
   Send,
 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useId, useState, type FormEvent } from "react";
-import { trackEvent } from "@/lib/analytics";
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
 
@@ -21,13 +21,14 @@ const REVIEW_POINTS = [
   "Trust signals & Google Business Profile",
 ] as const;
 
-type Status = "idle" | "submitting" | "success" | "error";
+type Status = "idle" | "submitting" | "error";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const URL_RE =
   /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w-./?%&=]*)?$/i;
 
 export default function FreeWebsiteReviewContent() {
+  const router = useRouter();
   const reduce = useReducedMotion();
   const nameId = useId();
   const emailId = useId();
@@ -90,11 +91,8 @@ export default function FreeWebsiteReviewContent() {
         setErrorMsg(data?.error ?? "Something went wrong. Please try again.");
         return;
       }
-      setStatus("success");
-      trackEvent("free_website_review_submit", {
-        event_category: "lead",
-        event_label: "free_review_form",
-      });
+      sessionStorage.setItem("free_review_submitted", "1");
+      router.push("/free-website-review/thank-you");
     } catch {
       setStatus("error");
       setErrorMsg(
@@ -187,32 +185,11 @@ export default function FreeWebsiteReviewContent() {
                 Your details go directly to me — not a sales team.
               </p>
 
-              <AnimatePresence mode="wait">
-                {status === "success" ? (
-                  <m.div
-                    key="success"
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="mt-8 rounded-2xl border border-line bg-paper p-6 text-center"
-                  >
-                    <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted">
-                      Received
-                    </p>
-                    <p className="mt-3 text-lg font-semibold text-ink">
-                      Thanks — I&apos;ll review your site soon.
-                    </p>
-                    <p className="mt-2 text-sm leading-6 text-muted">
-                      Watch your inbox. I&apos;ll reply with notes and suggested
-                      next steps.
-                    </p>
-                  </m.div>
-                ) : (
-                  <m.form
-                    key="form"
-                    onSubmit={handleSubmit}
-                    className="mt-8 space-y-5"
-                    noValidate
-                  >
+              <m.form
+                onSubmit={handleSubmit}
+                className="mt-8 space-y-5"
+                noValidate
+              >
                     <div>
                       <label
                         htmlFor={nameId}
@@ -338,9 +315,7 @@ export default function FreeWebsiteReviewContent() {
                         </>
                       )}
                     </button>
-                  </m.form>
-                )}
-              </AnimatePresence>
+              </m.form>
             </div>
           </m.div>
         </div>
