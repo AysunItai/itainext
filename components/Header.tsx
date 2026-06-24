@@ -4,9 +4,12 @@ import { AnimatePresence, m, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { BILINGUAL_PATHS, getLocaleFromPathname } from "@/lib/i18n";
 
-const NAV_LINKS = [
+const EN_NAV = [
   { label: "Work", href: "/#work" },
   { label: "Services", href: "/services" },
   { label: "Pricing", href: "/#pricing" },
@@ -16,7 +19,21 @@ const NAV_LINKS = [
   { label: "Contact", href: "/contact" },
 ] as const;
 
+const HE_NAV = [
+  { label: "שירותים", href: "/he/services" },
+  { label: "בדיקת אתר", href: "/he/free-website-review" },
+  { label: "יצירת קשר", href: "/he/contact" },
+] as const;
+
 export default function Header() {
+  const pathname = usePathname() ?? "/";
+  const locale = getLocaleFromPathname(pathname);
+  const isHe = locale === "he";
+  const homeHref = isHe ? BILINGUAL_PATHS.he.home : BILINGUAL_PATHS.en.home;
+  const navLinks = isHe ? HE_NAV : EN_NAV;
+  const ctaHref = isHe ? "/book" : "/contact";
+  const ctaLabel = isHe ? "שיחת היכרות" : "Start a project";
+
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const reduce = useReducedMotion();
@@ -49,18 +66,12 @@ export default function Header() {
           : "border-b border-transparent bg-transparent",
       ].join(" ")}
     >
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:h-20 sm:px-8">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-5 sm:h-20 sm:px-8">
         <Link
-          href="/"
+          href={homeHref}
           aria-label="ITAI Web Solutions — home"
-          className="flex items-center rounded-md focus-visible:outline-none"
+          className="flex shrink-0 items-center rounded-md focus-visible:outline-none"
         >
-          {/* `priority` removed: the logo is only ~3 KB after the palette
-              compression and renders at h-6 (24px). It's not the LCP
-              element on any page, and the preload was competing with
-              hero text/font loads in the critical request chain on
-              mobile. `fetchPriority="high"` keeps it ahead of below-
-              the-fold images without forcing a `<link rel="preload">`. */}
           <Image
             src="/logo.png"
             alt="ITAI Web Solutions"
@@ -77,7 +88,7 @@ export default function Header() {
           aria-label="Primary"
           className="hidden items-center gap-1 md:flex"
         >
-          {NAV_LINKS.map((l) => (
+          {navLinks.map((l) => (
             <Link
               key={l.href}
               href={l.href}
@@ -89,14 +100,21 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <LanguageSwitcher />
+
           <Link
-            href="/contact"
+            href={ctaHref}
             className="group hidden items-center gap-1.5 rounded-full bg-ink px-4 py-2 text-sm font-medium text-paper transition-colors hover:bg-ink-soft md:inline-flex"
           >
-            Start a project
+            {ctaLabel}
             <ArrowUpRight
               aria-hidden
-              className="h-4 w-4 transition-transform group-hover:-translate-y-px group-hover:translate-x-px"
+              className={[
+                "h-4 w-4 transition-transform group-hover:-translate-y-px",
+                isHe
+                  ? "group-hover:-translate-x-px rotate-180"
+                  : "group-hover:translate-x-px",
+              ].join(" ")}
               strokeWidth={2}
             />
           </Link>
@@ -135,7 +153,7 @@ export default function Header() {
               aria-label="Mobile primary"
               className="mx-auto flex max-w-7xl flex-col gap-1 px-5 pb-6 pt-2"
             >
-              {NAV_LINKS.map((l) => (
+              {navLinks.map((l) => (
                 <Link
                   key={l.href}
                   href={l.href}
@@ -145,18 +163,25 @@ export default function Header() {
                   {l.label}
                   <ArrowUpRight
                     aria-hidden
-                    className="h-4 w-4 text-muted"
+                    className={[
+                      "h-4 w-4 text-muted",
+                      isHe ? "rotate-180" : "",
+                    ].join(" ")}
                     strokeWidth={1.75}
                   />
                 </Link>
               ))}
               <Link
-                href="/contact"
+                href={ctaHref}
                 onClick={() => setOpen(false)}
                 className="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-ink px-5 py-3.5 text-base font-medium text-paper"
               >
-                Start a project
-                <ArrowUpRight aria-hidden className="h-4 w-4" strokeWidth={2} />
+                {ctaLabel}
+                <ArrowUpRight
+                  aria-hidden
+                  className={["h-4 w-4", isHe ? "rotate-180" : ""].join(" ")}
+                  strokeWidth={2}
+                />
               </Link>
             </nav>
           </m.div>

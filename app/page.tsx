@@ -12,12 +12,13 @@ import Showcase from "@/components/Showcase";
 import WhoIHelp from "@/components/WhoIHelp";
 import WhyWorkWithMe from "@/components/WhyWorkWithMe";
 import Work from "@/components/Work";
+import { buildAlternates } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: "ITAI — Websites, SEO & AI for Small Businesses",
   description:
     "Websites, SEO setup, Google visibility, booking forms, WhatsApp integration, and practical AI automation for small businesses. Free website review available.",
-  alternates: { canonical: "/" },
+  alternates: buildAlternates("en", "home"),
 };
 
 export default function Home() {

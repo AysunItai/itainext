@@ -11,6 +11,7 @@ import {
   professionalServiceLd,
 } from "@/lib/structured-data";
 import { SITE_URL } from "@/lib/site-url";
+import { buildAlternates } from "@/lib/i18n";
 
 const DESCRIPTION =
   "Websites, booking systems, WhatsApp contact, SEO setup, and practical AI automation for small businesses. Work remotely with clients in the US, UK, Europe, and Israel.";
@@ -18,7 +19,7 @@ const DESCRIPTION =
 export const metadata: Metadata = {
   title: "Services",
   description: DESCRIPTION,
-  alternates: { canonical: "/services" },
+  alternates: buildAlternates("en", "services"),
   openGraph: {
     title: "Services · ITAI",
     description: DESCRIPTION,

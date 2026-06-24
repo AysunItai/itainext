@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import ContactContent from "./Content";
+import { buildAlternates } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   // Was just "Contact" (14 chars with template). Adding the action and
@@ -7,7 +8,7 @@ export const metadata: Metadata = {
   title: "Contact — Start a Project or Ask a Question",
   description:
     "Have a project in mind? Send a note and I'll be in touch within a day. Direct, no middlemen.",
-  alternates: { canonical: "/contact" },
+  alternates: buildAlternates("en", "contact"),
   openGraph: {
     title: "Contact · ITAI",
     description:
