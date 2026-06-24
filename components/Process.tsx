@@ -1,28 +1,9 @@
-/**
- * Process is a server component. Static markup, no state, no events —
- * the entry animation was the only client-side reason this used to be
- * `"use client"`. Removed to cut hydration work on the homepage.
- */
+import { getHomeCopy } from "@/lib/home-copy";
+import type { Locale } from "@/lib/i18n";
 
-const STEPS = [
-  {
-    n: "01",
-    title: "Discovery",
-    body: "I map your goals, users, and constraints, then translate them into a focused build plan with clear milestones.",
-  },
-  {
-    n: "02",
-    title: "Design & build",
-    body: "Iterative cycles in Figma and code. You see real product every week — never a slideshow, never a surprise.",
-  },
-  {
-    n: "03",
-    title: "Launch & evolve",
-    body: "I ship to production behind a CDN, watch the metrics, and keep iterating once the site is live.",
-  },
-] as const;
+export default function Process({ locale = "en" }: { locale?: Locale }) {
+  const copy = getHomeCopy(locale).process;
 
-export default function Process() {
   return (
     <section
       id="process"
@@ -39,17 +20,16 @@ export default function Process() {
       <div className="relative mx-auto max-w-7xl">
         <header className="mx-auto max-w-2xl text-center">
           <p className="text-xs font-medium uppercase tracking-[0.25em] text-paper/60">
-            How I work
+            {copy.eyebrow}
           </p>
           <h2
             id="process-title"
             className="mt-4 text-balance text-4xl font-semibold tracking-tight sm:text-5xl"
           >
-            A simple, transparent process.
+            {copy.title}
           </h2>
           <p className="mt-5 text-pretty text-base leading-7 text-paper/70 sm:text-lg">
-            Three phases. Weekly check-ins. No black boxes — you&apos;ll
-            always know what I&apos;m building and why.
+            {copy.subtitle}
           </p>
         </header>
 
@@ -57,7 +37,7 @@ export default function Process() {
           role="list"
           className="mt-16 grid grid-cols-1 gap-5 md:grid-cols-3"
         >
-          {STEPS.map((step) => (
+          {copy.steps.map((step) => (
             <li
               key={step.n}
               className="relative overflow-hidden rounded-3xl border border-paper/10 bg-paper/[0.04] p-7 backdrop-blur-sm sm:p-8"

@@ -4,6 +4,8 @@ import { m, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, Check, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { trackFreeReviewClick } from "@/lib/analytics";
+import { getHomeCopy } from "@/lib/home-copy";
+import type { Locale } from "@/lib/i18n";
 
 type Plan = {
   id: string;
@@ -11,69 +13,17 @@ type Plan = {
   description: string;
   price: string;
   priceNote: string;
-  features: string[];
+  features: readonly string[];
   cta: string;
   badge?: string;
   featured?: boolean;
 };
 
-const PLANS: Plan[] = [
-  {
-    id: "quick-fix",
-    name: "Quick Website Fix",
-    description:
-      "Targeted fixes when something specific is broken or hurting leads.",
-    price: "$300–$500",
-    priceNote: "USD · Scoped to the issue",
-    features: [
-      "Mobile layout or contact-form fixes",
-      "WhatsApp or click-to-call setup",
-      "Speed tweaks on key pages",
-      "SEO title & description cleanup",
-      "Small copy or trust-signal updates",
-    ],
-    cta: "Get Free Website Review",
-  },
-  {
-    id: "refresh",
-    name: "Landing Page / Website Refresh",
-    description:
-      "A sharper first impression — modern design, clearer offer, better conversion.",
-    price: "$750–$1,200",
-    priceNote: "USD · One-time project",
-    features: [
-      "Homepage or landing page redesign",
-      "Mobile-first responsive layout",
-      "Contact & WhatsApp integration",
-      "Basic SEO setup",
-      "Fast delivery — typically 2–3 weeks",
-    ],
-    cta: "Get Free Website Review",
-    badge: "Most popular",
-    featured: true,
-  },
-  {
-    id: "full",
-    name: "Full Website + SEO Setup",
-    description:
-      "A complete lead-generation site with Google visibility built in from day one.",
-    price: "$1,500–$3,000",
-    priceNote: "USD · Depends on scope",
-    features: [
-      "Multi-page custom website",
-      "Booking or inquiry flows",
-      "SEO & Google visibility setup",
-      "Google Business Profile guidance",
-      "AI chatbot or automation (if needed)",
-      "Post-launch support window",
-    ],
-    cta: "Get Free Website Review",
-  },
-];
-
 const easeOut = [0.22, 1, 0.36, 1] as const;
 
-export default function Pricing() {
+export default function Pricing({ locale = "en" }: { locale?: Locale }) {
+  const copy = getHomeCopy(locale).pricing;
+  const reviewHref = getHomeCopy(locale).reviewHref;
   const reduce = useReducedMotion();
 
   const fade = (delay = 0) => ({
@@ -93,23 +43,21 @@ export default function Pricing() {
         <div className="grid grid-cols-1 gap-6 md:grid-cols-12 md:gap-12">
           <m.div {...fade(0)} className="md:col-span-5">
             <p className="font-mono text-xs uppercase tracking-[0.32em] text-muted">
-              Packages · Starting points
+              {copy.eyebrow}
             </p>
             <h2
               id="pricing-title"
               className="mt-4 text-balance text-4xl font-semibold tracking-[-0.035em] text-ink sm:text-5xl"
             >
-              Simple packages.{" "}
-              <span className="text-muted">Clear ranges.</span>
+              {copy.title}{" "}
+              <span className="text-muted">{copy.titleMuted}</span>
             </h2>
           </m.div>
           <m.p
             {...fade(0.1)}
             className="md:col-span-6 md:col-start-7 max-w-2xl text-pretty text-lg leading-8 text-muted sm:text-xl"
           >
-            Every business is different — these are typical starting ranges. After
-            a free review, I&apos;ll recommend the smallest fix that actually moves
-            the needle.
+            {copy.intro}
           </m.p>
         </div>
 
@@ -117,12 +65,14 @@ export default function Pricing() {
           role="list"
           className="mt-16 grid grid-cols-1 gap-6 lg:grid-cols-3 lg:items-stretch"
         >
-          {PLANS.map((plan, i) => (
+          {copy.plans.map((plan, i) => (
             <PricingCard
               key={plan.id}
               plan={plan}
               index={i}
               reduce={Boolean(reduce)}
+              reviewHref={reviewHref}
+              locale={locale}
             />
           ))}
         </ul>
@@ -131,8 +81,7 @@ export default function Pricing() {
           {...fade(0.4)}
           className="mt-10 text-center text-sm text-muted"
         >
-          Final price depends on pages, integrations, and content. You always
-          get a clear quote before any work begins.
+          {copy.footnote}
         </m.p>
       </div>
     </section>
@@ -143,12 +92,17 @@ function PricingCard({
   plan,
   index,
   reduce,
+  reviewHref,
+  locale,
 }: {
   plan: Plan;
   index: number;
   reduce: boolean;
+  reviewHref: string;
+  locale: Locale;
 }) {
   const isFeatured = plan.featured;
+  const isHe = locale === "he";
 
   return (
     <m.li
@@ -264,7 +218,7 @@ function PricingCard({
       <div className="relative flex-1" aria-hidden />
 
       <Link
-        href="/free-website-review"
+        href={reviewHref}
         aria-label={`${plan.cta} for ${plan.name}`}
         onClick={() =>
           trackFreeReviewClick({ button_location: "pricing_card" })
@@ -280,7 +234,12 @@ function PricingCard({
         {plan.cta}
         <ArrowUpRight
           aria-hidden
-          className="h-4 w-4 transition-transform group-hover:-translate-y-px group-hover:translate-x-px"
+          className={[
+            "h-4 w-4 transition-transform",
+            isHe
+              ? "rotate-180 group-hover:-translate-x-px group-hover:-translate-y-px"
+              : "group-hover:-translate-y-px group-hover:translate-x-px",
+          ].join(" ")}
           strokeWidth={2}
         />
       </Link>

@@ -1,27 +1,16 @@
 import { Handshake, MessageSquare, Rocket } from "lucide-react";
+import { getHomeCopy } from "@/lib/home-copy";
+import type { Locale } from "@/lib/i18n";
 
-const REASONS = [
-  {
-    title: "Developer-led, not template-based",
-    description:
-      "Custom code and thoughtful design — not a generic theme with your logo pasted on top.",
-    icon: Rocket,
-  },
-  {
-    title: "Clear process and honest communication",
-    description:
-      "You always know what's happening, what it costs, and what comes next.",
-    icon: MessageSquare,
-  },
-  {
-    title: "Websites built for leads, speed, and trust",
-    description:
-      "Every page is shaped around contact flows, Google visibility, and fast mobile performance.",
-    icon: Handshake,
-  },
-] as const;
+const REASON_ICONS = [Rocket, MessageSquare, Handshake] as const;
 
-export default function WhyWorkWithMe() {
+export default function WhyWorkWithMe({
+  locale = "en",
+}: {
+  locale?: Locale;
+}) {
+  const copy = getHomeCopy(locale).whyWork;
+
   return (
     <section
       id="why-work-with-me"
@@ -31,13 +20,13 @@ export default function WhyWorkWithMe() {
       <div className="mx-auto max-w-7xl">
         <header className="mx-auto max-w-2xl text-center">
           <p className="text-xs font-medium uppercase tracking-[0.25em] text-muted">
-            Why work with me
+            {copy.eyebrow}
           </p>
           <h2
             id="why-work-with-me-title"
             className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl"
           >
-            A small studio, focused on your results.
+            {copy.title}
           </h2>
         </header>
 
@@ -45,25 +34,28 @@ export default function WhyWorkWithMe() {
           role="list"
           className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-6"
         >
-          {REASONS.map((item) => (
-            <li
-              key={item.title}
-              className="rounded-2xl border border-line bg-paper-soft p-6 sm:p-7"
-            >
-              <span
-                className="flex h-10 w-10 items-center justify-center rounded-xl bg-mist text-ink"
-                aria-hidden
+          {copy.reasons.map((item, i) => {
+            const Icon = REASON_ICONS[i] ?? Rocket;
+            return (
+              <li
+                key={item.title}
+                className="rounded-2xl border border-line bg-paper-soft p-6 sm:p-7"
               >
-                <item.icon className="h-5 w-5" strokeWidth={1.75} />
-              </span>
-              <h3 className="mt-5 text-base font-semibold tracking-tight text-ink sm:text-lg">
-                {item.title}
-              </h3>
-              <p className="mt-2 text-[15px] leading-6 text-muted">
-                {item.description}
-              </p>
-            </li>
-          ))}
+                <span
+                  className="flex h-10 w-10 items-center justify-center rounded-xl bg-mist text-ink"
+                  aria-hidden
+                >
+                  <Icon className="h-5 w-5" strokeWidth={1.75} />
+                </span>
+                <h3 className="mt-5 text-base font-semibold tracking-tight text-ink sm:text-lg">
+                  {item.title}
+                </h3>
+                <p className="mt-2 text-[15px] leading-6 text-muted">
+                  {item.description}
+                </p>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </section>

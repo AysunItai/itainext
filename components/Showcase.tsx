@@ -1,43 +1,12 @@
 import { Gauge, ShieldCheck, Timer, Zap } from "lucide-react";
+import { getHomeCopy } from "@/lib/home-copy";
+import type { Locale } from "@/lib/i18n";
 
-/**
- * Showcase is a server component. It used to install a framer-motion
- * `whileInView` IntersectionObserver per stat and per pillar (8 total)
- * at hydration time, contributing to the desktop TBT problem. The
- * content is pure static markup, so there's nothing to hydrate.
- */
+const PILLAR_ICONS = [Zap, ShieldCheck, Gauge, Timer] as const;
 
-const STATS = [
-  { value: "99", suffix: "+", label: "Lighthouse score, average" },
-  { value: "<1.2", suffix: "s", label: "Median LCP across builds" },
-  { value: "30", suffix: "%", label: "Faster ops, post-automation" },
-  { value: "100", suffix: "%", label: "Type-safe codebases" },
-] as const;
+export default function Showcase({ locale = "en" }: { locale?: Locale }) {
+  const copy = getHomeCopy(locale).showcase;
 
-const PILLARS = [
-  {
-    icon: Zap,
-    title: "Built for speed",
-    body: "Edge rendering, image and font optimization, and zero hydration waste by default.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Quietly secure",
-    body: "Modern auth, tight CSP, and validated inputs end-to-end — security as a posture, not a panic.",
-  },
-  {
-    icon: Gauge,
-    title: "Observable",
-    body: "Logs, metrics, and Web Vitals wired in from day one so you always know how the system feels.",
-  },
-  {
-    icon: Timer,
-    title: "Maintainable",
-    body: "Code that reads like a memo to your future self — well-typed, well-tested, well-documented.",
-  },
-] as const;
-
-export default function Showcase() {
   return (
     <section
       id="principles"
@@ -47,22 +16,21 @@ export default function Showcase() {
       <div className="mx-auto max-w-7xl">
         <header className="mx-auto max-w-2xl text-center">
           <p className="text-xs font-medium uppercase tracking-[0.25em] text-muted">
-            Engineering principles
+            {copy.eyebrow}
           </p>
           <h2
             id="showcase-title"
             className="mt-4 text-balance text-4xl font-semibold tracking-tight text-ink sm:text-5xl"
           >
-            Premium feel, infrastructure underneath.
+            {copy.title}
           </h2>
           <p className="mt-5 text-pretty text-base leading-7 text-muted sm:text-lg">
-            Every project I ship is judged against the same bar — the kind of
-            polish you&apos;d expect from a flagship product team.
+            {copy.subtitle}
           </p>
         </header>
 
         <dl className="mt-14 grid grid-cols-2 gap-px overflow-hidden rounded-3xl border border-line bg-line lg:grid-cols-4">
-          {STATS.map((s) => (
+          {copy.stats.map((s) => (
             <div
               key={s.label}
               className="bg-paper px-6 py-8 text-center sm:px-8 sm:py-10"
@@ -81,22 +49,25 @@ export default function Showcase() {
         </dl>
 
         <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-2">
-          {PILLARS.map((p) => (
-            <article
-              key={p.title}
-              className="rounded-3xl border border-line bg-paper-soft p-7 sm:p-8"
-            >
-              <div className="flex items-center gap-4">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-paper text-ink shadow-soft">
-                  <p.icon aria-hidden className="h-5 w-5" strokeWidth={1.75} />
+          {copy.pillars.map((p, i) => {
+            const Icon = PILLAR_ICONS[i] ?? Zap;
+            return (
+              <article
+                key={p.title}
+                className="rounded-3xl border border-line bg-paper-soft p-7 sm:p-8"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-paper text-ink shadow-soft">
+                    <Icon aria-hidden className="h-5 w-5" strokeWidth={1.75} />
+                  </div>
+                  <h3 className="text-lg font-semibold tracking-tight text-ink">
+                    {p.title}
+                  </h3>
                 </div>
-                <h3 className="text-lg font-semibold tracking-tight text-ink">
-                  {p.title}
-                </h3>
-              </div>
-              <p className="mt-5 text-[15px] leading-7 text-muted">{p.body}</p>
-            </article>
-          ))}
+                <p className="mt-5 text-[15px] leading-7 text-muted">{p.body}</p>
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>

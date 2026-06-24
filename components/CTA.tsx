@@ -1,15 +1,11 @@
 import ReviewCTAButton from "./ReviewCTAButton";
 import CTAEmailLink from "./CTAEmailLink";
+import { getHomeCopy } from "@/lib/home-copy";
+import type { Locale } from "@/lib/i18n";
 
-/**
- * CTA is now a server component. The whole section used to hydrate as
- * a client component just for one onClick analytics call on the mailto
- * link; that work is now contained in <CTAEmailLink />, a tiny client
- * island. The framer-motion `whileInView` entry animation was dropped
- * — by the time you scroll here the animation would have completed
- * anyway, and it was contributing to the desktop TBT problem.
- */
-export default function CTA() {
+export default function CTA({ locale = "en" }: { locale?: Locale }) {
+  const copy = getHomeCopy(locale).cta;
+
   return (
     <section
       id="contact"
@@ -28,27 +24,26 @@ export default function CTA() {
 
         <div className="relative max-w-2xl">
           <p className="text-xs font-medium uppercase tracking-[0.25em] text-paper/60">
-            Start here
+            {copy.eyebrow}
           </p>
           <h2
             id="cta-title"
             className="mt-4 text-balance text-4xl font-semibold tracking-tight sm:text-5xl"
           >
-            Send me your website and I&apos;ll show you what may be stopping
-            visitors from becoming leads.
+            {copy.title}
           </h2>
           <p className="mt-5 max-w-xl text-pretty text-base leading-7 text-paper/70 sm:text-lg">
-            A short, honest review — mobile experience, Google visibility,
-            contact flows, and trust signals. Then we can talk about the right
-            fix if you want help implementing it.
+            {copy.description}
           </p>
 
           <div className="mt-9 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
             <ReviewCTAButton
+              locale={locale}
               location="homepage_footer_cta"
+              label={copy.button}
               className="group inline-flex items-center justify-center gap-2 rounded-full bg-paper px-7 py-3.5 text-sm font-medium text-ink transition-all hover:-translate-y-0.5 hover:shadow-lifted"
             />
-            <CTAEmailLink />
+            {locale === "en" ? <CTAEmailLink /> : null}
           </div>
         </div>
       </div>

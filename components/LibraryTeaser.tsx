@@ -1,6 +1,8 @@
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import BookCover from "@/components/library/BookCover";
+import { getHomeCopy } from "@/lib/home-copy";
+import type { Locale } from "@/lib/i18n";
 import { listPublications } from "@/lib/library";
 
 /**
@@ -11,7 +13,9 @@ import { listPublications } from "@/lib/library";
  * cut hydration cost on the homepage (PSI desktop TBT was 1s, partly
  * from per-element whileInView observers).
  */
-export default function LibraryTeaser() {
+export default function LibraryTeaser({ locale = "en" }: { locale?: Locale }) {
+  const copy = getHomeCopy(locale).library;
+  const isHe = locale === "he";
   const publications = listPublications();
   const featured = publications[0];
 
@@ -34,11 +38,11 @@ export default function LibraryTeaser() {
         <div className="order-2 lg:order-1 lg:col-span-7">
           <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
             <span className="font-mono text-xs uppercase tracking-[0.32em] text-muted">
-              From the library
+              {copy.eyebrow}
             </span>
             <span aria-hidden className="h-px w-10 bg-line" />
             <span className="inline-flex items-center gap-1.5 rounded-full bg-ink px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-paper">
-              Out now
+              {copy.badge}
             </span>
           </div>
 
@@ -46,18 +50,16 @@ export default function LibraryTeaser() {
             id="library-teaser-title"
             className="mt-6 text-balance text-4xl font-semibold leading-[1.02] tracking-[-0.035em] text-ink sm:text-5xl lg:text-[3.4rem]"
           >
-            An ebook on{" "}
+            {copy.title}{" "}
             <span className="bg-[linear-gradient(110deg,#0a0a0a,#1e40af,#0f172a,#2563eb,#0a0a0a)] bg-[length:240%_240%] bg-clip-text text-transparent">
-              SQL performance
+              {copy.titleAccent}
             </span>
             .{" "}
-            <span className="text-muted">And more on the way.</span>
+            <span className="text-muted">{copy.titleMuted}</span>
           </h2>
 
           <p className="mt-6 max-w-2xl text-pretty text-lg leading-8 text-muted">
-            Seventeen pages pulled from years of staring at slow queries in
-            production — EXPLAIN, indexes, joins, pagination, aggregation.
-            Read on any device — yours forever.
+            {copy.description}
           </p>
 
           <div className="mt-10 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:gap-4">
@@ -65,10 +67,15 @@ export default function LibraryTeaser() {
               href={`/shop/${featured.slug}`}
               className="group inline-flex items-center justify-center gap-2 rounded-full bg-ink px-7 py-3.5 text-sm font-medium text-paper shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:bg-ink-soft hover:shadow-lifted"
             >
-              Get the ebook
+              {copy.cta}
               <ArrowUpRight
                 aria-hidden
-                className="h-4 w-4 transition-transform group-hover:-translate-y-px group-hover:translate-x-px"
+                className={[
+                  "h-4 w-4 transition-transform",
+                  isHe
+                    ? "rotate-180 group-hover:-translate-x-px group-hover:-translate-y-px"
+                    : "group-hover:-translate-y-px group-hover:translate-x-px",
+                ].join(" ")}
                 strokeWidth={2}
               />
             </Link>
@@ -83,7 +90,7 @@ export default function LibraryTeaser() {
               href="/shop"
               className="text-ink underline decoration-line underline-offset-4 transition-colors hover:decoration-ink"
             >
-              Browse the library
+              {copy.browse}
             </Link>
           </p>
         </div>

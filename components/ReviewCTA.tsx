@@ -1,5 +1,6 @@
 import ReviewCTAButton from "./ReviewCTAButton";
 import type { ReviewButtonLocation } from "@/lib/analytics";
+import type { Locale } from "@/lib/i18n";
 
 type Variant = "soft" | "bold";
 
@@ -10,6 +11,7 @@ type ReviewCTAProps = {
   description?: string;
   location: ReviewButtonLocation;
   buttonLabel?: string;
+  locale?: Locale;
 };
 
 /**
@@ -22,6 +24,7 @@ export default function ReviewCTA({
   description,
   location,
   buttonLabel,
+  locale = "en",
 }: ReviewCTAProps) {
   const isBold = variant === "bold";
 
@@ -82,6 +85,7 @@ export default function ReviewCTA({
           </div>
 
           <ReviewCTAButton
+            locale={locale}
             location={location}
             label={buttonLabel}
             className={[

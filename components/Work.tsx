@@ -12,6 +12,8 @@ import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, type ReactNode } from "react";
+import { getHomeCopy } from "@/lib/home-copy";
+import type { Locale } from "@/lib/i18n";
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
 
@@ -118,14 +120,11 @@ const PROJECTS: Project[] = [
   },
 ];
 
-const FILTERS: { id: "all" | Category; label: string }[] = [
-  { id: "all", label: "Show all" },
-  { id: "completed", label: "Completed" },
-  { id: "ongoing", label: "Ongoing" },
-  { id: "ai", label: "AI" },
-];
+type WorkCopy = ReturnType<typeof getHomeCopy>["work"];
 
-export default function Work() {
+export default function Work({ locale = "en" }: { locale?: Locale }) {
+  const workCopy = getHomeCopy(locale).work;
+  const filters = workCopy.filters as { id: "all" | Category; label: string }[];
   const reduce = useReducedMotion();
   const [active, setActive] = useState<"all" | Category>("all");
 
@@ -162,7 +161,7 @@ export default function Work() {
             transition={{ duration: 0.6, ease: easeOut }}
             className="text-xs font-medium uppercase tracking-[0.32em] text-muted"
           >
-            Selected work
+            {workCopy.eyebrow}
           </m.p>
           <div>
             <m.h2
@@ -171,15 +170,14 @@ export default function Work() {
               transition={{ duration: 0.6, ease: easeOut }}
               className="max-w-3xl text-balance text-4xl font-semibold tracking-[-0.035em] text-ink sm:text-5xl"
             >
-              Real systems, doing real work.
+              {workCopy.title}
             </m.h2>
             <m.p
               variants={revealItem(reduce)}
               transition={{ duration: 0.6, ease: easeOut }}
               className="mt-5 max-w-xl text-pretty text-base leading-7 text-muted sm:text-lg"
             >
-              Each engagement starts with a real operational need and ends with
-              a system the team uses every day.
+              {workCopy.subtitle}
             </m.p>
           </div>
         </m.header>
@@ -190,7 +188,7 @@ export default function Work() {
             aria-label="Project filter"
             className="flex flex-wrap items-center gap-1 rounded-full border border-line bg-paper-soft p-1"
           >
-            {FILTERS.map((f) => {
+            {filters.map((f) => {
               const isActive = active === f.id;
               return (
                 <button
@@ -225,7 +223,7 @@ export default function Work() {
             })}
           </div>
           <span className="ml-auto text-xs font-medium tabular-nums text-muted">
-            {visible.length} of {PROJECTS.length}
+            {visible.length} {workCopy.of} {PROJECTS.length}
           </span>
         </div>
 
@@ -251,6 +249,8 @@ export default function Work() {
                 <ProjectCard
                   project={p}
                   isWide={layout[i] === "lg:col-span-12"}
+                  workCopy={workCopy}
+                  locale={locale}
                 />
               </m.div>
             ))}
@@ -259,7 +259,7 @@ export default function Work() {
 
         {visible.length === 0 && (
           <div className="mt-10 rounded-3xl border border-line bg-paper-soft p-12 text-center text-sm text-muted">
-            No projects match this filter yet.
+            {workCopy.noMatch}
           </div>
         )}
       </div>
@@ -300,10 +300,15 @@ function computeLayout(visible: Project[]): string[] {
 function ProjectCard({
   project,
   isWide,
+  workCopy,
+  locale,
 }: {
   project: Project;
   isWide: boolean;
+  workCopy: WorkCopy;
+  locale: Locale;
 }) {
+  const isHe = locale === "he";
   const reduce = useReducedMotion();
   const [imageOk, setImageOk] = useState(true);
 
@@ -415,7 +420,7 @@ function ProjectCard({
                 }`}
               />
             </span>
-            {project.comingSoon ? "Launching soon" : project.status}
+            {project.comingSoon ? workCopy.launchingSoon : project.status === "Ongoing" ? workCopy.statusOngoing : workCopy.statusCompleted}
           </span>
         </div>
 
@@ -487,7 +492,7 @@ function ProjectCard({
           {project.role && (
             <p className="mt-5 flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.2em] text-muted">
               <span aria-hidden className="h-px w-6 bg-line" />
-              <span className="text-ink/80">Role</span>
+              <span className="text-ink/80">{workCopy.role}</span>
               <span className="text-muted normal-case tracking-normal">
                 · {project.role}
               </span>
@@ -503,15 +508,20 @@ function ProjectCard({
                 className="h-1.5 w-1.5 rounded-full bg-amber-500"
               />
             </span>
-            Launching soon
+            {workCopy.launchingSoon}
           </div>
         ) : (
           <div className="flex shrink-0 items-center gap-2 text-sm font-medium text-ink">
-            {project.externalUrl ? "Visit live site" : "View case study"}
+            {project.externalUrl ? workCopy.visitLive : workCopy.viewCase}
             <span className="flex h-9 w-9 items-center justify-center rounded-full border border-line transition-all duration-300 group-hover:border-ink/40 group-hover:bg-ink group-hover:text-paper">
               <ArrowUpRight
                 aria-hidden
-                className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-px group-hover:translate-x-px"
+                className={[
+                  "h-4 w-4 transition-transform duration-300",
+                  isHe
+                    ? "rotate-180 group-hover:-translate-x-px group-hover:-translate-y-px"
+                    : "group-hover:-translate-y-px group-hover:translate-x-px",
+                ].join(" ")}
                 strokeWidth={2}
               />
             </span>
