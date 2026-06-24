@@ -73,7 +73,7 @@ export default function HebrewContactPage() {
 
           <div className="mt-10 flex flex-col gap-3">
             <Link
-              href="/book"
+              href="/he/book"
               className="group inline-flex items-center justify-center gap-2 rounded-full bg-ink px-7 py-3.5 text-sm font-medium text-paper shadow-soft transition-all hover:-translate-y-0.5 hover:bg-ink-soft"
             >
               קביעת שיחת היכרות

@@ -8,6 +8,7 @@ import {
   RefreshCw,
   Search,
 } from "lucide-react";
+import HeroAnimatedBackground from "@/components/HeroAnimatedBackground";
 import { buildAlternates } from "@/lib/i18n";
 
 export const metadata: Metadata = {
@@ -65,29 +66,36 @@ export default function HebrewHomePage() {
     <main id="main" className="flex flex-col">
       <section
         aria-labelledby="he-hero-title"
-        className="relative isolate flex min-h-[85svh] items-center justify-center overflow-hidden px-5 pt-24 pb-16 sm:px-8 sm:pt-28"
+        className="relative isolate flex min-h-[100svh] items-center justify-center overflow-hidden px-5 pt-20 pb-14 sm:px-8 sm:pt-24 sm:pb-20"
       >
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_70%_55%_at_50%_50%,rgba(30,58,138,0.1),transparent_68%)]"
-        />
+        <HeroAnimatedBackground />
 
-        <div className="relative z-10 mx-auto w-full max-w-4xl text-center">
-          <p className="mb-5 text-xs font-medium uppercase tracking-[0.32em] text-muted">
+        <div className="relative z-10 mx-auto w-full max-w-5xl text-center">
+          <p
+            className="mb-5 text-xs font-medium uppercase tracking-[0.36em] text-muted sm:mb-7 motion-safe:[animation:hero-fade-in_0.8s_cubic-bezier(0.22,1,0.36,1)_both]"
+            style={{ animationDelay: "0ms" }}
+          >
             ITAI WEB SOLUTIONS
           </p>
           <h1
             id="he-hero-title"
-            className="text-balance text-[clamp(2.25rem,6vw,4.5rem)] font-semibold leading-[1.08] tracking-[-0.03em] text-ink"
+            className="text-balance text-[clamp(2.35rem,6.2vw,5.5rem)] font-semibold leading-[1.02] tracking-[-0.04em] text-ink motion-safe:[animation:hero-fade-in_0.8s_cubic-bezier(0.22,1,0.36,1)_both]"
+            style={{ animationDelay: "60ms" }}
           >
             אתרים חכמים לעסקים קטנים
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-8 text-muted sm:text-xl">
+          <p
+            className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-7 text-muted sm:mt-7 sm:text-xl sm:leading-8 motion-safe:[animation:hero-fade-in_0.8s_cubic-bezier(0.22,1,0.36,1)_both]"
+            style={{ animationDelay: "180ms" }}
+          >
             בניית אתרים מודרניים, שיפור נראות בגוגל, טפסי יצירת קשר, מערכות
             הזמנה ואוטומציות AI פשוטות לעסק שלך.
           </p>
 
-          <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
+          <div
+            className="mt-8 flex flex-col items-center justify-center gap-3 sm:mt-10 sm:flex-row sm:gap-4 motion-safe:[animation:hero-fade-in_0.8s_cubic-bezier(0.22,1,0.36,1)_both]"
+            style={{ animationDelay: "280ms" }}
+          >
             <Link
               href="/he/free-website-review"
               className="group inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-full bg-ink px-7 py-3.5 text-sm font-medium text-paper shadow-soft transition-all hover:-translate-y-0.5 hover:bg-ink-soft sm:w-auto"
@@ -99,12 +107,20 @@ export default function HebrewHomePage() {
               />
             </Link>
             <Link
-              href="/book"
+              href="/he/book"
               className="inline-flex min-h-[48px] w-full items-center justify-center rounded-full border border-line bg-paper/80 px-7 py-3.5 text-sm font-medium text-ink backdrop-blur transition-colors hover:bg-mist sm:w-auto"
             >
               קביעת שיחת היכרות
             </Link>
           </div>
+
+          <p
+            className="mx-auto mt-4 max-w-md text-pretty text-[13px] leading-6 text-muted sm:mt-5 motion-safe:[animation:hero-fade-in_0.8s_cubic-bezier(0.22,1,0.36,1)_both]"
+            style={{ animationDelay: "360ms" }}
+          >
+            לא בטוחה מאיפה להתחיל? בקשי בדיקת אתר בחינם ואכוון אותך לשיפורים
+            החשובים ביותר קודם.
+          </p>
         </div>
       </section>
 

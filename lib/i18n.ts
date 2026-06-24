@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export type Locale = "en" | "he";
 
-export type BilingualPage = "home" | "services" | "freeReview" | "contact";
+export type BilingualPage = "home" | "services" | "freeReview" | "contact" | "book";
 
 /** Paired routes — English default, Hebrew under /he. */
 export const BILINGUAL_PATHS = {
@@ -11,12 +11,14 @@ export const BILINGUAL_PATHS = {
     services: "/services",
     freeReview: "/free-website-review",
     contact: "/contact",
+    book: "/book",
   },
   he: {
     home: "/he",
     services: "/he/services",
     freeReview: "/he/free-website-review",
     contact: "/he/contact",
+    book: "/he/book",
   },
 } as const;
 
@@ -25,10 +27,12 @@ const PATH_TO_PAGE: Record<string, BilingualPage> = {
   "/services": "services",
   "/free-website-review": "freeReview",
   "/contact": "contact",
+  "/book": "book",
   "/he": "home",
   "/he/services": "services",
   "/he/free-website-review": "freeReview",
   "/he/contact": "contact",
+  "/he/book": "book",
 };
 
 export function getLocaleFromPathname(pathname: string): Locale {

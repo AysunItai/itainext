@@ -124,7 +124,7 @@ export default function HebrewFreeReviewContent() {
             </p>
             <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:justify-center">
               <Link
-                href="/book"
+                href="/he/book"
                 className="inline-flex items-center justify-center rounded-full bg-ink px-6 py-3.5 text-sm font-medium text-paper"
               >
                 קביעת שיחת היכרות

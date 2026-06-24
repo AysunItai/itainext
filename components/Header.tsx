@@ -31,7 +31,7 @@ export default function Header() {
   const isHe = locale === "he";
   const homeHref = isHe ? BILINGUAL_PATHS.he.home : BILINGUAL_PATHS.en.home;
   const navLinks = isHe ? HE_NAV : EN_NAV;
-  const ctaHref = isHe ? "/book" : "/contact";
+  const ctaHref = isHe ? "/he/book" : "/contact";
   const ctaLabel = isHe ? "שיחת היכרות" : "Start a project";
 
   const [scrolled, setScrolled] = useState(false);

@@ -2,21 +2,25 @@
 
 import { usePathname } from "next/navigation";
 import { trackWhatsAppClick } from "@/lib/analytics";
+import { getLocaleFromPathname } from "@/lib/i18n";
+import {
+  buildWhatsAppUrl,
+  getFloatingWhatsAppMessage,
+} from "@/lib/whatsapp";
 
 const PHONE = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
-const DEFAULT_MESSAGE =
-  "Hi! I saw your website and I'd like to talk about a project.";
 
 export default function WhatsAppButton() {
-  const pathname = usePathname();
+  const pathname = usePathname() ?? "/";
+  const locale = getLocaleFromPathname(pathname);
+  const isHe = locale === "he";
 
   if (!PHONE) return null;
   if (pathname?.startsWith("/admin")) return null;
 
-  const cleaned = PHONE.replace(/\D/g, "");
-  if (!cleaned) return null;
-
-  const href = `https://wa.me/${cleaned}?text=${encodeURIComponent(DEFAULT_MESSAGE)}`;
+  const message = getFloatingWhatsAppMessage(pathname);
+  const href = buildWhatsAppUrl(message, PHONE);
+  if (!href) return null;
 
   const handleClick = () =>
     trackWhatsAppClick({
@@ -30,14 +34,18 @@ export default function WhatsAppButton() {
       target="_blank"
       rel="noopener noreferrer"
       onClick={handleClick}
-      aria-label="Chat with ITAI on WhatsApp (opens in a new tab)"
+      aria-label={
+        isHe
+          ? "שיחה בוואטסאפ עם ITAI (נפתח בטאב חדש)"
+          : "Chat with ITAI on WhatsApp (opens in a new tab)"
+      }
       className="group fixed bottom-6 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lifted transition-all duration-200 hover:scale-105 hover:bg-[#1ebe5b] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366] focus-visible:ring-offset-2 sm:bottom-8 sm:right-8 sm:h-16 sm:w-16"
     >
       <span
         aria-hidden
         className="absolute right-full mr-3 hidden whitespace-nowrap rounded-full bg-ink px-3 py-1.5 text-xs font-medium text-paper opacity-0 shadow-soft transition-opacity duration-200 group-hover:opacity-100 sm:block"
       >
-        Chat on WhatsApp
+        {isHe ? "שיחה בוואטסאפ" : "Chat on WhatsApp"}
       </span>
       <WhatsAppIcon className="h-7 w-7 sm:h-8 sm:w-8" />
     </a>

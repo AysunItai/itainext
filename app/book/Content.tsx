@@ -6,6 +6,12 @@ import Link from "next/link";
 import Script from "next/script";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { WhatsAppGlyph } from "@/components/library/brand-icons";
+import { BOOK_COPY, type BookCopy } from "@/lib/book-copy";
+import type { Locale } from "@/lib/i18n";
+import {
+  buildWhatsAppUrl,
+  getConsultationWhatsAppMessage,
+} from "@/lib/whatsapp";
 import {
   trackBookConsultationClick,
   trackEvent,
@@ -34,24 +40,8 @@ const PLAN_LABELS: Record<string, { name: string; price: string }> = {
 };
 
 const CALENDLY_BASE_URL = process.env.NEXT_PUBLIC_CALENDLY_URL;
-const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
-const WHATSAPP_MESSAGE =
-  "Hi! I'd like to ask about a free website consultation.";
 
 const BOOK_ANCHOR = "book-now";
-
-const IN_THE_CALL = [
-  "What kind of website your business needs",
-  "How to improve your current website",
-  "How to get more leads from Google, Facebook, and WhatsApp",
-] as const;
-
-const WHO_THIS_IS_FOR = [
-  "You own a small business and need a professional website",
-  "Your current website looks old or doesn't bring leads",
-  "You want WhatsApp, booking, contact forms, or SEO setup",
-  "You want a developer who explains things clearly",
-] as const;
 
 function buildCalendlyUrl(): string | null {
   if (!CALENDLY_BASE_URL) return null;
@@ -68,25 +58,25 @@ function buildCalendlyUrl(): string | null {
   }
 }
 
-function buildWhatsAppUrl(): string | null {
-  if (!WHATSAPP_NUMBER) return null;
-  const cleaned = WHATSAPP_NUMBER.replace(/\D/g, "");
-  if (!cleaned) return null;
-  return `https://wa.me/${cleaned}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
-}
-
 // `plan` is passed from the server (see `app/book/page.tsx`) so the
 // whole component — including the <h1> — ends up in the initial HTML.
 // We previously read this via `useSearchParams()`, which forced the
 // page into a Suspense boundary and meant crawlers saw an empty
 // prerender.
-export default function BookContent({ plan: planKey }: { plan: string | null }) {
+export default function BookContent({
+  plan: planKey,
+  locale = "en",
+}: {
+  plan: string | null;
+  locale?: Locale;
+}) {
+  const copy = BOOK_COPY[locale];
   const reduce = useReducedMotion();
   const plan =
     planKey && PLAN_LABELS[planKey] ? PLAN_LABELS[planKey] : null;
 
   const calendlyUrl = buildCalendlyUrl();
-  const whatsappUrl = buildWhatsAppUrl();
+  const whatsappUrl = buildWhatsAppUrl(getConsultationWhatsAppMessage(locale));
 
   const fade = (delay = 0) => ({
     initial: reduce ? { opacity: 0 } : { opacity: 0, y: 20 },
@@ -124,10 +114,10 @@ export default function BookContent({ plan: planKey }: { plan: string | null }) 
               <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
             </span>
             <span className="font-mono uppercase tracking-[0.2em] text-ink/55">
-              Free · 15 min
+              {copy.badgeFree}
             </span>
             <span aria-hidden className="h-3 w-px flex-none bg-line" />
-            <span className="text-ink/80">Zoom or Google Meet</span>
+            <span className="text-ink/80">{copy.badgeMeet}</span>
           </m.div>
 
           <m.h1
@@ -135,16 +125,14 @@ export default function BookContent({ plan: planKey }: { plan: string | null }) 
             id="book-hero-title"
             className="mt-8 text-balance text-[clamp(2.25rem,6.5vw,4.5rem)] font-semibold leading-[1.02] tracking-[-0.035em] text-ink"
           >
-            Free 15-Minute Website Consultation
+            {copy.title}
           </m.h1>
 
           <m.p
             {...fade(0.2)}
             className="mt-6 max-w-2xl text-pretty text-base leading-7 text-muted sm:text-lg sm:leading-8"
           >
-            I help small businesses build clean, modern websites with
-            WhatsApp, booking, SEO setup, and contact forms — working remotely
-            with clients in the US, UK, Europe, Israel, and beyond.
+            {copy.subtitle}
           </m.p>
 
           {plan ? (
@@ -153,7 +141,7 @@ export default function BookContent({ plan: planKey }: { plan: string | null }) 
               className="mt-7 inline-flex items-center gap-3 rounded-full border border-line bg-paper-soft px-4 py-2 text-sm shadow-soft"
             >
               <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-ink/40">
-                Booking for
+                {copy.bookingFor}
               </span>
               <span className="font-medium text-ink">{plan.name}</span>
               <span className="text-muted">·</span>
@@ -170,19 +158,20 @@ export default function BookContent({ plan: planKey }: { plan: string | null }) 
               plan={planKey}
               variant="primary"
             >
-              Book a Free 15-Minute Consultation
+              {copy.primaryCta}
             </BookCtaAnchor>
             {whatsappUrl ? (
               <WhatsAppLink
                 href={whatsappUrl}
                 location="book_page_hero"
                 variant="ghost"
+                copy={copy}
               />
             ) : null}
           </m.div>
 
           <m.p {...fade(0.44)} className="mt-5 text-[13px] text-muted">
-            No signup required. No sales pressure. Just a friendly conversation.
+            {copy.heroNote}
           </m.p>
         </div>
       </section>
@@ -199,10 +188,10 @@ export default function BookContent({ plan: planKey }: { plan: string | null }) 
           <div className="mb-8 flex flex-col items-start gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="font-mono text-xs uppercase tracking-[0.32em] text-muted">
-                Pick a time
+                {copy.pickTimeLabel}
               </p>
               <h2 className="mt-3 text-balance text-2xl font-semibold tracking-[-0.02em] text-ink sm:text-3xl">
-                Choose a slot that works for you.
+                {copy.pickTimeTitle}
               </h2>
             </div>
             {whatsappUrl ? (
@@ -219,7 +208,7 @@ export default function BookContent({ plan: planKey }: { plan: string | null }) 
                   className="h-3.5 w-3.5 text-[#25D366]"
                   aria-hidden
                 />
-                Or message me on WhatsApp
+                {copy.pickTimeWhatsApp}
               </a>
             ) : null}
           </div>
@@ -228,7 +217,7 @@ export default function BookContent({ plan: planKey }: { plan: string | null }) 
             {calendlyUrl ? (
               <CalendlyEmbed url={calendlyUrl} />
             ) : (
-              <CalendlyFallback />
+              <CalendlyFallback copy={copy} />
             )}
           </div>
         </div>
@@ -244,18 +233,18 @@ export default function BookContent({ plan: planKey }: { plan: string | null }) 
             {...reveal(0)}
             className="font-mono text-xs uppercase tracking-[0.32em] text-muted"
           >
-            What we&apos;ll cover
+            {copy.coverLabel}
           </m.p>
           <m.h2
             {...reveal(0.06)}
             id="in-the-call-title"
             className="mt-4 max-w-2xl text-balance text-3xl font-semibold tracking-[-0.025em] text-ink sm:text-[2.5rem] sm:leading-[1.1]"
           >
-            In the call we can discuss:
+            {copy.coverTitle}
           </m.h2>
 
           <ul className="mt-10 grid grid-cols-1 gap-3 sm:gap-4 md:grid-cols-3">
-            {IN_THE_CALL.map((point, i) => (
+            {copy.inTheCall.map((point, i) => (
               <m.li
                 key={point}
                 {...reveal(0.12 + i * 0.06)}
@@ -283,12 +272,10 @@ export default function BookContent({ plan: planKey }: { plan: string | null }) 
           className="mx-auto max-w-3xl text-center"
         >
           <p className="font-mono text-xs uppercase tracking-[0.32em] text-muted">
-            No pressure
+            {copy.noPressureLabel}
           </p>
           <p className="mt-5 text-balance text-xl leading-8 text-ink/85 sm:text-2xl sm:leading-9">
-            No pressure, no complicated tech talk. We&apos;ll look at your
-            business, your current online presence, and what small
-            improvements could help you get more leads.
+            {copy.trustParagraph}
           </p>
         </m.div>
       </section>
@@ -303,18 +290,18 @@ export default function BookContent({ plan: planKey }: { plan: string | null }) 
             {...reveal(0)}
             className="font-mono text-xs uppercase tracking-[0.32em] text-muted"
           >
-            A good fit
+            {copy.goodFitLabel}
           </m.p>
           <m.h2
             {...reveal(0.06)}
             id="who-its-for-title"
             className="mt-4 max-w-2xl text-balance text-3xl font-semibold tracking-[-0.025em] text-ink sm:text-[2.5rem] sm:leading-[1.1]"
           >
-            This is for you if:
+            {copy.goodFitTitle}
           </m.h2>
 
           <ul className="mt-10 grid grid-cols-1 gap-3 sm:gap-4 md:grid-cols-2">
-            {WHO_THIS_IS_FOR.map((point, i) => (
+            {copy.whoThisIsFor.map((point, i) => (
               <m.li
                 key={point}
                 {...reveal(0.12 + i * 0.05)}
@@ -351,14 +338,13 @@ export default function BookContent({ plan: planKey }: { plan: string | null }) 
 
           <div className="relative flex flex-col items-center text-center">
             <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-paper/55">
-              Ready when you are
+              {copy.closingLabel}
             </p>
             <h2 className="mt-4 text-balance text-3xl font-semibold tracking-[-0.025em] sm:text-4xl">
-              Let&apos;s figure out what your business needs.
+              {copy.closingTitle}
             </h2>
             <p className="mt-4 max-w-xl text-pretty text-base leading-7 text-paper/70">
-              Pick a time that works for you, or send a quick WhatsApp message
-              and I&apos;ll get back today.
+              {copy.closingSubtitle}
             </p>
 
             <div className="mt-9 flex w-full flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
@@ -367,19 +353,20 @@ export default function BookContent({ plan: planKey }: { plan: string | null }) 
                 plan={planKey}
                 variant="inverted"
               >
-                Book a Free 15-Minute Consultation
+                {copy.primaryCta}
               </BookCtaAnchor>
               {whatsappUrl ? (
                 <WhatsAppLink
                   href={whatsappUrl}
                   location="book_page_closing_cta"
                   variant="ghost-dark"
+                  copy={copy}
                 />
               ) : null}
             </div>
 
             <p className="mt-6 text-[12px] text-paper/55">
-              Prefer email?{" "}
+              {copy.preferEmail}{" "}
               <Link
                 href="mailto:info@itaiwebsolutions.com"
                 onClick={() =>
@@ -454,9 +441,10 @@ type WhatsAppLinkProps = {
   href: string;
   location: "book_page_hero" | "book_page_closing_cta";
   variant: "ghost" | "ghost-dark";
+  copy: BookCopy;
 };
 
-function WhatsAppLink({ href, location, variant }: WhatsAppLinkProps) {
+function WhatsAppLink({ href, location, variant, copy }: WhatsAppLinkProps) {
   const isDark = variant === "ghost-dark";
   const classes = [
     "group inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-medium transition-all w-full sm:w-auto",
@@ -471,15 +459,13 @@ function WhatsAppLink({ href, location, variant }: WhatsAppLinkProps) {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Open WhatsApp chat with ITAI Web Solutions"
+      aria-label={copy.whatsappAria}
       onClick={() => trackWhatsAppClick({ button_location: location })}
       className={classes}
     >
       <WhatsAppGlyph className="h-4 w-4 text-[#25D366]" aria-hidden />
-      <span className="sm:hidden">WhatsApp me</span>
-      <span className="hidden sm:inline">
-        Prefer WhatsApp? Message me here.
-      </span>
+      <span className="sm:hidden">{copy.whatsappShort}</span>
+      <span className="hidden sm:inline">{copy.whatsappLong}</span>
     </a>
   );
 }
@@ -541,25 +527,24 @@ function CalendlyEmbed({ url }: { url: string }) {
   );
 }
 
-function CalendlyFallback() {
+function CalendlyFallback({ copy }: { copy: BookCopy }) {
   return (
     <div className="flex flex-col items-center justify-center gap-5 px-6 py-20 text-center sm:py-28">
       <div className="flex h-14 w-14 items-center justify-center rounded-full bg-mist">
         <Calendar className="h-6 w-6 text-ink/60" strokeWidth={1.5} />
       </div>
       <h2 className="text-balance text-2xl font-semibold tracking-[-0.02em] text-ink sm:text-3xl">
-        Calendar setup is in progress.
+        {copy.calendlyFallbackTitle}
       </h2>
       <p className="max-w-md text-pretty text-base leading-7 text-muted">
-        While the booking widget is being configured, send a quick note and
-        I&apos;ll find a time that works.
+        {copy.calendlyFallbackBody}
       </p>
       <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
         <Link
-          href="/contact"
+          href={copy.contactHref}
           className="group inline-flex items-center justify-center gap-2 rounded-full bg-ink px-6 py-3 text-sm font-medium text-paper shadow-soft transition-all hover:-translate-y-0.5 hover:bg-ink-soft hover:shadow-lifted"
         >
-          Send a note
+          {copy.calendlyFallbackCta}
           <ArrowUpRight
             className="h-4 w-4 transition-transform group-hover:-translate-y-px group-hover:translate-x-px"
             strokeWidth={2}

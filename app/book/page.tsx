@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import BookContent from "./Content";
+import { buildAlternates } from "@/lib/i18n";
 
 // Title is rendered through the root layout's `%s · ITAI` template, so
 // what lands in <title> is "Free 15-Minute Website Consultation · ITAI"
@@ -17,7 +18,7 @@ const DESCRIPTION =
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
-  alternates: { canonical: "/book" },
+  alternates: buildAlternates("en", "book"),
   openGraph: {
     title: "Free 15-Minute Website Consultation",
     description: DESCRIPTION,
